@@ -169,6 +169,8 @@ function stressIndex(word, syl) {
   const acc = vs.findIndex(v => v && v.acc);
   if (acc >= 0) return { i: acc, certain: true };
   if (syl.length === 1) return { i: 0, certain: true };
+  // falling diphthong at the end (avui, palau, europeu, museus): oxytone; wins over the vowel/-s penultimate rule
+  if (/([aeio]|(?<![qg])u)[iu]s?$/.test(w) && !/(.)\1s?$/.test(w)) return { i: syl.length - 1, certain: false };
   // ends in vowel, -s, -en, -in (plural/verb) -> penultimate
   if (/[aeiou]$|[aeiouàèéíòóú]s$|[ei]n$|ia$|ie$|io$|ua$|ue$|uo$/.test(w)) return { i: syl.length - 2, certain: false };
   return { i: syl.length - 1, certain: false };
@@ -244,9 +246,9 @@ function render(word, dialect) {
       if (x.k !== 'V') return x.p;
       let p = x.p;
       if (stressed) {
-        if (p === 'e') { if (!x.grave && !x.acute && si === syl.length - 1 && /encs?$/.test(word.toLowerCase()) && dialect !== 'Valencia') p = 'ɛ'; else if (x.grave) p = 'ɛ'; else if (x.acute) p = 'e'; else { uncertain = true; p = 'e'; } }
+        if (p === 'e') { if (!x.grave && !x.acute && si === syl.length - 1 && /encs?$/.test(word.toLowerCase()) && dialect !== 'Valencia') p = 'ɛ'; else if (!x.grave && !x.acute && si === syl.length - 1 && /eus?$/.test(word.toLowerCase()) && (dialect === 'Central' || dialect === 'Balearic')) p = 'ɛ'; else if (x.grave) p = 'ɛ'; else if (x.acute) p = 'e'; else { uncertain = true; p = 'e'; } }
         if (dialect === 'Balearic' && p === 'ɛ') p = 'ə';
-        else if (p === 'o') { if (x.grave) p = 'ɔ'; else if (x.acute) p = 'o'; else { uncertain = true; p = 'o'; } }
+        else if (p === 'o') { if (!x.grave && !x.acute && si === syl.length - 1 && /ous?$/.test(word.toLowerCase()) && (dialect === 'Central' || dialect === 'Balearic')) p = 'ɔ'; else if (x.grave) p = 'ɔ'; else if (x.acute) p = 'o'; else { uncertain = true; p = 'o'; } }
         if (dialect === 'Northern' && (p === 'e')) p = 'e̞';
         if (dialect === 'Northern' && (p === 'o')) p = 'o̞';
       } else {
@@ -289,8 +291,22 @@ function stressInfo(ipa) {
 }
 // verbs in -em/-eu (estem, portem, volem): stressed last syllable has a fixed vowel per variety
 const VERB_E = { Central: 'ɛ', Valencia: 'e', Northwestern: 'e', Balearic: 'ə', Northern: 'e' };
+// regular -em/-eu verb forms: stem + ar/er/ir (estem), the infinitive itself (future abandonarem), qu/gu stems (abadoquem -> abadocar)
+// tools/build-lemmas.mjs uses the same test to leave regular forms out of lemmes.json
+function regularVerb(key, lex) {
+  const stem = key.slice(0, -2); if (key.length < 5) return false;
+  if (['ar', 'er', 'ir'].some(e => lex[stem + e])) return true;
+  if (/(ar|er|re|ir)$/.test(stem) && lex[stem]) return true;
+  if (/qu$/.test(stem) && lex[stem.slice(0, -2) + 'car']) return true;
+  if (/gu$/.test(stem) && lex[stem.slice(0, -2) + 'gar']) return true;
+  return false;
+}
 function verbEmEu(r, key, dialect) {
-  if (!LEMMAS || !/(em|eu)$/.test(key) || !LEMMAS[key] || !/(ar|er|re|ir)$/.test(LEMMAS[key])) return null;
+  if (!LEX || !/(em|eu)$/.test(key)) return null;
+  // verb lemma from the map, or regular stem + ar/er/ir found in the lexicon (estem -> estar, esteu -> estar)
+  const lem = LEMMAS && LEMMAS[key];
+  const isVerb = lem ? /(ar|er|re|ir)$/.test(lem) : regularVerb(key, LEX);
+  if (!isVerb) return null;
   const a = stressInfo(r); if (!a || a.idx !== a.syl.length - 1 || GROUP(a.v) !== 'E') return null;
   const s = a.syl[a.idx], p = s.indexOf('ˈ') + 1;
   a.syl[a.idx] = s.slice(0, p) + s.slice(p).replace(VOW_RE, VERB_E[dialect]);
