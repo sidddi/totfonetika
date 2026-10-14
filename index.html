@@ -12,8 +12,11 @@
 <div id="app"></div>
 <script type="module">
 import { mount } from './app.js';
-const lexicon = await (await fetch('lexicon.json')).json();
-mount(document.getElementById('app'), { lexicon, lang: 'ca' });
+const [lexicon, lemmas] = await Promise.all([
+  fetch('lexicon.json').then(r => r.json()),
+  fetch('lemmes.json').then(r => r.json()).catch(() => null),
+]);
+mount(document.getElementById('app'), { lexicon, lemmas, lang: 'ca' });
 </script>
 </body>
 </html>
