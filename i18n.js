@@ -51,7 +51,7 @@ export const LEGEND = [
   ['ɔ', 'cosa, pot', 'Central'], ['o', 'poma, ambdós', 'Central'], ['u', 'cul, mur', 'Central'], ['j', 'mai, iode', 'Central'], ['w', 'pau, aigua', 'Central'],
   ['p', 'pa', 'Central'], ['b', 'bé, també', 'Central'], ['β', 'cabra, aviat', 'Central'], ['t', 'te', 'Central'], ['d', 'dia, dona', 'Central'], ['ð', 'cadira, adéu', 'Central'],
   ['k', 'cas, quatre', 'Central'], ['ɡ', 'gat, guerra', 'Central'], ['ɣ', 'aigua, tigre', 'Central'], ['f', 'fum', 'Central'], ['v', 'vi (valencià, balear)', 'Valencia'],
-  ['s', 'sol, cel', 'Central'], ['ɫ', 'sol, alt', 'Central'], ['ɱ', 'confiar, enfadar', 'Central'], ['z', 'casa, zero', 'Central'], ['ʃ', 'xarxa, caixa', 'Central'], ['ʒ', 'jove, gent', 'Central'],
-  ['t͡ʃ', 'cotxe, maig', 'Central'], ['d͡ʒ', 'platja', 'Central'], ['d͡z', 'dotze, horitzó', 'Central'], ['t͡s', 'potser, tots', 'Central'],
+  ['s', 'sol, cel', 'Central'], ['ɫ', 'el, al', 'Central'], ['ɱ', 'confiar, enfadar', 'Central'], ['z', 'casa, zero', 'Central'], ['ʃ', 'xarxa, caixa', 'Central'], ['ʒ', 'jove, gent', 'Central'],
+  ['t͡ʃ', 'cotxe, maig', 'Central'], ['d͡ʒ', 'platja', 'Central'], ['d͡z', 'dotze, horitzó', 'Central'],
   ['m', 'mà', 'Central'], ['n', 'nas', 'Central'], ['ɲ', 'any, canya', 'Central'], ['ŋ', 'banc, cinc', 'Central'], ['l', 'sol, lent', 'Central'], ['ʎ', 'palla, llibre', 'Central'], ['ɾ', 'cara, pera', 'Central'], ['r', 'rata, carro', 'Central'],
 ];
