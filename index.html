@@ -1,0 +1,19 @@
+<!doctype html>
+<html lang="ca">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex">
+<title>TotFonetika - transcripció fonètica del català</title>
+<meta name="description" content="Transcripció fonètica del català (AFI) paraula a paraula o text sencer, amb varietat central, valencià, nord-occidental, balear i rossellonès.">
+<link rel="stylesheet" href="style.css">
+</head>
+<body style="margin:0;background:#fff8e7">
+<div id="app"></div>
+<script type="module">
+import { mount } from './app.js';
+const lexicon = await (await fetch('lexicon.json')).json();
+mount(document.getElementById('app'), { lexicon, lang: ['ca','es','en'].includes((navigator.language||'').slice(0,2)) ? navigator.language.slice(0,2) : 'ca' });
+</script>
+</body>
+</html>
