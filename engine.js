@@ -275,6 +275,7 @@ function fromLex(entry, dialect) {
   return out;
 }
 
+const ENCLITIC = { l: 'l', ls: 'ls', n: 'n', m: 'm', t: 't', s: 's', ns: 'ns', hi: 'j', ho: 'w' };
 const CLITIC = { l: 'l', d: 'd', m: 'm', t: 't', s: 's', n: 'n', 'qu': 'k' };
 
 // Unstressed function words (many are missing from the lexicon). Order: Central|Valencia|Northwestern|Balearic|Northern
@@ -282,6 +283,7 @@ const FUNC = {
   que: 'kə|ke|ke|kə|kə', el: 'əl|el|el|əl|əl', els: 'əls|els|els|əls|əls', la: 'lə|la|la|lə|lə', les: 'ləs|les|les|ləs|ləs',
   de: 'də|de|de|də|də', 'amb': 'əm|em|em|əm|əm', 'en': 'ən|en|en|ən|ən', 'un': 'un|un|un|un|un', 'una': 'ˈu.nə|ˈu.na|ˈu.na|ˈu.nə|ˈu.nə',
   'per': 'pər|per|per|pər|pər', 'a': 'ə|a|a|ə|ə', 'i': 'i|i|i|i|i', 'o': 'u|o|o|o|u', 'se': 'sə|se|se|sə|sə', 'li': 'li|li|li|li|li', 'em': 'əm|em|em|əm|əm',
+  al: 'əl|al|al|əl|əl', als: 'əls|als|als|əls|əls', del: 'dəl|del|del|dəl|dəl', dels: 'dəls|dels|dels|dəls|dəls', pel: 'pəl|pel|pel|pəl|pəl', pels: 'pəls|pels|pels|pəls|pəls', es: 'əs|es|es|əs|əs', sa: 'sə|sa|sa|sə|sə', ses: 'səs|ses|ses|səs|səs',
   'et': 'ət|et|et|ət|ət', 'ens': 'əns|ens|ens|əns|əns', 'us': 'us|us|us|us|us', 'ho': 'u|o|o|u|u', 'ja': 'ˈʒa|ˈd͡ʒa|ˈja|ˈʒa|ˈʒa', 'hi': 'i|i|i|i|i', 'mes': 'ˈməs|ˈmes|ˈmes|ˈməs|ˈməs',
 };
 
@@ -316,6 +318,7 @@ export function transcribe(text, dialect = 'Central', opts = {}) {
   const toks = tokenize(text);
   const items = [];
   let hyph = false;
+  let apos = false;
   for (let i = 0; i < toks.length; i++) {
     const t = toks[i];
     if (t.t === 'w') {
@@ -325,16 +328,23 @@ export function transcribe(text, dialect = 'Central', opts = {}) {
         // elided clitic: attach consonant to the next word
         const next = transcribeWord(toks[i + 2].s, dialect);
         const c = CLITIC[t.s.toLowerCase()];
-        it = { ...next, word: t.s + "'" + toks[i + 2].s, ipa: c + next.ipa, alts: next.alts.map(a => c + a), source: next.source, note: 'clitic' };
+        const addC = a => a.replace(/^([ˈˌ]?)/, '$1' + c);
+        it = { ...next, word: t.s + "'" + toks[i + 2].s, ipa: addC(next.ipa), alts: next.alts.map(addC), source: next.source, note: 'clitic' };
         i += 2;
+      } else if (apos && ENCLITIC[t.s.toLowerCase()] && items.length && items[items.length - 1].source !== 'punct') {
+        // enclitic after an apostrophe (porta'l, dóna'n): glue to the previous word
+        const e = ENCLITIC[t.s.toLowerCase()], prev = items[items.length - 1];
+        prev.word += "'" + t.s; prev.ipa += e; prev.alts = prev.alts.map(a => a + e); prev.note = 'clitic';
+        apos = false; continue;
       } else it = transcribeWord(t.s, dialect);
+      apos = false;
       if (hyph) it.hyphenBefore = true;
       hyph = false;
       items.push(it);
     } else if (t.t === 'sep') {
-      if (t.s !== "'" && t.s !== '’') hyph = true;
+      if (t.s !== "'" && t.s !== '’') hyph = true; else apos = true;
     } else if (t.t === 'x') {
-      hyph = false;
+      hyph = false; apos = false;
       items.push({ word: t.s, source: 'punct', ipa: '', alts: [] });
     }
   }
@@ -345,7 +355,7 @@ export function transcribe(text, dialect = 'Central', opts = {}) {
 }
 
 // ---- connected speech (phrase level) ----
-const PROCLITIC = new Set(['sant', 'sants', 'santa', 'santes', 'don', 'dona', 'na', 'en', 'el', 'la', 'els', 'les', 'de', 'que', 'amb', 'per', 'a', 'un', 'i', 'o', 'se', 'li', 'em', 'et', 'ens', 'us', 'ho', 'hi', 'mon', 'ton', 'son']);
+const PROCLITIC = new Set(['sant', 'sants', 'santa', 'santes', 'don', 'dona', 'na', 'en', 'el', 'la', 'els', 'les', 'de', 'que', 'amb', 'per', 'a', 'un', 'i', 'o', 'se', 'li', 'em', 'et', 'ens', 'us', 'ho', 'hi', 'mon', 'ton', 'son', 'al', 'als', 'del', 'dels', 'pel', 'pels', 'es', 'sa', 'ses']);
 const ELIDE = new Set(['la', 'una', 'de', 'que', 'se', 'sa', 'ma', 'ta']);
 const PALATAL_START = /^[ˈˌ]?(t͡ʃ|d͡ʒ|tʃ|dʒ|ʃ|ʒ|ɲ|ʎ)/;
 const VOWEL_START = /^[ˈˌ]?[aeiouɛɔəɐ]/;
@@ -406,7 +416,7 @@ function applyConnected(items, dialect) {
       if (elided && /^[^aeiouɛɔəɐ.ˈˌ]$/.test(a.cipa)) { b.cipa = st + a.cipa + body; a.cipa = ''; a.hide = true; b.joinPrev = !!a.joinPrev; continue; }
       const m = /^(.+)([^aeiouɛɔəɐ.ˈˌ])$/.exec(a.cipa);
       if (bv && m && !/͡/.test(a.cipa.slice(-3)) && !/[ʃʒ]$/.test(a.cipa)) {
-        a.cipa = m[1].replace(/\.$/, '') + '.';
+        a.cipa = m[1].replace(/\.$/, '') + (st ? '' : '.');
         b.cipa = st + m[2] + body;
       } else if (!st && !/\.$/.test(a.cipa)) a.cipa += '.';
     }
