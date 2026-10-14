@@ -13,7 +13,7 @@
 <script type="module">
 import { mount } from './app.js';
 const lexicon = await (await fetch('lexicon.json')).json();
-mount(document.getElementById('app'), { lexicon, lang: ['ca','es','en'].includes((navigator.language||'').slice(0,2)) ? navigator.language.slice(0,2) : 'ca' });
+mount(document.getElementById('app'), { lexicon, lang: 'ca' });
 </script>
 </body>
 </html>
