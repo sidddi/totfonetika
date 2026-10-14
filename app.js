@@ -45,7 +45,7 @@ export function mount(root, { lexicon, lang = 'ca' } = {}) {
 <div class="tf">
   <header class="tf-head">
     <div class="tf-brand">${BIRD}<div><h1>TotFonetika</h1><p>${esc(L.tagline)}</p></div></div>
-    <div class="tf-lang" role="group" aria-label="Language">${['ca', 'es', 'en'].map(l => `<button class="tf-chip ${l === st.lang ? 'on' : ''}" data-lang="${l}">${l.toUpperCase()}</button>`).join('')}</div>
+    <div class="tf-lang" role="group" aria-label="${({ ca: 'Idioma', es: 'Idioma', en: 'Language' })[st.lang]}">${['ca', 'es', 'en'].map(l => `<button class="tf-chip ${l === st.lang ? 'on' : ''}" data-lang="${l}">${l.toUpperCase()}</button>`).join('')}</div>
   </header>
   <section class="tf-card">
     <textarea id="tf-in" rows="4" placeholder="${esc(L.placeholder)}" aria-label="${esc(L.placeholder)}">${esc(st.text)}</textarea>
