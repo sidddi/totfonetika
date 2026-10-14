@@ -385,7 +385,7 @@ function applyConnected(items, dialect) {
     // final -r of infinitives resurfaces before a weak pronoun with hyphen (fer-hi [ˈfeɾi]); GIEC/Wikipedia
     if (bv && b.hyphenBefore && /r$/i.test(a.word) && !/[ɾr]$/.test(c)) { c += 'ɾ'; mod = true; }
     // s -> z before a vowel (central-type) or a voiced consonant (all)
-    if (/s$/.test(c) && ((lat && bv) || (bc && VOICED.has(bc)))) { c = c.slice(0, -1) + 'z'; mod = true; }
+    if (/s$/.test(c) && !/ts$/.test(c) && ((lat && bv) || (bc && VOICED.has(bc)))) { c = c.slice(0, -1) + 'z'; mod = true; }
     // final p t k voice before a voiced consonant
     else if (/[ptk]$/.test(c) && bc && VOICED.has(bc) && !/[ʃ]$/.test(c)) { c = c.slice(0, -1) + { p: 'b', t: 'd', k: 'ɡ' }[c.slice(-1)]; mod = true; }
     // final n assimilates to the next consonant
