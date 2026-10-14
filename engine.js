@@ -271,6 +271,29 @@ function render(word, dialect) {
 // ---------- public API ----------
 let LEX = null;
 export function setLexicon(l) { LEX = l; }
+let LEMMAS = null;
+export function setLemmas(m) { LEMMAS = m || null; }
+
+// Lemma-guided stressed vowel: take the rule transcription of an inflected form and, when its stressed syllable sits at
+// the same index as the lemma's and both stressed vowels are in the same group (E: e ɛ ə e̞, O: o ɔ o̞), use the lemma's vowel.
+const VOW_RE = /(e̞|o̞|[aeiouɛɔəɐ])/;
+const GROUP = v => /^(e̞|[eɛə])$/.test(v) ? 'E' : /^(o̞|[oɔ])$/.test(v) ? 'O' : null;
+function stressInfo(ipa) {
+  const syl = ipa.split('.'); const idx = syl.findIndex(s => s.includes('ˈ'));
+  if (idx < 0) return null;
+  const m = VOW_RE.exec(syl[idx].slice(syl[idx].indexOf('ˈ') + 1));
+  return m ? { syl, idx, v: m[1] } : null;
+}
+function lemmaGuided(r, key, dialect) {
+  if (!LEMMAS || !LEX || !LEMMAS[key] || !LEX[LEMMAS[key]]) return null;
+  const alts = fromLex(LEX[LEMMAS[key]], dialect); if (!alts.length) return null;
+  const a = stressInfo(r), b = stressInfo(alts[0]);
+  if (!a || !b || a.idx !== b.idx) return null;
+  const g = GROUP(a.v); if (!g || g !== GROUP(b.v)) return null;
+  const s = a.syl[a.idx], p = s.indexOf('ˈ') + 1, rest = s.slice(p);
+  a.syl[a.idx] = s.slice(0, p) + rest.replace(VOW_RE, b.v);
+  return a.syl.join('.');
+}
 
 function fromLex(entry, dialect) {
   const rows = Array.isArray(entry) ? entry : [entry];
@@ -321,9 +344,11 @@ export function transcribeWord(word, dialect = 'Central') {
   const dv = derive(key, dialect);
   if (dv) return { word, source: 'derived', alts: [dv], ipa: dv, uncertain: true };
   const r = render(key, dialect);
+  const lg = lemmaGuided(r.ipa, key, dialect);
+  if (lg) r.ipa = lg;
   // final -nt/-lt/-nd/-ld (and plurals) lose the t/d in Central, Northwestern and Northern (IEC GIEC 4.3.2)
   if (['Central', 'Northwestern', 'Northern'].includes(dialect)) r.ipa = r.ipa.replace(/([nɫl])[td](s?)$/, '$1$2').replace(/ŋk(s?)$/, 'ŋ$1');
-  return { word, source: 'rules', alts: [r.ipa], ipa: r.ipa, uncertain: r.uncertain || !r.stressCertain };
+  return { word, source: lg ? 'lemma' : 'rules', alts: [r.ipa], ipa: r.ipa, uncertain: lg ? true : (r.uncertain || !r.stressCertain) };
 }
 
 export function transcribe(text, dialect = 'Central', opts = {}) {
