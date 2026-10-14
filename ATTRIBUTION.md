@@ -1,6 +1,7 @@
 # Attribution and licences (TotFonetika)
 
 - Pronunciation lexicon (data/lexicon.json, site/lexicon.json): derived from Wiktionary pronunciation data extracted by Wiktextract (https://kaikki.org/dictionary/Catalan/), dump dated 2026-10-03. Wiktionary text is available under CC BY-SA 4.0 (and GFDL). The lexicon file is an adaptation: keep it as a separate file, keep this attribution visible on the site and release the file itself under CC BY-SA 4.0. Rebuild with `node tools/build-lexicon.mjs <dump.jsonl> data/lexicon.json`.
+- Lemma map (data/lemmes.json, site/lemmes.json): built with tools/build-lemmas.mjs from Softcatalà catalan-dict-tools (https://github.com/Softcatala/catalan-dict-tools, resultats/lt/diccionari.txt; GPL-2.0+/LGPL-2.1+) and word-frequency selection from the Python package wordfreq (top 100000 Catalan words, data under CC BY-SA 4.0). Kept as a separate file, not mixed with the lexicon. The build inputs are not published.
 - IPA font: Charis SIL (SIL Open Font License 1.1) via @fontsource/charis-sil, file site/fonts/charis-sil-all-400-normal.woff2. Keep the OFL notice with the font.
 - Rules engine (src/engine.js), UI (src/app.js, src/style.css) and texts: written for TotFonetika from published descriptions of Catalan phonology; no third-party code copied (catalan2ipa, espeak-ng and Segre were NOT used).
 - Not legal advice: confirm before public launch.
