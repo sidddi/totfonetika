@@ -421,8 +421,7 @@ function applyConnected(items, dialect) {
     // geminate/assimilated contact across words: -t/-d + m n l ʎ (setmana [səmˈmanə]); Central, Northern, Balearic
     if (lat && !elided && /[td]$/.test(c) && /^[mnlɫʎ]/.test(b.cipa.replace(/^[ˈˌ]/, '')) && !/[ʃʒ]$/.test(c)) {
       const first = b.cipa.replace(/^[ˈˌ]/, '')[0];
-      c = c.slice(0, -1) + (first === 'l' ? 'ɫ' : first);
-      if (first === 'l') b.cipa = b.cipa.replace(/^([ˈˌ]?)l/, '$1ɫ');
+      c = c.slice(0, -1) + first;
       mod = true;
     }
     // palatal assimilation of n and l before a palatal (un joc [uɲ ˈʒɔk], el xoc [əʎ ˈʃɔk])
