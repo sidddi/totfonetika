@@ -214,7 +214,10 @@ function render(word, dialect) {
     const prevV = p && (p.k === 'V' || p.k === 'G');
     const prevLiq = p && ['ɾ', 'r', 'l', 'ʎ'].includes(p.p);
     if (x.p === 'b' && dialect === 'Balearic') return;
-    if (x.p === 'b' && (prevV || (p && ['l','ʃ','ʒ','f','v'].includes(p.p)))) x.p = 'β';
+    if (x.p === 'b' && prevV && units[i + 1] && units[i + 1].k === 'C' && !['l', 'ɾ', 'r', 'ʎ'].includes(units[i + 1].p)) {
+      // b before a consonant stays b (voiced) or devoices to p (subjecte, subterfugi, subsòl); it is not a spirant
+      if (['p', 't', 'k', 'f', 's', 'ʃ', 't͡ʃ', 'tʃ', 't͡s', 'ts'].includes(units[i + 1].p)) x.p = 'p';
+    } else if (x.p === 'b' && (prevV || (p && ['l','ʃ','ʒ','f','v'].includes(p.p)))) x.p = 'β';
     else if (x.p === 'd' && (prevV || (p && (dialect === 'Valencia' ? ['ɾ','s','z','ʃ','ʒ','f','v'] : ['ɾ','ʃ','ʒ','f','v']).includes(p.p)))) x.p = 'ð';
     else if (x.p === 'ɡ' && (prevV || (p && ['ɾ','ʃ','ʒ','f','v'].includes(p.p)))) x.p = 'ɣ';
   });
@@ -284,6 +287,15 @@ function stressInfo(ipa) {
   const m = VOW_RE.exec(syl[idx].slice(syl[idx].indexOf('ˈ') + 1));
   return m ? { syl, idx, v: m[1] } : null;
 }
+// verbs in -em/-eu (estem, portem, volem): stressed last syllable has a fixed vowel per variety
+const VERB_E = { Central: 'ɛ', Valencia: 'e', Northwestern: 'e', Balearic: 'ə', Northern: 'e' };
+function verbEmEu(r, key, dialect) {
+  if (!LEMMAS || !/(em|eu)$/.test(key) || !LEMMAS[key] || !/(ar|er|re|ir)$/.test(LEMMAS[key])) return null;
+  const a = stressInfo(r); if (!a || a.idx !== a.syl.length - 1 || GROUP(a.v) !== 'E') return null;
+  const s = a.syl[a.idx], p = s.indexOf('ˈ') + 1;
+  a.syl[a.idx] = s.slice(0, p) + s.slice(p).replace(VOW_RE, VERB_E[dialect]);
+  return a.syl.join('.');
+}
 function lemmaGuided(r, key, dialect) {
   if (!LEMMAS || !LEX || !LEMMAS[key] || !LEX[LEMMAS[key]]) return null;
   const alts = fromLex(LEX[LEMMAS[key]], dialect); if (!alts.length) return null;
@@ -344,7 +356,7 @@ export function transcribeWord(word, dialect = 'Central') {
   const dv = derive(key, dialect);
   if (dv) return { word, source: 'derived', alts: [dv], ipa: dv, uncertain: true };
   const r = render(key, dialect);
-  const lg = lemmaGuided(r.ipa, key, dialect);
+  const lg = verbEmEu(r.ipa, key, dialect) || lemmaGuided(r.ipa, key, dialect);
   if (lg) r.ipa = lg;
   // final -nt/-lt/-nd/-ld (and plurals) lose the t/d in Central, Northwestern and Northern (IEC GIEC 4.3.2)
   if (['Central', 'Northwestern', 'Northern'].includes(dialect)) r.ipa = r.ipa.replace(/([nɫl])[td](s?)$/, '$1$2').replace(/ŋk(s?)$/, 'ŋ$1');
@@ -431,6 +443,8 @@ function applyConnected(items, dialect) {
     }
     // final -r of infinitives resurfaces before a weak pronoun with hyphen (fer-hi [ˈfeɾi]); GIEC/Wikipedia
     if (bv && b.hyphenBefore && /r$/i.test(a.word) && !/[ɾr]$/.test(c)) { c += 'ɾ'; mod = true; }
+    // final ʃ / t͡ʃ voice before a vowel or a voiced consonant (cruix el dit [kɾuʒ əl], vaig de bòlit [bad͡ʒ də])
+    if ((bv || (bc && VOICED.has(bc))) && /ʃ$/.test(c) && !/ʃ[ʒ]/.test(c)) { c = /t͡ʃ$/.test(c) ? c.replace(/t͡ʃ$/, 'd͡ʒ') : c.slice(0, -1) + 'ʒ'; mod = true; }
     // s -> z before a vowel (central-type) or a voiced consonant (all)
     if (/s$/.test(c) && !/ts$/.test(c) && ((lat && bv) || (bc && VOICED.has(bc)))) { c = c.slice(0, -1) + 'z'; mod = true; }
     // final p t k voice before a voiced consonant
