@@ -385,7 +385,7 @@ function applyConnected(items, dialect) {
     let c = a.cipa, mod = false;
     let elided = false;
     // elision of the neutral vowel (una hora [unˈɔɾə], la escola [ləsˈkɔlə]): Central, Balearic, Northern
-    if (lat && bv && ELIDE.has(a.word.toLowerCase()) && /[^ə]ə$/.test(c.replace(/[ˈˌ]/g, '')) && !a.hyphenBefore) {
+    if (lat && bv && ELIDE.has(a.word.toLowerCase()) && !(['la', 'una'].includes(a.word.toLowerCase()) && /^[iu]/.test(b.cipa)) && /[^ə]ə$/.test(c.replace(/[ˈˌ]/g, '')) && !a.hyphenBefore) {
       c = c.replace(/\.?ə$/, ''); a.cipa = c; a.connected = true; elided = true;
       a.cipa = a.cipa.replace(/[ˈˌ]/g, ''); c = a.cipa;
     }
@@ -433,6 +433,28 @@ function applyConnected(items, dialect) {
         b.cipa = st + m[2] + body;
       } else if (!st && !/\.$/.test(a.cipa)) a.cipa += '.';
     }
+  }
+  // compound numerals (vint-i-tres, trenta-dos): main stress on the last element, secondary on the first
+  const TENS = new Set(['vint', 'trenta', 'quaranta', 'cinquanta', 'seixanta', 'setanta', 'vuitanta', 'noranta']);
+  for (let i = 0; i < items.length; i++) {
+    const a = items[i];
+    if (a.source === 'punct' || a.hide || !TENS.has(a.word.toLowerCase()) || a.hyphenBefore) continue;
+    let j = i + 1;
+    while (j < items.length && items[j].hyphenBefore && items[j].source !== 'punct') j++;
+    const last = j - 1;
+    if (last <= i) continue;
+    a.cipa = a.cipa.replace(/ˈ/g, 'ˌ').replace(/ɛ/g, 'e').replace(/ɔ/g, 'o');
+    const L = items[last];
+    let ci = L.ipa.replace(/^[ˈˌ]/, '');
+    if (/^[bdɡ]/.test(ci) && /[aeiouɛɔəɐ]$/.test(items[last - 1].cipa.replace(/\.$/, ''))) ci = ({ b: 'β', d: 'ð', ɡ: 'ɣ' })[ci[0]] + ci.slice(1);
+    L.cipa = 'ˈ' + ci;
+    L.connected = true;
+    for (let k = i; k < last; k++) items[k].connected = true;
+  }
+  // drop the syllable dot before a joined word that starts with a stress mark (als la una [əlzˈlu.nə])
+  const vis = items.filter(x => !x.hide && x.source !== 'punct');
+  for (let k = 0; k + 1 < vis.length; k++) {
+    if (vis[k + 1].joinPrev && /^[ˈˌ]/.test(vis[k + 1].cipa)) vis[k].cipa = vis[k].cipa.replace(/\.$/, '');
   }
 }
 
