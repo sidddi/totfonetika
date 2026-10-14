@@ -313,6 +313,7 @@ function verbEmEu(r, key, dialect) {
   return a.syl.join('.');
 }
 function lemmaGuided(r, key, dialect) {
+  if (/[èéòó]/.test(key)) return null; // written accent already fixes the vowel
   if (!LEMMAS || !LEX || !LEMMAS[key] || !LEX[LEMMAS[key]]) return null;
   const alts = fromLex(LEX[LEMMAS[key]], dialect); if (!alts.length) return null;
   const a = stressInfo(r), b = stressInfo(alts[0]);
