@@ -1,4 +1,4 @@
-import { DIALECTS, setLexicon, transcribe } from './engine.js';
+import { DIALECTS, setLexicon, setLemmas, transcribe } from './engine.js';
 import { T, EXAMPLES, LEGEND } from './i18n.js';
 
 const esc = s => String(s).replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
@@ -12,8 +12,8 @@ function fmt(ipa, o) {
 }
 function wrap(s, o) { return !s ? '' : (o.brackets ? '[' + s + ']' : s); }
 
-export function mount(root, { lexicon, lang = 'ca' } = {}) {
-  setLexicon(lexicon);
+export function mount(root, { lexicon, lemmas = null, lang = 'ca' } = {}) {
+  setLexicon(lexicon); setLemmas(lemmas);
   const st = { lang, dialect: 'Central', text: '', syll: true, stress: true, brackets: true, liaison: true, copied: false };
   const t = () => T[st.lang];
 
@@ -33,7 +33,7 @@ export function mount(root, { lexicon, lang = 'ca' } = {}) {
   function srcLabel(x) {
     const L = t();
     if (x.note === 'function word') return L.srcFunc;
-    return x.source === 'lexicon' ? L.srcLex : x.source === 'derived' ? L.srcDerived : L.srcRules;
+    return x.source === 'lexicon' ? L.srcLex : x.source === 'derived' ? L.srcDerived : x.source === 'lemma' ? L.srcLemma : L.srcRules;
   }
   function render() {
     const L = t();
