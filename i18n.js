@@ -8,7 +8,7 @@ export const T = {
     result: 'Transcripció', words: 'Paraula per paraula', word: 'Paraula', ipa: 'AFI', empty: 'Escriu alguna cosa i apareixerà aquí la transcripció.',
     srcLex: 'diccionari', srcRules: 'regles', srcDerived: 'derivada', srcFunc: 'mot àton', unsure: 'insegur', others: 'Altres lectures',
     qualityGood: 'Bona cobertura', qualityMedium: 'Cobertura mitjana', qualityLow: 'Cobertura baixa',
-    qualityNote: 'Aquesta eina és orientativa. Les paraules del diccionari vénen de dades del Viccionari; les que no hi són es generen amb regles pròpies, que poden fallar (sobretot la e/o tòniques i les variants balear i rossellonesa). No hi ha garantia d’exactitud.',
+    qualityNote: 'Aquesta eina és orientativa. Les paraules del diccionari venen de dades del Viccionari; les que no hi són es generen amb regles pròpies, que poden fallar (sobretot la e/o tòniques i les variants balear i rossellonesa). No hi ha garantia d’exactitud.',
     noteSandhi: 'Transcripció de frase: s’apliquen els enllaços més freqüents entre paraules (t de sant/cent, r final, s sonora, p/t/k sonoritzades, assimilació de n, proclítics i enclítics). Altres fenòmens (sinalefes, geminacions, etc.) encara no, i la cobertura és només orientativa, sobretot fora del central.',
     legend: 'Guia de símbols AFI', legendSub: 'Sons del català i exemples (varietat central).', symbol: 'Símbol', example: 'Exemple',
     about: 'Sobre les dades', aboutText: 'Pronúncies: Viccionari (Wiktionary), llicència CC BY-SA 4.0, extretes via Wiktextract (kaikki.org). Regles per a paraules no trobades: pròpies de TotFonetika. Estat: versió de prova.',
