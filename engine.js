@@ -79,7 +79,7 @@ function phonemize(word) {
       case 'l': if (nx === 'l') cons('ʎ', 1); else cons('l'); break;
       case 'm': cons('m'); break;
       case 'n': if (nx === 'y') { cons('ɲ', 1); } else cons('n'); break;
-      case 'p': if (nx === 'h') { cons('f', 1); } else cons('p'); break;
+      case 'p': if (i === 0 && nx === 'n') break; if (nx === 'h') { cons('f', 1); } else cons('p'); break;
       case 'q': cons('k'); if (nx === 'u') { /* handled by u rule */ } break;
       case 'r':
         if (nx === 'r') cons('r', 1);
@@ -99,6 +99,7 @@ function phonemize(word) {
       case 'v': cons('v'); break;
       case 'w': cons('w'); break;
       case 'x':
+        if (/^(co|in|)e$/.test(w.slice(0, i)) && (isV(nx) || nx === 'h')) { u.push({ k: 'C', p: 'ɡ', keep: true }, { k: 'C', p: 'z' }); break; }
         if (!pv || !isV(pv) || 'iíï'.includes(pv)) cons('ʃ');
         else cons('ks'); break;
       case 'y': cons('j'); break;
@@ -204,22 +205,25 @@ function render(word, dialect) {
   
   // v: only Valencian/Balearic keep /v/; central/NW -> b
   units.forEach(x => { if (x.k === 'C' && x.p === 'v' && (dialect === 'Central' || dialect === 'Northwestern' || dialect === 'Northern')) x.p = 'b'; if (x.k === 'C' && x.p === 'β' && (dialect === 'Valencia' || dialect === 'Balearic')) { /* v in spelling vs b: ambiguous, keep */ } });
+  // s -> z before a voiced consonant inside the word
+  units.forEach((x, i) => { const q = units[i + 1]; if (x.k === 'C' && x.p === 's' && q && q.k === 'C' && ['b', 'd', 'ɡ', 'm', 'n', 'l', 'ʎ', 'ɾ', 'r', 'v', 'ʒ'].includes(q.p)) x.p = 'z'; });
   // allophones: b d g approximants after a vowel/liquid (not after nasals; d not after l)
   units.forEach((x, i) => {
     const p = units[i - 1];
-    if (x.k !== 'C') return;
+    if (x.k !== 'C' || x.keep) return;
     const prevV = p && (p.k === 'V' || p.k === 'G');
     const prevLiq = p && ['ɾ', 'r', 'l', 'ʎ'].includes(p.p);
     if (x.p === 'b' && dialect === 'Balearic') return;
-    if (x.p === 'b' && (prevV || (p && ['l','s','z','ʃ','ʒ','f','v'].includes(p.p)))) x.p = 'β';
-    else if (x.p === 'd' && (prevV || (p && ['ɾ','s','z','ʃ','ʒ','f','v'].includes(p.p)))) x.p = 'ð';
-    else if (x.p === 'ɡ' && (prevV || (p && ['ɾ','s','z','ʃ','ʒ','f','v'].includes(p.p)))) x.p = 'ɣ';
+    if (x.p === 'b' && (prevV || (p && ['l','ʃ','ʒ','f','v'].includes(p.p)))) x.p = 'β';
+    else if (x.p === 'd' && (prevV || (p && (dialect === 'Valencia' ? ['ɾ','s','z','ʃ','ʒ','f','v'] : ['ɾ','ʃ','ʒ','f','v']).includes(p.p)))) x.p = 'ð';
+    else if (x.p === 'ɡ' && (prevV || (p && ['ɾ','ʃ','ʒ','f','v'].includes(p.p)))) x.p = 'ɣ';
   });
   // affricates/palatals
   units.forEach((x, i) => {
     if (x.k === 'C' && x.p === 'ʒ') {
       const p = units[i - 1];
-      if (dialect === 'Valencia' || (p && ['n', 'l', 'ɲ'].includes(p.p))) x.p = 'd͡ʒ';
+      if (p && p.k === 'C' && p.p === 'n') p.p = 'ɲ';
+      if (dialect === 'Valencia') x.p = 'd͡ʒ';
     }
     if (x.p === 'dz') x.p = 'd͡z'; if (x.p === 'dʒ') x.p = 'd͡ʒ'; if (x.p === 'tʃ') x.p = 't͡ʃ'; if (x.p === 'ts') x.p = 't͡s';
   });
@@ -237,7 +241,7 @@ function render(word, dialect) {
       if (x.k !== 'V') return x.p;
       let p = x.p;
       if (stressed) {
-        if (p === 'e') { if (x.grave) p = 'ɛ'; else if (x.acute) p = 'e'; else { uncertain = true; p = 'e'; } }
+        if (p === 'e') { if (!x.grave && !x.acute && si === syl.length - 1 && /encs?$/.test(word.toLowerCase()) && dialect !== 'Valencia') p = 'ɛ'; else if (x.grave) p = 'ɛ'; else if (x.acute) p = 'e'; else { uncertain = true; p = 'e'; } }
         if (dialect === 'Balearic' && p === 'ɛ') p = 'ə';
         else if (p === 'o') { if (x.grave) p = 'ɔ'; else if (x.acute) p = 'o'; else { uncertain = true; p = 'o'; } }
         if (dialect === 'Northern' && (p === 'e')) p = 'e̞';
@@ -249,6 +253,15 @@ function render(word, dialect) {
       return p;
     }).join('');
   });
+  // -ble geminated (poble -> pɔb.blə); Valencian ˈpɔ.ble; stressed bl (doblat) is just an onset cluster
+  for (let i = 0; i + 1 < outSyl.length; i++) {
+    if (outSyl[i].endsWith('β') && outSyl[i + 1].startsWith('l') && (i + 1 === st.i || i >= st.i)) {
+      const head = outSyl[i].slice(0, -1);
+      if (i + 1 === st.i) { outSyl[i] = head; outSyl[i + 1] = 'β' + outSyl[i + 1]; }
+      else if (dialect === 'Valencia') { outSyl[i] = head; outSyl[i + 1] = 'b' + outSyl[i + 1]; }
+      else { outSyl[i] = head + 'b'; outSyl[i + 1] = 'b' + outSyl[i + 1]; }
+    }
+  }
   const mark = outSyl.map((s, i) => (i === st.i && outSyl.length > 1 ? 'ˈ' : '') + s);
   let ipa = mark.join('.').replace('.ˈ', 'ˈ');
   if (outSyl.length === 1) ipa = 'ˈ' + ipa; // monosyllables get stress mark like the lexicon? (lexicon omits for function words) keep mark
@@ -309,7 +322,7 @@ export function transcribeWord(word, dialect = 'Central') {
   if (dv) return { word, source: 'derived', alts: [dv], ipa: dv, uncertain: true };
   const r = render(key, dialect);
   // final -nt/-lt/-nd/-ld (and plurals) lose the t/d in Central, Northwestern and Northern (IEC GIEC 4.3.2)
-  if (['Central', 'Northwestern', 'Northern'].includes(dialect)) r.ipa = r.ipa.replace(/([nɫl])[td](s?)$/, '$1$2');
+  if (['Central', 'Northwestern', 'Northern'].includes(dialect)) r.ipa = r.ipa.replace(/([nɫl])[td](s?)$/, '$1$2').replace(/ŋk(s?)$/, 'ŋ$1');
   return { word, source: 'rules', alts: [r.ipa], ipa: r.ipa, uncertain: r.uncertain || !r.stressCertain };
 }
 
