@@ -187,7 +187,7 @@
  {
   "text": "El dia que els gats van baixar, un gos dorm.",
   "dialect": "Central",
-  "expect": "əlˈdi.ə kəlzˈɣats ˈβam bəˈʃa uŋˈɡoz ˈðɔrm"
+  "expect": "əlˈdi.ə kəlzˈɣad͡z ˈβam bəˈʃa uŋˈɡoz ˈðɔrm"
  },
  {
   "text": "Les dones diuen: bon dia!",
@@ -197,7 +197,7 @@
  {
   "text": "Amb dues bicicletes i tres gats grossos.",
   "dialect": "Central",
-  "expect": "əmˈdu.əz βi.siˈklɛ.təz iˈtɾɛz ˈɣats ˈɣɾɔ.sus"
+  "expect": "əmˈdu.əz βi.siˈklɛ.təz iˈtɾɛz ˈɣad͡z ˈɣɾɔ.sus"
  },
  {
   "text": "L'àvia beu aigua del got.",
@@ -417,7 +417,7 @@
  {
   "text": "El dia que els gats van baixar, un gos dorm.",
   "dialect": "Valencia",
-  "expect": "elˈdi.a ke.elzˈɣats ˈvam bajˈʃaɾ uŋˈɡoz ˈðɔɾm"
+  "expect": "elˈdi.a ke.elzˈɣad͡z ˈvam bajˈʃaɾ uŋˈɡoz ˈðɔɾm"
  },
  {
   "text": "Les dones diuen: bon dia!",
@@ -427,7 +427,7 @@
  {
   "text": "Amb dues bicicletes i tres gats grossos.",
   "dialect": "Valencia",
-  "expect": "amˈdu.ez bi.siˈkle.tes iˈtɾez ˈɣats ˈɣɾɔ.sos"
+  "expect": "amˈdu.ez bi.siˈkle.tez iˈtɾez ˈɣad͡z ˈɣɾɔ.sos"
  },
  {
   "text": "L'àvia beu aigua del got.",
@@ -647,7 +647,7 @@
  {
   "text": "El dia que els gats van baixar, un gos dorm.",
   "dialect": "Northwestern",
-  "expect": "elˈdi.a ke.elzˈɣats ˈβam bajˈʃa uŋˈɡoz ˈðɔrm"
+  "expect": "elˈdi.a ke.elzˈɣad͡z ˈβam bajˈʃa uŋˈɡoz ˈðɔrm"
  },
  {
   "text": "Les dones diuen: bon dia!",
@@ -657,7 +657,7 @@
  {
   "text": "Amb dues bicicletes i tres gats grossos.",
   "dialect": "Northwestern",
-  "expect": "amˈdu.ez βi.siˈkle.tes iˈtɾez ˈɣats ˈɣɾɔ.sos"
+  "expect": "amˈdu.ez βi.siˈkle.tez iˈtɾez ˈɣad͡z ˈɣɾɔ.sos"
  },
  {
   "text": "L'àvia beu aigua del got.",
@@ -877,7 +877,7 @@
  {
   "text": "El dia que els gats van baixar, un gos dorm.",
   "dialect": "Balearic",
-  "expect": "əlˈdi.ə kəlzˈɣats ˈvam bəˈʃa uŋˈɡoz ˈðɔrm"
+  "expect": "əlˈdi.ə kəlzˈɣad͡z ˈvam bəˈʃa uŋˈɡoz ˈðɔrm"
  },
  {
   "text": "Les dones diuen: bon dia!",
@@ -887,7 +887,7 @@
  {
   "text": "Amb dues bicicletes i tres gats grossos.",
   "dialect": "Balearic",
-  "expect": "əmˈdu.əz bi.siˈklə.təz iˈtɾəz ˈɣats ˈɣɾɔ.sos"
+  "expect": "əmˈdu.əz bi.siˈklə.təz iˈtɾəz ˈɣad͡z ˈɣɾɔ.sos"
  },
  {
   "text": "L'àvia beu aigua del got.",
@@ -980,7 +980,7 @@
  {
   "text": "Tinc 3 gats i 25 km.",
   "dialect": "Central",
-  "expect": "ˈtiŋ ˈtɾɛz ˈɣats iˌβin.tiˈsiŋ kiˈlɔ.mə.tɾəs"
+  "expect": "ˈtiŋ ˈtɾɛz ˈɣad͡z iˌβin.tiˈsiŋ kiˈlɔ.mə.tɾəs"
  },
  {
   "text": "El 1990 i el 2,5%.",
@@ -1045,7 +1045,7 @@
  {
   "text": "Tinc 3 gats i 25 km.",
   "dialect": "Valencia",
-  "expect": "ˈtiŋk ˈtɾez ˈɣats iˌvin.tiˈsiŋk kiˈlɔ.me.tɾes"
+  "expect": "ˈtiŋk ˈtɾez ˈɣad͡z iˌvin.tiˈsiŋk kiˈlɔ.me.tɾes"
  },
  {
   "text": "El 1990 i el 2,5%.",
@@ -1110,7 +1110,7 @@
  {
   "text": "Tinc 3 gats i 25 km.",
   "dialect": "Northwestern",
-  "expect": "ˈtiŋ ˈtɾez ˈɣats iˌβin.tiˈsiŋ kiˈlɔ.me.tɾes"
+  "expect": "ˈtiŋ ˈtɾez ˈɣad͡z iˌβin.tiˈsiŋ kiˈlɔ.me.tɾes"
  },
  {
   "text": "El 1990 i el 2,5%.",
@@ -1175,7 +1175,7 @@
  {
   "text": "Tinc 3 gats i 25 km.",
   "dialect": "Balearic",
-  "expect": "ˈtiŋk ˈtɾəz ˈɣats iˌvin.tiˈsiŋk kiˈlɔ.mə.tɾəs"
+  "expect": "ˈtiŋk ˈtɾəz ˈɣad͡z iˌvin.tiˈsiŋk kiˈlɔ.mə.tɾəs"
  },
  {
   "text": "El 1990 i el 2,5%.",
@@ -1235,12 +1235,12 @@
  {
   "text": "Mira TV3 i la BBC.",
   "dialect": "Valencia",
-  "expect": "ˈmi.ɾa ˌteˈve ˈtɾes i.laˌbeˌbeˈse"
+  "expect": "ˈmi.ɾa ˌteˈve ˈtɾez i.laˌbeˌbeˈse"
  },
  {
   "text": "Fitxer MP3 a la UPC.",
   "dialect": "Valencia",
-  "expect": "fiˈt͡ʃeɾ ˌe.maˈpe ˈtɾes a.laˌuˌpeˈse"
+  "expect": "fiˈt͡ʃeɾ ˌe.maˈpe ˈtɾez a.laˌuˌpeˈse"
  },
  {
   "text": "La NASA i l'OTAN.",
@@ -1265,12 +1265,12 @@
  {
   "text": "Mira TV3 i la BBC.",
   "dialect": "Northwestern",
-  "expect": "ˈmi.ɾa ˌteˈβe ˈtɾes i.laˌβeˌβeˈse"
+  "expect": "ˈmi.ɾa ˌteˈβe ˈtɾez i.laˌβeˌβeˈse"
  },
  {
   "text": "Fitxer MP3 a la UPC.",
   "dialect": "Northwestern",
-  "expect": "fiˈt͡ʃe ˌe.maˈpe ˈtɾes a.laˌuˌpeˈse"
+  "expect": "fiˈt͡ʃe ˌe.maˈpe ˈtɾez a.laˌuˌpeˈse"
  },
  {
   "text": "La NASA i l'OTAN.",

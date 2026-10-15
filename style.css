@@ -20,10 +20,10 @@
 .tf-big{font-size:26px;line-height:1.5;background:var(--cream);border:2px dashed var(--g);border-radius:10px;padding:12px;word-break:break-word;font-family:'TF IPA','Charis SIL','Gentium Plus','DejaVu Sans',system-ui,sans-serif}
 .tf-actions{display:flex;flex-wrap:wrap;gap:8px;margin-top:10px}
 .tf-btn{font:inherit;font-size:15px;background:var(--g);color:#fff;border:2px solid var(--ink);border-radius:8px;padding:8px 14px;min-height:44px;cursor:pointer;box-shadow:3px 3px 0 var(--ink)}.tf-btn.ghost{background:#fff;color:var(--ink)}
-.tf-words{list-style:none;margin:0;padding:0}.tf-words li{display:grid;grid-template-columns:1fr auto;gap:2px 10px;padding:8px 0;border-top:1px solid #e6dfc9;align-items:baseline}
+.tf-words{list-style:none;margin:0;padding:0}.tf-words li{display:flex;flex-wrap:wrap;gap:2px 10px;padding:8px 0;border-top:1px solid #e6dfc9;align-items:baseline}.tf-words li>*{min-width:0;max-width:100%;overflow-wrap:anywhere}.tf-words .w{flex:1 1 auto}.tf-words .i{flex:0 1 auto;margin-left:auto}.tf-words .b,.tf-words .alts{flex-basis:100%}
 .tf-words .w{font-weight:700}.tf-words .i{font-size:20px;text-align:right;font-family:'TF IPA','Charis SIL','Gentium Plus','DejaVu Sans',system-ui,sans-serif}
 .tf-words .b{font-size:12px;grid-column:1/3;color:#555}.tf-words .b-rules,.tf-words .b.u{color:#9a6200}.tf-words .alts{grid-column:1/3;font-size:13px;color:#444}
 .tf-note{font-size:13px;color:#444;margin:10px 0 0}.tf-empty{color:#555}
 .tf-legend{display:grid;grid-template-columns:repeat(auto-fill,minmax(210px,1fr));gap:6px}.tf-legend div{display:flex;gap:10px;align-items:baseline;border:1px solid #e6dfc9;border-radius:8px;padding:6px 8px}.tf-legend b{font-size:20px;min-width:34px;color:var(--g);font-family:'TF IPA','Charis SIL','Gentium Plus','DejaVu Sans',system-ui,sans-serif}.tf-legend span{font-size:13px}
 .tf-foot{font-size:13px;color:#444}
-@media (min-width:700px){.tf-row{flex-direction:row;align-items:center;gap:12px}.tf-words li{grid-template-columns:1.2fr 1.2fr auto}.tf-words .b{grid-column:auto}.tf-words .alts{grid-column:1/4}}
+@media (min-width:700px){.tf-row{flex-direction:row;align-items:center;gap:12px}.tf-words li{display:grid;grid-template-columns:minmax(0,1.2fr) minmax(0,1.2fr) auto}.tf-words .i{margin-left:0}.tf-words .b{grid-column:auto}.tf-words .alts{grid-column:1/4}}
