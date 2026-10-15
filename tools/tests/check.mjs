@@ -69,5 +69,42 @@ for (const g of golden) {
 if (process.argv.includes('--update-golden')) { fs.writeFileSync(GOLD, JSON.stringify(golden, null, 1) + '\n'); console.log(`golden.json actualitzat (${diffs.length} canvis)`); }
 else report(diffs.length === 0, `casos de referència (${golden.length})`, diffs.length ? '\n     ' + diffs.join('\n     ') : '');
 
+// 6. rule cases with sources (data/cases.json): folded comparison (syllable dots, spaces, ‿ and tie bars are typographic),
+//    regex checks, NFC = NFD. Vowels and stress marks must match exactly.
+const fold = x => x.normalize('NFC').replace(/[.\s‿\u0361]/g, '');
+const STRAY = /[\u0300-\u031D\u031F-\u0328\u032A-\u032E\u0330-\u0360\u0362-\u036F]/u; // combining marks that are not IPA diacritics we use
+const cases = JSON.parse(fs.readFileSync(path.join(DATA, 'cases.json'), 'utf8'));
+const byIssue = {};
+for (const c of cases) {
+  const r = byIssue[c.issue] ||= { n: 0, bad: [] }; r.n++;
+  const input = c.form === 'NFD' ? c.text.normalize('NFD') : c.text;
+  let got; try { got = render(input, c.dialect, c.liaison !== false); } catch (e) { r.bad.push(`${c.dialect} "${c.text}": error ${e.message}`); continue; }
+  const why = [];
+  if (c.expect !== undefined && fold(got) !== fold(c.expect)) why.push(`esperat ${c.expect}`);
+  if (c.match && !new RegExp(c.match, 'u').test(fold(got))) why.push(`ha de coincidir amb /${c.match}/`);
+  if (c.notMatch && new RegExp(c.notMatch, 'u').test(fold(got))) why.push(`no ha de coincidir amb /${c.notMatch}/`);
+  if (c.nfd) {
+    const sig = t => JSON.stringify(E.transcribe(t, c.dialect).map(x => [x.word, x.ipa, x.cipa, x.source, !!x.hide]));
+    const a = sig(c.text.normalize('NFC')), b = sig(c.text.normalize('NFD'));
+    if (a !== b) why.push(`NFD ≠ NFC (${render(c.text.normalize('NFD'), c.dialect, true)} vs ${render(c.text.normalize('NFC'), c.dialect, true)})`);
+    if (STRAY.test(b)) why.push('marques combinants soltes a la sortida');
+  }
+  if (why.length) r.bad.push(`${c.dialect}${c.liaison === false ? ' (sense frase)' : ''} "${c.text}"${c.form ? ' [' + c.form + ']' : ''}: ara ${got} — ${why.join('; ')}`);
+}
+for (const [k, r] of Object.entries(byIssue)) report(!r.bad.length, `punt ${k} de l'informe: ${r.n - r.bad.length}/${r.n} casos`, r.bad.length ? '\n     ' + r.bad.join('\n     ') : '');
+
+// 7. the phrase-transcription note must describe what the engine does (elision/fusion of ə, lenition) in the 3 languages
+{
+  const { T } = await import(new URL('../../i18n.js', import.meta.url).href);
+  const n = T.ca.noteSandhi + '|' + T.es.noteSandhi + '|' + T.en.noteSandhi;
+  const old = /sinalefes, geminacions, etc\.\) encara no|sinalefas, geminaciones, etc\.\) todavía no|Other effects \(elision, gemination, etc\.\) are not covered yet/;
+  report(!old.test(n) && /elisi/.test(T.ca.noteSandhi) && /elisi/.test(T.es.noteSandhi) && /elision/.test(T.en.noteSandhi)
+    && /lenici/.test(T.ca.noteSandhi) && /lenici/.test(T.es.noteSandhi) && /lenition/.test(T.en.noteSandhi), 'avís de fonètica de frase al dia (ca/es/en)', old.test(n) ? 'encara diu que les elisions no hi són' : '');
+  const pos = [['aquesta escola', 'Central', 'əˈkɛstəsˈkɔlə'], ['una altra amiga', 'Central', 'uˈnaltɾəˈmiɣə'], ['la dona', 'Central', 'ləˈðɔnə']];
+  const neg = [['aquesta escola', 'Valencia', 'aˈkestaesˈkɔla'], ['aquesta, escola', 'Central', 'əˈkɛstəəsˈkɔlə'], ['el dia', 'Central', 'əlˈdiə']];
+  const bad = [...pos, ...neg].filter(([t, d, e]) => fold(render(t, d, true)) !== e).map(([t, d]) => `${d} "${t}": ${render(t, d, true)}`);
+  report(!bad.length, 'fenòmens que anuncia l\'avís: casos positius i negatius', bad.join(' | '));
+}
+
 console.log(failed() ? `\n${failed()} proves han fallat` : '\nTot correcte');
 process.exit(failed() ? 1 : 0);

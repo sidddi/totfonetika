@@ -60,6 +60,59 @@ for (const vp of [{ width: 1280, height: 900, name: 'escriptori' }, { width: 375
   report(errs.length === 0, `${vp.name}: cap error JavaScript`, errs.join(' | '));
   await ctx.close();
 }
+// --- informe 15/10/2026: punts 2, 6 i 8 ---
+{
+  // 6. long words must stay inside the viewport (word list grid), at phone widths
+  for (const width of [320, 375, 390]) {
+    const ctx = await browser.newContext({ viewport: { width, height: 800 } }); const p = await ctx.newPage();
+    await p.goto(URL); await p.waitForSelector('textarea');
+    for (const text of ['anticonstitucionalíssimament', 'xyzqwxyzqwxyzqwxyzqwxyzqwxyzqw', 'pneumonoultramicroscòpicsilicovolcanoconiosi', 'dona', 'anticonstitucionalíssimament electroencefalografistes']) {
+      await p.fill('textarea', text); await p.waitForTimeout(150);
+      const m = await p.evaluate(() => ({ sw: document.documentElement.scrollWidth, iw: innerWidth,
+        out: [...document.querySelectorAll('.tf-words li > *, .tf-big')].map(e => e.getBoundingClientRect()).filter(r => r.right > innerWidth + 0.5 || r.left < -0.5).length }));
+      report(m.sw <= m.iw && m.out === 0, `mòbil ${width}px: "${text.slice(0, 28)}" dins la pantalla`, `scrollWidth ${m.sw}, innerWidth ${m.iw}, elements fora ${m.out}`);
+    }
+    await p.fill('textarea', 'anticonstitucionalíssimament'); await p.waitForTimeout(150);
+    await p.screenshot({ path: path.join(OUT, `mot-llarg-${width}.png`), fullPage: true });
+    await ctx.close();
+  }
+  // 8. document language follows the UI; IPA results stay ca-fonipa; text is kept
+  {
+    const ctx = await browser.newContext({ viewport: { width: 1280, height: 900 } }); const p = await ctx.newPage();
+    await p.goto(URL); await p.waitForSelector('textarea'); await p.fill('textarea', 'Bon dia, com estàs?'); await p.waitForTimeout(150);
+    for (const l of ['ca', 'es', 'en', 'ca']) {
+      await p.click(`[data-lang="${l}"]`); await p.waitForTimeout(100);
+      const st = await p.evaluate(() => ({ lang: document.documentElement.lang, text: document.querySelector('textarea').value,
+        ipa: [...document.querySelectorAll('.tf-big, .tf-words .i')].every(e => e.getAttribute('lang') === 'ca-fonipa'),
+        ex: [...document.querySelectorAll('[data-ex]')].every(e => e.getAttribute('lang') === 'ca'),
+        w: [...document.querySelectorAll('.tf-words .w')].every(e => e.getAttribute('lang') === 'ca') }));
+      report(st.lang === l && st.text === 'Bon dia, com estàs?' && st.ipa && st.ex && st.w, `idioma ${l}: <html lang>, text conservat, AFI ca-fonipa, exemples i mots ca`, JSON.stringify(st));
+    }
+    await ctx.close();
+  }
+  // 2. NFD input: same visible result and same TXT / CSV / copy as NFC
+  {
+    const ctx = await browser.newContext({ viewport: { width: 1280, height: 900 }, permissions: ['clipboard-read', 'clipboard-write'], acceptDownloads: true });
+    const p = await ctx.newPage(); await p.goto(URL); await p.waitForSelector('textarea');
+    const grab = async text => {
+      await p.fill('textarea', text); await p.waitForTimeout(150);
+      const big = await p.innerText('.tf-big'), words = await p.innerText('.tf-words');
+      const dl = async a => { const w = p.waitForEvent('download'); await p.click(`[data-a="${a}"]`); return fs.readFileSync(await (await w).path(), 'utf8'); };
+      const txt = await dl('txt'), csv = await dl('csv');
+      await p.click('[data-a="copy"]'); await p.waitForTimeout(100); const clip = await p.evaluate(() => navigator.clipboard.readText()).catch(() => null);
+      return { big, words, txt, csv, clip };
+    };
+    for (const d of ['Central', 'Valencia', 'Northwestern', 'Balearic']) {
+      await p.click(`[data-d="${d}"]`);
+      const t = 'La qüestió del raïm és veïna; QÜESTIÓ, àvia i pingüí.';
+      const a = await grab(t.normalize('NFC')), b = await grab(t.normalize('NFD'));
+      const stray = /[\u0300-\u031D\u031F-\u0328\u032A-\u032E\u0330-\u0360\u0362-\u036F]/u;
+      const same = ['big', 'words', 'txt', 'csv', 'clip'].filter(k => a[k] !== b[k]);
+      report(!same.length && !stray.test(b.big + b.txt + b.csv), `NFD = NFC al web (${d}): resultat, llista, TXT, CSV, còpia`, same.length ? 'difereixen: ' + same.join(', ') : '');
+    }
+    await ctx.close();
+  }
+}
 await browser.close(); server.close();
 console.log(failed() ? `\n${failed()} proves han fallat` : '\nTot correcte');
 process.exit(failed() ? 1 : 0);

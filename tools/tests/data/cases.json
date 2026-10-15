@@ -1,0 +1,831 @@
+[
+ {
+  "issue": 1,
+  "rule": "pronoms febles àtons; en central e àtona -> ə; n assimila a m davant b",
+  "source": "llengua.diba.cat/pronoms-febles; ca.wikipedia.org/wiki/Pronom_feble; reducció: joaquimllisterri.cat/phonetics/fon_cat/IPA_vow_cat.html",
+  "text": "me'n vaig",
+  "dialect": "Central",
+  "expect": "məmˈbat͡ʃ"
+ },
+ {
+  "issue": 1,
+  "rule": "pronoms febles àtons; en central e àtona -> ə; n assimila a m davant b",
+  "source": "llengua.diba.cat/pronoms-febles; ca.wikipedia.org/wiki/Pronom_feble; reducció: joaquimllisterri.cat/phonetics/fon_cat/IPA_vow_cat.html",
+  "text": "te'n vas",
+  "dialect": "Central",
+  "expect": "təmˈbas"
+ },
+ {
+  "issue": 1,
+  "rule": "pronoms febles àtons; en central e àtona -> ə; n assimila a m davant b",
+  "source": "llengua.diba.cat/pronoms-febles; ca.wikipedia.org/wiki/Pronom_feble; reducció: joaquimllisterri.cat/phonetics/fon_cat/IPA_vow_cat.html",
+  "text": "me’n vaig",
+  "dialect": "Central",
+  "expect": "məmˈbat͡ʃ",
+  "note": "apòstrof corbat"
+ },
+ {
+  "issue": 1,
+  "rule": "pronoms febles àtons; en central e àtona -> ə; n assimila a m davant b",
+  "source": "llengua.diba.cat/pronoms-febles; ca.wikipedia.org/wiki/Pronom_feble; reducció: joaquimllisterri.cat/phonetics/fon_cat/IPA_vow_cat.html",
+  "text": "te’n vas",
+  "dialect": "Central",
+  "expect": "təmˈbas",
+  "note": "apòstrof corbat"
+ },
+ {
+  "issue": 1,
+  "rule": "pronoms febles àtons; en central e àtona -> ə; n assimila a m davant b",
+  "source": "llengua.diba.cat/pronoms-febles; ca.wikipedia.org/wiki/Pronom_feble; reducció: joaquimllisterri.cat/phonetics/fon_cat/IPA_vow_cat.html",
+  "text": "porta-me-la",
+  "dialect": "Central",
+  "expect": "ˈpɔr.tə.mə.lə"
+ },
+ {
+  "issue": 1,
+  "rule": "pronoms febles àtons; en central e àtona -> ə; n assimila a m davant b",
+  "source": "llengua.diba.cat/pronoms-febles; ca.wikipedia.org/wiki/Pronom_feble; reducció: joaquimllisterri.cat/phonetics/fon_cat/IPA_vow_cat.html",
+  "text": "porta-te-la",
+  "dialect": "Central",
+  "expect": "ˈpɔr.tə.tə.lə"
+ },
+ {
+  "issue": 1,
+  "rule": "pronoms febles àtons; en central e àtona -> ə; n assimila a m davant b",
+  "source": "llengua.diba.cat/pronoms-febles; ca.wikipedia.org/wiki/Pronom_feble; reducció: joaquimllisterri.cat/phonetics/fon_cat/IPA_vow_cat.html",
+  "text": "dona-me'n",
+  "dialect": "Central",
+  "expect": "ˈdɔ.nə.mən"
+ },
+ {
+  "issue": 1,
+  "rule": "pronoms febles àtons; en central e àtona -> ə; n assimila a m davant b",
+  "source": "llengua.diba.cat/pronoms-febles; ca.wikipedia.org/wiki/Pronom_feble; reducció: joaquimllisterri.cat/phonetics/fon_cat/IPA_vow_cat.html",
+  "text": "me la dona",
+  "dialect": "Central",
+  "expect": "mə.ləˈðɔ.nə"
+ },
+ {
+  "issue": 1,
+  "rule": "pronoms febles àtons; en central e àtona -> ə; n assimila a m davant b",
+  "source": "llengua.diba.cat/pronoms-febles; ca.wikipedia.org/wiki/Pronom_feble; reducció: joaquimllisterri.cat/phonetics/fon_cat/IPA_vow_cat.html",
+  "text": "te l'ha donat",
+  "dialect": "Central",
+  "expect": "təˈla ðuˈnat"
+ },
+ {
+  "issue": 1,
+  "rule": "pronoms febles àtons; en central e àtona -> ə; n assimila a m davant b",
+  "source": "llengua.diba.cat/pronoms-febles; ca.wikipedia.org/wiki/Pronom_feble; reducció: joaquimllisterri.cat/phonetics/fon_cat/IPA_vow_cat.html",
+  "text": "Me'n recordo",
+  "dialect": "Central",
+  "match": "^mən"
+ },
+ {
+  "issue": 1,
+  "rule": "pronoms febles àtons; en central e àtona -> ə; n assimila a m davant b",
+  "source": "llengua.diba.cat/pronoms-febles; ca.wikipedia.org/wiki/Pronom_feble; reducció: joaquimllisterri.cat/phonetics/fon_cat/IPA_vow_cat.html",
+  "text": "me'n vaig",
+  "dialect": "Balearic",
+  "match": "^mə[mɱ]ˈ",
+  "note": "vaig amb v labiodental en balear: n -> ɱ"
+ },
+ {
+  "issue": 1,
+  "rule": "pronoms àtons; sense reducció vocàlica en occidental",
+  "source": "llengua.diba.cat/pronoms-febles; ca.wikipedia.org/wiki/Pronom_feble; reducció: joaquimllisterri.cat/phonetics/fon_cat/IPA_vow_cat.html",
+  "text": "me'n vaig",
+  "dialect": "Valencia",
+  "match": "^me[mɱ]ˈ",
+  "note": "vaig amb v labiodental en valencià: n -> ɱ"
+ },
+ {
+  "issue": 1,
+  "rule": "pronoms àtons; sense reducció vocàlica en occidental",
+  "source": "llengua.diba.cat/pronoms-febles; ca.wikipedia.org/wiki/Pronom_feble; reducció: joaquimllisterri.cat/phonetics/fon_cat/IPA_vow_cat.html",
+  "text": "te'n vas",
+  "dialect": "Northwestern",
+  "match": "^temˈ"
+ },
+ {
+  "issue": 1,
+  "rule": "pronoms àtons; sense reducció vocàlica en occidental",
+  "source": "llengua.diba.cat/pronoms-febles; ca.wikipedia.org/wiki/Pronom_feble; reducció: joaquimllisterri.cat/phonetics/fon_cat/IPA_vow_cat.html",
+  "text": "porta-me-la",
+  "dialect": "Valencia",
+  "match": "\\.?me\\.?la$"
+ },
+ {
+  "issue": 1,
+  "rule": "homògraf tònic fora del context pronominal: te (infusió)",
+  "source": "llengua.diba.cat/pronoms-febles; ca.wikipedia.org/wiki/Pronom_feble; reducció: joaquimllisterri.cat/phonetics/fon_cat/IPA_vow_cat.html",
+  "text": "el te verd",
+  "dialect": "Central",
+  "match": "ˈte",
+  "notMatch": "tə"
+ },
+ {
+  "issue": 1,
+  "rule": "homògraf tònic fora del context pronominal: te (infusió)",
+  "source": "llengua.diba.cat/pronoms-febles; ca.wikipedia.org/wiki/Pronom_feble; reducció: joaquimllisterri.cat/phonetics/fon_cat/IPA_vow_cat.html",
+  "text": "una tassa de te",
+  "dialect": "Central",
+  "match": "ˈte$"
+ },
+ {
+  "issue": 1,
+  "rule": "no és pronom quan no va amb verb ni clític",
+  "source": "llengua.diba.cat/pronoms-febles; ca.wikipedia.org/wiki/Pronom_feble; reducció: joaquimllisterri.cat/phonetics/fon_cat/IPA_vow_cat.html",
+  "text": "el te",
+  "dialect": "Valencia",
+  "match": "ˈte$"
+ },
+ {
+  "issue": 2,
+  "rule": "normalització canònica NFC abans de tokenitzar (error de tractament de text)",
+  "source": "Unicode NFC; lectura de referència: entrada NFC del lèxic",
+  "text": "raïm",
+  "dialect": "Central",
+  "nfd": true
+ },
+ {
+  "issue": 2,
+  "rule": "normalització canònica NFC abans de tokenitzar (error de tractament de text)",
+  "source": "Unicode NFC; lectura de referència: entrada NFC del lèxic",
+  "text": "qüestió",
+  "dialect": "Central",
+  "nfd": true
+ },
+ {
+  "issue": 2,
+  "rule": "normalització canònica NFC abans de tokenitzar (error de tractament de text)",
+  "source": "Unicode NFC; lectura de referència: entrada NFC del lèxic",
+  "text": "Raïm",
+  "dialect": "Central",
+  "nfd": true
+ },
+ {
+  "issue": 2,
+  "rule": "normalització canònica NFC abans de tokenitzar (error de tractament de text)",
+  "source": "Unicode NFC; lectura de referència: entrada NFC del lèxic",
+  "text": "QÜESTIÓ",
+  "dialect": "Central",
+  "nfd": true
+ },
+ {
+  "issue": 2,
+  "rule": "normalització canònica NFC abans de tokenitzar (error de tractament de text)",
+  "source": "Unicode NFC; lectura de referència: entrada NFC del lèxic",
+  "text": "veïna",
+  "dialect": "Central",
+  "nfd": true
+ },
+ {
+  "issue": 2,
+  "rule": "normalització canònica NFC abans de tokenitzar (error de tractament de text)",
+  "source": "Unicode NFC; lectura de referència: entrada NFC del lèxic",
+  "text": "camió",
+  "dialect": "Central",
+  "nfd": true
+ },
+ {
+  "issue": 2,
+  "rule": "normalització canònica NFC abans de tokenitzar (error de tractament de text)",
+  "source": "Unicode NFC; lectura de referència: entrada NFC del lèxic",
+  "text": "àvia",
+  "dialect": "Central",
+  "nfd": true
+ },
+ {
+  "issue": 2,
+  "rule": "normalització canònica NFC abans de tokenitzar (error de tractament de text)",
+  "source": "Unicode NFC; lectura de referència: entrada NFC del lèxic",
+  "text": "pingüí",
+  "dialect": "Central",
+  "nfd": true
+ },
+ {
+  "issue": 2,
+  "rule": "normalització canònica NFC abans de tokenitzar (error de tractament de text)",
+  "source": "Unicode NFC; lectura de referència: entrada NFC del lèxic",
+  "text": "La qüestió del raïm és veïna.",
+  "dialect": "Central",
+  "nfd": true
+ },
+ {
+  "issue": 2,
+  "rule": "normalització canònica NFC abans de tokenitzar (error de tractament de text)",
+  "source": "Unicode NFC; lectura de referència: entrada NFC del lèxic",
+  "text": "raïm",
+  "dialect": "Valencia",
+  "nfd": true
+ },
+ {
+  "issue": 2,
+  "rule": "normalització canònica NFC abans de tokenitzar (error de tractament de text)",
+  "source": "Unicode NFC; lectura de referència: entrada NFC del lèxic",
+  "text": "qüestió",
+  "dialect": "Valencia",
+  "nfd": true
+ },
+ {
+  "issue": 2,
+  "rule": "normalització canònica NFC abans de tokenitzar (error de tractament de text)",
+  "source": "Unicode NFC; lectura de referència: entrada NFC del lèxic",
+  "text": "Raïm",
+  "dialect": "Valencia",
+  "nfd": true
+ },
+ {
+  "issue": 2,
+  "rule": "normalització canònica NFC abans de tokenitzar (error de tractament de text)",
+  "source": "Unicode NFC; lectura de referència: entrada NFC del lèxic",
+  "text": "QÜESTIÓ",
+  "dialect": "Valencia",
+  "nfd": true
+ },
+ {
+  "issue": 2,
+  "rule": "normalització canònica NFC abans de tokenitzar (error de tractament de text)",
+  "source": "Unicode NFC; lectura de referència: entrada NFC del lèxic",
+  "text": "veïna",
+  "dialect": "Valencia",
+  "nfd": true
+ },
+ {
+  "issue": 2,
+  "rule": "normalització canònica NFC abans de tokenitzar (error de tractament de text)",
+  "source": "Unicode NFC; lectura de referència: entrada NFC del lèxic",
+  "text": "camió",
+  "dialect": "Valencia",
+  "nfd": true
+ },
+ {
+  "issue": 2,
+  "rule": "normalització canònica NFC abans de tokenitzar (error de tractament de text)",
+  "source": "Unicode NFC; lectura de referència: entrada NFC del lèxic",
+  "text": "àvia",
+  "dialect": "Valencia",
+  "nfd": true
+ },
+ {
+  "issue": 2,
+  "rule": "normalització canònica NFC abans de tokenitzar (error de tractament de text)",
+  "source": "Unicode NFC; lectura de referència: entrada NFC del lèxic",
+  "text": "pingüí",
+  "dialect": "Valencia",
+  "nfd": true
+ },
+ {
+  "issue": 2,
+  "rule": "normalització canònica NFC abans de tokenitzar (error de tractament de text)",
+  "source": "Unicode NFC; lectura de referència: entrada NFC del lèxic",
+  "text": "La qüestió del raïm és veïna.",
+  "dialect": "Valencia",
+  "nfd": true
+ },
+ {
+  "issue": 2,
+  "rule": "normalització canònica NFC abans de tokenitzar (error de tractament de text)",
+  "source": "Unicode NFC; lectura de referència: entrada NFC del lèxic",
+  "text": "raïm",
+  "dialect": "Northwestern",
+  "nfd": true
+ },
+ {
+  "issue": 2,
+  "rule": "normalització canònica NFC abans de tokenitzar (error de tractament de text)",
+  "source": "Unicode NFC; lectura de referència: entrada NFC del lèxic",
+  "text": "qüestió",
+  "dialect": "Northwestern",
+  "nfd": true
+ },
+ {
+  "issue": 2,
+  "rule": "normalització canònica NFC abans de tokenitzar (error de tractament de text)",
+  "source": "Unicode NFC; lectura de referència: entrada NFC del lèxic",
+  "text": "Raïm",
+  "dialect": "Northwestern",
+  "nfd": true
+ },
+ {
+  "issue": 2,
+  "rule": "normalització canònica NFC abans de tokenitzar (error de tractament de text)",
+  "source": "Unicode NFC; lectura de referència: entrada NFC del lèxic",
+  "text": "QÜESTIÓ",
+  "dialect": "Northwestern",
+  "nfd": true
+ },
+ {
+  "issue": 2,
+  "rule": "normalització canònica NFC abans de tokenitzar (error de tractament de text)",
+  "source": "Unicode NFC; lectura de referència: entrada NFC del lèxic",
+  "text": "veïna",
+  "dialect": "Northwestern",
+  "nfd": true
+ },
+ {
+  "issue": 2,
+  "rule": "normalització canònica NFC abans de tokenitzar (error de tractament de text)",
+  "source": "Unicode NFC; lectura de referència: entrada NFC del lèxic",
+  "text": "camió",
+  "dialect": "Northwestern",
+  "nfd": true
+ },
+ {
+  "issue": 2,
+  "rule": "normalització canònica NFC abans de tokenitzar (error de tractament de text)",
+  "source": "Unicode NFC; lectura de referència: entrada NFC del lèxic",
+  "text": "àvia",
+  "dialect": "Northwestern",
+  "nfd": true
+ },
+ {
+  "issue": 2,
+  "rule": "normalització canònica NFC abans de tokenitzar (error de tractament de text)",
+  "source": "Unicode NFC; lectura de referència: entrada NFC del lèxic",
+  "text": "pingüí",
+  "dialect": "Northwestern",
+  "nfd": true
+ },
+ {
+  "issue": 2,
+  "rule": "normalització canònica NFC abans de tokenitzar (error de tractament de text)",
+  "source": "Unicode NFC; lectura de referència: entrada NFC del lèxic",
+  "text": "La qüestió del raïm és veïna.",
+  "dialect": "Northwestern",
+  "nfd": true
+ },
+ {
+  "issue": 2,
+  "rule": "normalització canònica NFC abans de tokenitzar (error de tractament de text)",
+  "source": "Unicode NFC; lectura de referència: entrada NFC del lèxic",
+  "text": "raïm",
+  "dialect": "Balearic",
+  "nfd": true
+ },
+ {
+  "issue": 2,
+  "rule": "normalització canònica NFC abans de tokenitzar (error de tractament de text)",
+  "source": "Unicode NFC; lectura de referència: entrada NFC del lèxic",
+  "text": "qüestió",
+  "dialect": "Balearic",
+  "nfd": true
+ },
+ {
+  "issue": 2,
+  "rule": "normalització canònica NFC abans de tokenitzar (error de tractament de text)",
+  "source": "Unicode NFC; lectura de referència: entrada NFC del lèxic",
+  "text": "Raïm",
+  "dialect": "Balearic",
+  "nfd": true
+ },
+ {
+  "issue": 2,
+  "rule": "normalització canònica NFC abans de tokenitzar (error de tractament de text)",
+  "source": "Unicode NFC; lectura de referència: entrada NFC del lèxic",
+  "text": "QÜESTIÓ",
+  "dialect": "Balearic",
+  "nfd": true
+ },
+ {
+  "issue": 2,
+  "rule": "normalització canònica NFC abans de tokenitzar (error de tractament de text)",
+  "source": "Unicode NFC; lectura de referència: entrada NFC del lèxic",
+  "text": "veïna",
+  "dialect": "Balearic",
+  "nfd": true
+ },
+ {
+  "issue": 2,
+  "rule": "normalització canònica NFC abans de tokenitzar (error de tractament de text)",
+  "source": "Unicode NFC; lectura de referència: entrada NFC del lèxic",
+  "text": "camió",
+  "dialect": "Balearic",
+  "nfd": true
+ },
+ {
+  "issue": 2,
+  "rule": "normalització canònica NFC abans de tokenitzar (error de tractament de text)",
+  "source": "Unicode NFC; lectura de referència: entrada NFC del lèxic",
+  "text": "àvia",
+  "dialect": "Balearic",
+  "nfd": true
+ },
+ {
+  "issue": 2,
+  "rule": "normalització canònica NFC abans de tokenitzar (error de tractament de text)",
+  "source": "Unicode NFC; lectura de referència: entrada NFC del lèxic",
+  "text": "pingüí",
+  "dialect": "Balearic",
+  "nfd": true
+ },
+ {
+  "issue": 2,
+  "rule": "normalització canònica NFC abans de tokenitzar (error de tractament de text)",
+  "source": "Unicode NFC; lectura de referència: entrada NFC del lèxic",
+  "text": "La qüestió del raïm és veïna.",
+  "dialect": "Balearic",
+  "nfd": true
+ },
+ {
+  "issue": 2,
+  "rule": "normalització canònica NFC abans de tokenitzar (error de tractament de text)",
+  "source": "lèxic: raïm",
+  "text": "raïm",
+  "dialect": "Central",
+  "form": "NFD",
+  "expect": "rəˈim"
+ },
+ {
+  "issue": 2,
+  "rule": "normalització canònica NFC abans de tokenitzar (error de tractament de text)",
+  "source": "lèxic: qüestió",
+  "text": "qüestió",
+  "dialect": "Central",
+  "form": "NFD",
+  "expect": "kwəs.tiˈo"
+ },
+ {
+  "issue": 3,
+  "rule": "ts final -> dz davant vocal o consonant sonora, sense pausa",
+  "source": "ub.edu/phoneticslaboratory/.../transcripcion_cat.pdf; galmic.uib.cat/fitxa/la-sonoritzacio (ciutats europees)",
+  "text": "gats amics",
+  "dialect": "Central",
+  "expect": "ˈɡad͡z əˈmiks"
+ },
+ {
+  "issue": 3,
+  "rule": "ts final -> dz davant vocal o consonant sonora, sense pausa",
+  "source": "ub.edu/phoneticslaboratory/.../transcripcion_cat.pdf; galmic.uib.cat/fitxa/la-sonoritzacio (ciutats europees)",
+  "text": "gats negres",
+  "dialect": "Central",
+  "expect": "ˈɡad͡z ˈnɛ.ɣɾəs"
+ },
+ {
+  "issue": 3,
+  "rule": "ts final -> dz davant vocal o consonant sonora, sense pausa",
+  "source": "ub.edu/phoneticslaboratory/.../transcripcion_cat.pdf; galmic.uib.cat/fitxa/la-sonoritzacio (ciutats europees)",
+  "text": "ciutats europees",
+  "dialect": "Central",
+  "expect": "siwˈtad͡z əw.ɾuˈpɛ.əs"
+ },
+ {
+  "issue": 3,
+  "rule": "ts final -> dz davant vocal o consonant sonora, sense pausa",
+  "source": "ub.edu/phoneticslaboratory/.../transcripcion_cat.pdf; galmic.uib.cat/fitxa/la-sonoritzacio (ciutats europees)",
+  "text": "gats amics",
+  "dialect": "Balearic",
+  "match": "^ˈɡadz"
+ },
+ {
+  "issue": 3,
+  "rule": "ts final -> dz davant vocal o consonant sonora, sense pausa",
+  "source": "ub.edu/phoneticslaboratory/.../transcripcion_cat.pdf; galmic.uib.cat/fitxa/la-sonoritzacio (ciutats europees)",
+  "text": "gats amics",
+  "dialect": "Valencia",
+  "match": "^ˈɡadz"
+ },
+ {
+  "issue": 3,
+  "rule": "ts final -> dz davant vocal o consonant sonora, sense pausa",
+  "source": "ub.edu/phoneticslaboratory/.../transcripcion_cat.pdf; galmic.uib.cat/fitxa/la-sonoritzacio (ciutats europees)",
+  "text": "gats amics",
+  "dialect": "Northwestern",
+  "match": "^ˈɡadz"
+ },
+ {
+  "issue": 3,
+  "rule": "control: davant consonant sorda no es sonoritza",
+  "source": "ub.edu/phoneticslaboratory/.../transcripcion_cat.pdf; galmic.uib.cat/fitxa/la-sonoritzacio (ciutats europees)",
+  "text": "gats petits",
+  "dialect": "Central",
+  "match": "^ˈɡatsp"
+ },
+ {
+  "issue": 3,
+  "rule": "control: amb pausa no es sonoritza",
+  "source": "ub.edu/phoneticslaboratory/.../transcripcion_cat.pdf; galmic.uib.cat/fitxa/la-sonoritzacio (ciutats europees)",
+  "text": "gats, amics",
+  "dialect": "Central",
+  "match": "^ˈɡatsə"
+ },
+ {
+  "issue": 3,
+  "rule": "control: final absolut",
+  "source": "ub.edu/phoneticslaboratory/.../transcripcion_cat.pdf; galmic.uib.cat/fitxa/la-sonoritzacio (ciutats europees)",
+  "text": "els gats",
+  "dialect": "Central",
+  "match": "ts$",
+  "note": "la g es lenitiva després de z (əlzˈɣats); el control és que -ts final absolut no se sonoritza"
+ },
+ {
+  "issue": 3,
+  "rule": "control: fonètica de frase desactivada",
+  "source": "ub.edu/phoneticslaboratory/.../transcripcion_cat.pdf; galmic.uib.cat/fitxa/la-sonoritzacio (ciutats europees)",
+  "text": "gats amics",
+  "dialect": "Central",
+  "liaison": false,
+  "match": "^ˈɡatsə"
+ },
+ {
+  "issue": 3,
+  "rule": "control: davant consonant sorda (valencià)",
+  "source": "ub.edu/phoneticslaboratory/.../transcripcion_cat.pdf; galmic.uib.cat/fitxa/la-sonoritzacio (ciutats europees)",
+  "text": "gats petits",
+  "dialect": "Valencia",
+  "match": "^ˈɡatsp"
+ },
+ {
+  "issue": 4,
+  "rule": "s final davant vocal sonora també en valencià i nord-occidental (lectura estàndard general)",
+  "source": "ub.edu/phoneticslaboratory/.../transcripcion_cat.pdf; IEC GBU 2.3; Optimot 7978/2",
+  "text": "les amigues",
+  "dialect": "Valencia",
+  "expect": "le.zaˈmi.ɣes"
+ },
+ {
+  "issue": 4,
+  "rule": "s final davant vocal sonora també en valencià i nord-occidental (lectura estàndard general)",
+  "source": "ub.edu/phoneticslaboratory/.../transcripcion_cat.pdf; IEC GBU 2.3; Optimot 7978/2",
+  "text": "dos amics",
+  "dialect": "Valencia",
+  "expect": "ˈdoz aˈmiks"
+ },
+ {
+  "issue": 4,
+  "rule": "control: amb pausa",
+  "source": "ub.edu/phoneticslaboratory/.../transcripcion_cat.pdf; IEC GBU 2.3; Optimot 7978/2",
+  "text": "dos, amics",
+  "dialect": "Valencia",
+  "match": "^ˈdos"
+ },
+ {
+  "issue": 4,
+  "rule": "control: davant consonant sorda",
+  "source": "ub.edu/phoneticslaboratory/.../transcripcion_cat.pdf; IEC GBU 2.3; Optimot 7978/2",
+  "text": "dos petits",
+  "dialect": "Valencia",
+  "match": "^ˈdosp"
+ },
+ {
+  "issue": 4,
+  "rule": "control: enllaços desactivats",
+  "source": "ub.edu/phoneticslaboratory/.../transcripcion_cat.pdf; IEC GBU 2.3; Optimot 7978/2",
+  "text": "dos amics",
+  "dialect": "Valencia",
+  "liaison": false,
+  "match": "^ˈdos[aə]"
+ },
+ {
+  "issue": 4,
+  "rule": "s final davant vocal sonora també en valencià i nord-occidental (lectura estàndard general)",
+  "source": "ub.edu/phoneticslaboratory/.../transcripcion_cat.pdf; IEC GBU 2.3; Optimot 7978/2",
+  "text": "les amigues",
+  "dialect": "Northwestern",
+  "expect": "le.zaˈmi.ɣes"
+ },
+ {
+  "issue": 4,
+  "rule": "s final davant vocal sonora també en valencià i nord-occidental (lectura estàndard general)",
+  "source": "ub.edu/phoneticslaboratory/.../transcripcion_cat.pdf; IEC GBU 2.3; Optimot 7978/2",
+  "text": "dos amics",
+  "dialect": "Northwestern",
+  "expect": "ˈdoz aˈmiks"
+ },
+ {
+  "issue": 4,
+  "rule": "control: amb pausa",
+  "source": "ub.edu/phoneticslaboratory/.../transcripcion_cat.pdf; IEC GBU 2.3; Optimot 7978/2",
+  "text": "dos, amics",
+  "dialect": "Northwestern",
+  "match": "^ˈdos"
+ },
+ {
+  "issue": 4,
+  "rule": "control: davant consonant sorda",
+  "source": "ub.edu/phoneticslaboratory/.../transcripcion_cat.pdf; IEC GBU 2.3; Optimot 7978/2",
+  "text": "dos petits",
+  "dialect": "Northwestern",
+  "match": "^ˈdosp"
+ },
+ {
+  "issue": 4,
+  "rule": "control: enllaços desactivats",
+  "source": "ub.edu/phoneticslaboratory/.../transcripcion_cat.pdf; IEC GBU 2.3; Optimot 7978/2",
+  "text": "dos amics",
+  "dialect": "Northwestern",
+  "liaison": false,
+  "match": "^ˈdos[aə]"
+ },
+ {
+  "issue": 4,
+  "rule": "s final davant vocal sonora també en valencià i nord-occidental (lectura estàndard general)",
+  "source": "ub.edu/phoneticslaboratory/.../transcripcion_cat.pdf; IEC GBU 2.3; Optimot 7978/2",
+  "text": "les amigues",
+  "dialect": "Central",
+  "expect": "lə.zəˈmi.ɣəs"
+ },
+ {
+  "issue": 4,
+  "rule": "s final davant vocal sonora també en valencià i nord-occidental (lectura estàndard general)",
+  "source": "ub.edu/phoneticslaboratory/.../transcripcion_cat.pdf; IEC GBU 2.3; Optimot 7978/2",
+  "text": "dos amics",
+  "dialect": "Central",
+  "expect": "ˈdoz əˈmiks"
+ },
+ {
+  "issue": 4,
+  "rule": "control: amb pausa",
+  "source": "ub.edu/phoneticslaboratory/.../transcripcion_cat.pdf; IEC GBU 2.3; Optimot 7978/2",
+  "text": "dos, amics",
+  "dialect": "Central",
+  "match": "^ˈdos"
+ },
+ {
+  "issue": 4,
+  "rule": "control: davant consonant sorda",
+  "source": "ub.edu/phoneticslaboratory/.../transcripcion_cat.pdf; IEC GBU 2.3; Optimot 7978/2",
+  "text": "dos petits",
+  "dialect": "Central",
+  "match": "^ˈdosp"
+ },
+ {
+  "issue": 4,
+  "rule": "control: enllaços desactivats",
+  "source": "ub.edu/phoneticslaboratory/.../transcripcion_cat.pdf; IEC GBU 2.3; Optimot 7978/2",
+  "text": "dos amics",
+  "dialect": "Central",
+  "liaison": false,
+  "match": "^ˈdos[aə]"
+ },
+ {
+  "issue": 4,
+  "rule": "s final davant vocal sonora també en valencià i nord-occidental (lectura estàndard general)",
+  "source": "ub.edu/phoneticslaboratory/.../transcripcion_cat.pdf; IEC GBU 2.3; Optimot 7978/2",
+  "text": "les amigues",
+  "dialect": "Balearic",
+  "expect": "lə.zəˈmi.ɣəs"
+ },
+ {
+  "issue": 4,
+  "rule": "s final davant vocal sonora també en valencià i nord-occidental (lectura estàndard general)",
+  "source": "ub.edu/phoneticslaboratory/.../transcripcion_cat.pdf; IEC GBU 2.3; Optimot 7978/2",
+  "text": "dos amics",
+  "dialect": "Balearic",
+  "expect": "ˈdoz əˈmiks"
+ },
+ {
+  "issue": 4,
+  "rule": "control: amb pausa",
+  "source": "ub.edu/phoneticslaboratory/.../transcripcion_cat.pdf; IEC GBU 2.3; Optimot 7978/2",
+  "text": "dos, amics",
+  "dialect": "Balearic",
+  "match": "^ˈdos"
+ },
+ {
+  "issue": 4,
+  "rule": "control: davant consonant sorda",
+  "source": "ub.edu/phoneticslaboratory/.../transcripcion_cat.pdf; IEC GBU 2.3; Optimot 7978/2",
+  "text": "dos petits",
+  "dialect": "Balearic",
+  "match": "^ˈdosp"
+ },
+ {
+  "issue": 4,
+  "rule": "control: enllaços desactivats",
+  "source": "ub.edu/phoneticslaboratory/.../transcripcion_cat.pdf; IEC GBU 2.3; Optimot 7978/2",
+  "text": "dos amics",
+  "dialect": "Balearic",
+  "liaison": false,
+  "match": "^ˈdos[aə]"
+ },
+ {
+  "issue": 5,
+  "rule": "d de coda davant b/v no és aproximant; balear assimila d a b davant v",
+  "source": "ca.wiktionary.org/wiki/advers: central /ədˈbɛrs/, nord-occidental /adˈbɛrs/, balear /əbˈvɛɾs/",
+  "text": "advers",
+  "dialect": "Central",
+  "expect": "ədˈbɛrs"
+ },
+ {
+  "issue": 5,
+  "rule": "d de coda davant b/v no és aproximant; balear assimila d a b davant v",
+  "source": "ca.wiktionary.org/wiki/advers: central /ədˈbɛrs/, nord-occidental /adˈbɛrs/, balear /əbˈvɛɾs/",
+  "text": "adversa",
+  "dialect": "Central",
+  "expect": "ədˈbɛr.sə"
+ },
+ {
+  "issue": 5,
+  "rule": "d de coda davant b/v no és aproximant; balear assimila d a b davant v",
+  "source": "ca.wiktionary.org/wiki/advers: central /ədˈbɛrs/, nord-occidental /adˈbɛrs/, balear /əbˈvɛɾs/",
+  "text": "adversos",
+  "dialect": "Central",
+  "expect": "ədˈbɛr.sus"
+ },
+ {
+  "issue": 5,
+  "rule": "d de coda davant b/v no és aproximant; balear assimila d a b davant v",
+  "source": "ca.wiktionary.org/wiki/advers: central /ədˈbɛrs/, nord-occidental /adˈbɛrs/, balear /əbˈvɛɾs/",
+  "text": "adverses",
+  "dialect": "Central",
+  "expect": "ədˈbɛr.səs"
+ },
+ {
+  "issue": 5,
+  "rule": "d de coda davant b/v no és aproximant; balear assimila d a b davant v",
+  "source": "ca.wiktionary.org/wiki/advers: central /ədˈbɛrs/, nord-occidental /adˈbɛrs/, balear /əbˈvɛɾs/",
+  "text": "advers",
+  "dialect": "Northwestern",
+  "expect": "adˈbɛrs"
+ },
+ {
+  "issue": 5,
+  "rule": "d de coda davant b/v no és aproximant; balear assimila d a b davant v",
+  "source": "ca.wiktionary.org/wiki/advers: central /ədˈbɛrs/, nord-occidental /adˈbɛrs/, balear /əbˈvɛɾs/",
+  "text": "adversa",
+  "dialect": "Northwestern",
+  "expect": "adˈbɛr.sa"
+ },
+ {
+  "issue": 5,
+  "rule": "d de coda davant b/v no és aproximant; balear assimila d a b davant v",
+  "source": "ca.wiktionary.org/wiki/advers: central /ədˈbɛrs/, nord-occidental /adˈbɛrs/, balear /əbˈvɛɾs/",
+  "text": "adversos",
+  "dialect": "Northwestern",
+  "expect": "adˈbɛr.sos"
+ },
+ {
+  "issue": 5,
+  "rule": "d de coda davant b/v no és aproximant; balear assimila d a b davant v",
+  "source": "ca.wiktionary.org/wiki/advers: central /ədˈbɛrs/, nord-occidental /adˈbɛrs/, balear /əbˈvɛɾs/",
+  "text": "adverses",
+  "dialect": "Northwestern",
+  "expect": "adˈbɛr.ses"
+ },
+ {
+  "issue": 5,
+  "rule": "d de coda davant b/v no és aproximant; balear assimila d a b davant v",
+  "source": "ca.wiktionary.org/wiki/advers: central /ədˈbɛrs/, nord-occidental /adˈbɛrs/, balear /əbˈvɛɾs/",
+  "text": "advers",
+  "dialect": "Balearic",
+  "expect": "əbˈvɛrs"
+ },
+ {
+  "issue": 5,
+  "rule": "d de coda davant b/v no és aproximant; balear assimila d a b davant v",
+  "source": "ca.wiktionary.org/wiki/advers: central /ədˈbɛrs/, nord-occidental /adˈbɛrs/, balear /əbˈvɛɾs/",
+  "text": "adversa",
+  "dialect": "Balearic",
+  "expect": "əbˈvɛr.sə"
+ },
+ {
+  "issue": 5,
+  "rule": "d de coda davant b/v no és aproximant; balear assimila d a b davant v",
+  "source": "ca.wiktionary.org/wiki/advers: central /ədˈbɛrs/, nord-occidental /adˈbɛrs/, balear /əbˈvɛɾs/",
+  "text": "adversos",
+  "dialect": "Balearic",
+  "expect": "əbˈvɛr.sos"
+ },
+ {
+  "issue": 5,
+  "rule": "d de coda davant b/v no és aproximant; balear assimila d a b davant v",
+  "source": "ca.wiktionary.org/wiki/advers: central /ədˈbɛrs/, nord-occidental /adˈbɛrs/, balear /əbˈvɛɾs/",
+  "text": "adverses",
+  "dialect": "Balearic",
+  "expect": "əbˈvɛr.səs"
+ },
+ {
+  "issue": 5,
+  "rule": "d de coda davant b/v no és aproximant; balear assimila d a b davant v",
+  "source": "ca.wiktionary.org/wiki/advers: central /ədˈbɛrs/, nord-occidental /adˈbɛrs/, balear /əbˈvɛɾs/ (valencià: com el nord-occidental amb v)",
+  "text": "advers",
+  "dialect": "Valencia",
+  "match": "^adˈvɛ[rɾ]s$"
+ },
+ {
+  "issue": 5,
+  "rule": "d de coda davant b/v no és aproximant; balear assimila d a b davant v",
+  "source": "ca.wiktionary.org/wiki/advers: central /ədˈbɛrs/, nord-occidental /adˈbɛrs/, balear /əbˈvɛɾs/ (valencià: com el nord-occidental amb v)",
+  "text": "adversa",
+  "dialect": "Valencia",
+  "match": "^adˈvɛ[rɾ]sa$"
+ },
+ {
+  "issue": 5,
+  "rule": "d de coda davant b/v no és aproximant; balear assimila d a b davant v",
+  "source": "ca.wiktionary.org/wiki/advers: central /ədˈbɛrs/, nord-occidental /adˈbɛrs/, balear /əbˈvɛɾs/ (valencià: com el nord-occidental amb v)",
+  "text": "adversos",
+  "dialect": "Valencia",
+  "match": "^adˈvɛ[rɾ]sos$"
+ },
+ {
+  "issue": 5,
+  "rule": "d de coda davant b/v no és aproximant; balear assimila d a b davant v",
+  "source": "ca.wiktionary.org/wiki/advers: central /ədˈbɛrs/, nord-occidental /adˈbɛrs/, balear /əbˈvɛɾs/ (valencià: com el nord-occidental amb v)",
+  "text": "adverses",
+  "dialect": "Valencia",
+  "match": "^adˈvɛ[rɾ]ses$"
+ }
+]
