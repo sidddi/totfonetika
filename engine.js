@@ -5,7 +5,7 @@ export const DIALECTS = [
   { id: 'Valencia', label: { ca: 'Valencià', es: 'Valenciano', en: 'Valencian' }, quality: 'good' },
   { id: 'Northwestern', label: { ca: 'Nord-occidental', es: 'Noroccidental', en: 'North-Western' }, quality: 'medium' },
   { id: 'Balearic', label: { ca: 'Balear', es: 'Balear', en: 'Balearic' }, quality: 'medium' },
-  { id: 'Northern', label: { ca: 'Rossellonès', es: 'Rosellonés', en: 'Northern (Rosselló)' }, quality: 'low' },
+  // Northern (Rossellonès) removed from the menu: no reliable source data (Oct 2026). Lexicon rows keep a 5th column.
 ];
 const IDX = Object.fromEntries(DIALECTS.map((d, i) => [d.id, i]));
 
@@ -275,9 +275,11 @@ function render(word, dialect) {
 
 // ---------- public API ----------
 let LEX = null;
-export function setLexicon(l) { LEX = l; }
+// lookup tables without a prototype, so words like "constructor" or "__proto__" are not found as inherited properties
+const bare = o => (o && Object.setPrototypeOf(o, null), o);
+export function setLexicon(l) { LEX = bare(l); }
 let LEMMAS = null;
-export function setLemmas(m) { LEMMAS = m || null; }
+export function setLemmas(m) { LEMMAS = bare(m) || null; }
 
 // Lemma-guided stressed vowel: take the rule transcription of an inflected form and, when its stressed syllable sits at
 // the same index as the lemma's and both stressed vowels are in the same group (E: e ɛ ə e̞, O: o ɔ o̞), use the lemma's vowel.
@@ -332,7 +334,7 @@ function fromLex(entry, dialect) {
     const cells = r.split('|');
     let v = cells[di];
     if (!v) { // fallback chain
-      const chain = { Valencia: [2], Northwestern: [1], Balearic: [0], Northern: [], Central: [] }[dialect] || [];
+      const chain = { Valencia: [2], Northwestern: [1], Balearic: [0], Northern: [0], Central: [] }[dialect] || [];
       for (const c of chain) if (cells[c]) { v = cells[c]; break; }
     }
     if (v && !out.includes(v)) out.push(v);
@@ -340,11 +342,11 @@ function fromLex(entry, dialect) {
   return out;
 }
 
-const ENCLITIC = { l: 'l', ls: 'ls', n: 'n', m: 'm', t: 't', s: 's', ns: 'ns', hi: 'j', ho: 'w' };
-const CLITIC = { l: 'l', d: 'd', m: 'm', t: 't', s: 's', n: 'n', 'qu': 'k' };
+const ENCLITIC = { __proto__: null, l: 'l', ls: 'ls', n: 'n', m: 'm', t: 't', s: 's', ns: 'ns', hi: 'j', ho: 'w' };
+const CLITIC = { __proto__: null, l: 'l', d: 'd', m: 'm', t: 't', s: 's', n: 'n', 'qu': 'k' };
 
 // Unstressed function words (many are missing from the lexicon). Order: Central|Valencia|Northwestern|Balearic|Northern
-const FUNC = {
+const FUNC = { __proto__: null,
   que: 'kə|ke|ke|kə|kə', el: 'əl|el|el|əl|əl', els: 'əls|els|els|əls|əls', la: 'lə|la|la|lə|lə', les: 'ləs|les|les|ləs|ləs',
   de: 'də|de|de|də|də', 'amb': 'əm|em|em|əm|əm', 'en': 'ən|en|en|ən|ən', 'un': 'un|un|un|un|un', 'una': 'ˈu.nə|ˈu.na|ˈu.na|ˈu.nə|ˈu.nə',
   'per': 'pər|per|per|pər|pər', 'a': 'ə|a|a|ə|ə', 'i': 'i|i|i|i|i', 'o': 'u|o|o|o|u', 'se': 'sə|se|se|sə|sə', 'li': 'li|li|li|li|li', 'em': 'əm|em|em|əm|əm',
@@ -357,9 +359,20 @@ function derive(key, dialect) {
   if (!LEX) return null;
   const sfx = { Central: ['əs','s'], Valencia: ['es','s'], Northwestern: ['es','s'], Balearic: ['əs','s'], Northern: ['əs','s'] }[dialect];
   const get = k => { const e = LEX[k]; if (!e) return null; const a = fromLex(e, dialect); return a.length ? a[0] : null; };
-  if (/[^s]s$/.test(key) && !/(es)$/.test(key)) { const b = get(key.slice(0, -1)); if (b) return b + 's'; }
-  if (/s$/.test(key) && !/[aeiouàèéíòóú]s$/.test(key)) { /* handled above */ }
-  if (/es$/.test(key)) { const b = get(key.slice(0, -2) + 'a'); if (b && /[əa]$/.test(b)) return b.slice(0, -1) + (dialect === 'Valencia' || dialect === 'Northwestern' ? 'es' : 'əs'); const b2 = get(key.slice(0, -2)); if (b2) return b2 + sfx[0]; }
+  // bases shorter than 3 letters are mostly abbreviations or interjections (ko, io): no derivation from them
+  if (/[^s]s$/.test(key) && !/(es)$/.test(key) && key.length > 3) { const b = get(key.slice(0, -1)); if (b) return b + 's'; }
+  if (/es$/.test(key)) {
+    const b = get(key.slice(0, -2) + 'a'); if (b && /[əa]$/.test(b)) return b.slice(0, -1) + (dialect === 'Valencia' || dialect === 'Northwestern' ? 'es' : 'əs');
+    // masculine base + -es (incert -> incertes): only after a voiceless consonant letter, the last consonant opens the new syllable
+    const base = key.slice(0, -2);
+    // (c+es and s+es are other words: estança/estances, raresa/rareses)
+    if (base.length > 2 && /[ptfnlmrx]$/.test(base)) {
+      let b2 = get(base);
+      if (b2 && /[nl]t$/.test(base) && /[nl]$/.test(b2)) b2 += 't'; // final t dropped in the base (apunt əˈpun) comes back: apuntes
+      const m = b2 && /^(.*[aeiouəɛɔɐjw̞][^aeiouəɛɔɐjwˈˌ.̞]*?)(t͡ʃ|t͡s|[^aeiouəɛɔɐjwˈˌ.̞͡])$/u.exec(b2);
+      if (m) return m[1] + '.' + (m[2] === 'r' ? 'ɾ' : m[2]) + sfx[0];
+    }
+  }
   return null;
 }
 
