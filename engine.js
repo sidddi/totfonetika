@@ -332,7 +332,7 @@ function fromLex(entry, dialect) {
     const cells = r.split('|');
     let v = cells[di];
     if (!v) { // fallback chain
-      const chain = { Valencia: [2], Northwestern: [1], Balearic: [0], Northern: [0], Central: [] }[dialect] || [];
+      const chain = { Valencia: [2], Northwestern: [1], Balearic: [0], Northern: [], Central: [] }[dialect] || [];
       for (const c of chain) if (cells[c]) { v = cells[c]; break; }
     }
     if (v && !out.includes(v)) out.push(v);
