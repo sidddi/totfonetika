@@ -1,0 +1,940 @@
+[
+ {
+  "text": "casa",
+  "dialect": "Central",
+  "expect": "ˈka.zə"
+ },
+ {
+  "text": "deia",
+  "dialect": "Central",
+  "expect": "ˈdɛ.jə"
+ },
+ {
+  "text": "feia",
+  "dialect": "Central",
+  "expect": "ˈfɛ.jə"
+ },
+ {
+  "text": "comença",
+  "dialect": "Central",
+  "expect": "kuˈmɛn.sə"
+ },
+ {
+  "text": "projectes",
+  "dialect": "Central",
+  "expect": "pɾuˈʒɛk.təs"
+ },
+ {
+  "text": "properes",
+  "dialect": "Central",
+  "expect": "pɾuˈpe.ɾəs"
+ },
+ {
+  "text": "finalment",
+  "dialect": "Central",
+  "expect": "fiˌnalˈmen"
+ },
+ {
+  "text": "roquetes",
+  "dialect": "Central",
+  "expect": "ruˈkɛ.təs"
+ },
+ {
+  "text": "apuntes",
+  "dialect": "Central",
+  "expect": "əˈpun.təs"
+ },
+ {
+  "text": "pessetes",
+  "dialect": "Central",
+  "expect": "pəˈsɛ.təs"
+ },
+ {
+  "text": "problema",
+  "dialect": "Central",
+  "expect": "pɾuˈβlɛ.mə"
+ },
+ {
+  "text": "directa",
+  "dialect": "Central",
+  "expect": "diˈɾɛk.tə"
+ },
+ {
+  "text": "ordre",
+  "dialect": "Central",
+  "expect": "ˈor.dɾə"
+ },
+ {
+  "text": "poeta",
+  "dialect": "Central",
+  "expect": "puˈɛ.tə"
+ },
+ {
+  "text": "estrelles",
+  "dialect": "Central",
+  "expect": "əsˈtɾe.ʎəs"
+ },
+ {
+  "text": "preu",
+  "dialect": "Central",
+  "expect": "ˈpɾɛw"
+ },
+ {
+  "text": "mes",
+  "dialect": "Central",
+  "expect": "ˈmes"
+ },
+ {
+  "text": "més",
+  "dialect": "Central",
+  "expect": "ˈmes"
+ },
+ {
+  "text": "ja",
+  "dialect": "Central",
+  "expect": "ˈʒa"
+ },
+ {
+  "text": "amb",
+  "dialect": "Central",
+  "expect": "əm"
+ },
+ {
+  "text": "és",
+  "dialect": "Central",
+  "expect": "es"
+ },
+ {
+  "text": "jo",
+  "dialect": "Central",
+  "expect": "ʒɔ"
+ },
+ {
+  "text": "vos",
+  "dialect": "Central",
+  "expect": "bus"
+ },
+ {
+  "text": "volies",
+  "dialect": "Central",
+  "expect": "buˈli.əs"
+ },
+ {
+  "text": "constructor",
+  "dialect": "Central",
+  "expect": "kuns.tɾukˈto"
+ },
+ {
+  "text": "__proto__",
+  "dialect": "Central",
+  "expect": "ˈpɾo.tu"
+ },
+ {
+  "text": "col·legi",
+  "dialect": "Central",
+  "expect": "kulˈlɛ.ʒi"
+ },
+ {
+  "text": "setmana",
+  "dialect": "Central",
+  "expect": "səmˈma.nə"
+ },
+ {
+  "text": "avui",
+  "dialect": "Central",
+  "expect": "əˈβuj"
+ },
+ {
+  "text": "aigua",
+  "dialect": "Central",
+  "expect": "ˈaj.ɣwə"
+ },
+ {
+  "text": "perquè",
+  "dialect": "Central",
+  "expect": "pərˈkɛ"
+ },
+ {
+  "text": "fer",
+  "dialect": "Central",
+  "expect": "ˈfe"
+ },
+ {
+  "text": "treballen",
+  "dialect": "Central",
+  "expect": "tɾəˈβa.ʎən"
+ },
+ {
+  "text": "exemple",
+  "dialect": "Central",
+  "expect": "əɡˈzem.plə"
+ },
+ {
+  "text": "transport",
+  "dialect": "Central",
+  "expect": "tɾənsˈpɔrt"
+ },
+ {
+  "text": "sèrie",
+  "dialect": "Central",
+  "expect": "ˈsɛ.ɾi.ə"
+ },
+ {
+  "text": "La dona va de bòlit.",
+  "dialect": "Central",
+  "expect": "ləˈðɔ.nə ˈβa ðəˈβɔ.lit"
+ },
+ {
+  "text": "El dia que els gats van baixar, un gos dorm.",
+  "dialect": "Central",
+  "expect": "əlˈdi.ə kəlzˈɣats ˈβam bəˈʃa uŋˈɡoz ˈðɔrm"
+ },
+ {
+  "text": "Les dones diuen: bon dia!",
+  "dialect": "Central",
+  "expect": "ləzˈðɔ.nəz ˈði.wən ˈbɔn ˈdi.ə"
+ },
+ {
+  "text": "Amb dues bicicletes i tres gats grossos.",
+  "dialect": "Central",
+  "expect": "əmˈdu.əz βi.siˈklɛ.təz iˈtɾɛz ˈɣats ˈɣɾɔ.sus"
+ },
+ {
+  "text": "L'àvia beu aigua del got.",
+  "dialect": "Central",
+  "expect": "ˈla.βi.ə ˈβɛw ˈaj.ɣwə ðəlˈɣɔt"
+ },
+ {
+  "text": "Sant Joan i la santa creu.",
+  "dialect": "Central",
+  "expect": "saɲ.ʒuˈan i.ləˈsan.tə ˈkɾɛw"
+ },
+ {
+  "text": "Dona Rosa ha arribat.",
+  "dialect": "Central",
+  "expect": "dɔ.nəˈrɔ.zə ˈa ə.riˈβat"
+ },
+ {
+  "text": "Una hora després, la escola era buida.",
+  "dialect": "Central",
+  "expect": "uˈnɔ.ɾə ðəsˈpɾes ləsˈkɔ.lə ˈe.ɾə ˈβuj.ðə"
+ },
+ {
+  "text": "Vint-i-dos d'ells porta-li-ho.",
+  "dialect": "Central",
+  "expect": "ˌbin.tiˈðos ˈðeʎs ˈpɔr.tə.li.u"
+ },
+ {
+  "text": "Ahir vam anar a sopar amb els cosins.",
+  "dialect": "Central",
+  "expect": "əˈi ˈβam əˈna ə.suˈpa ə.məls.kuˈzins"
+ },
+ {
+  "text": "casa",
+  "dialect": "Valencia",
+  "expect": "ˈka.za"
+ },
+ {
+  "text": "deia",
+  "dialect": "Valencia",
+  "expect": "ˈde.ja"
+ },
+ {
+  "text": "feia",
+  "dialect": "Valencia",
+  "expect": "ˈfe.ja"
+ },
+ {
+  "text": "comença",
+  "dialect": "Valencia",
+  "expect": "koˈmen.sa"
+ },
+ {
+  "text": "projectes",
+  "dialect": "Valencia",
+  "expect": "pɾoˈd͡ʒɛk.tes"
+ },
+ {
+  "text": "properes",
+  "dialect": "Valencia",
+  "expect": "pɾoˈpe.ɾes"
+ },
+ {
+  "text": "finalment",
+  "dialect": "Valencia",
+  "expect": "fiˌnalˈment"
+ },
+ {
+  "text": "roquetes",
+  "dialect": "Valencia",
+  "expect": "roˈke.tes"
+ },
+ {
+  "text": "apuntes",
+  "dialect": "Valencia",
+  "expect": "aˈpun.tes"
+ },
+ {
+  "text": "pessetes",
+  "dialect": "Valencia",
+  "expect": "peˈse.tes"
+ },
+ {
+  "text": "problema",
+  "dialect": "Valencia",
+  "expect": "pɾoˈble.ma"
+ },
+ {
+  "text": "directa",
+  "dialect": "Valencia",
+  "expect": "diˈɾek.ta"
+ },
+ {
+  "text": "ordre",
+  "dialect": "Valencia",
+  "expect": "ˈoɾ.ðɾe"
+ },
+ {
+  "text": "poeta",
+  "dialect": "Valencia",
+  "expect": "poˈe.ta"
+ },
+ {
+  "text": "estrelles",
+  "dialect": "Valencia",
+  "expect": "esˈtɾe.ʎes"
+ },
+ {
+  "text": "preu",
+  "dialect": "Valencia",
+  "expect": "ˈpɾɛw"
+ },
+ {
+  "text": "mes",
+  "dialect": "Valencia",
+  "expect": "ˈmes"
+ },
+ {
+  "text": "més",
+  "dialect": "Valencia",
+  "expect": "ˈmes"
+ },
+ {
+  "text": "ja",
+  "dialect": "Valencia",
+  "expect": "ˈja"
+ },
+ {
+  "text": "amb",
+  "dialect": "Valencia",
+  "expect": "am"
+ },
+ {
+  "text": "és",
+  "dialect": "Valencia",
+  "expect": "es"
+ },
+ {
+  "text": "jo",
+  "dialect": "Valencia",
+  "expect": "jo"
+ },
+ {
+  "text": "vos",
+  "dialect": "Valencia",
+  "expect": "vos"
+ },
+ {
+  "text": "volies",
+  "dialect": "Valencia",
+  "expect": "voˈli.es"
+ },
+ {
+  "text": "constructor",
+  "dialect": "Valencia",
+  "expect": "kons.tɾukˈtoɾ"
+ },
+ {
+  "text": "__proto__",
+  "dialect": "Valencia",
+  "expect": "ˈpɾo.to"
+ },
+ {
+  "text": "col·legi",
+  "dialect": "Valencia",
+  "expect": "kolˈlɛ.d͡ʒi"
+ },
+ {
+  "text": "setmana",
+  "dialect": "Valencia",
+  "expect": "seˈma.na"
+ },
+ {
+  "text": "avui",
+  "dialect": "Valencia",
+  "expect": "aˈvuj"
+ },
+ {
+  "text": "aigua",
+  "dialect": "Valencia",
+  "expect": "ˈaj.ɣwa"
+ },
+ {
+  "text": "perquè",
+  "dialect": "Valencia",
+  "expect": "peɾˈke"
+ },
+ {
+  "text": "fer",
+  "dialect": "Valencia",
+  "expect": "ˈfeɾ"
+ },
+ {
+  "text": "treballen",
+  "dialect": "Valencia",
+  "expect": "tɾeˈba.ʎen"
+ },
+ {
+  "text": "exemple",
+  "dialect": "Valencia",
+  "expect": "eɡˈzem.ple"
+ },
+ {
+  "text": "transport",
+  "dialect": "Valencia",
+  "expect": "tɾansˈpɔɾt"
+ },
+ {
+  "text": "sèrie",
+  "dialect": "Valencia",
+  "expect": "ˈse.ɾi.e"
+ },
+ {
+  "text": "La dona va de bòlit.",
+  "dialect": "Valencia",
+  "expect": "laˈðɔ.na ˈva ðeˈbɔ.lit"
+ },
+ {
+  "text": "El dia que els gats van baixar, un gos dorm.",
+  "dialect": "Valencia",
+  "expect": "elˈdi.a ke.elzˈɣats ˈvam bajˈʃaɾ uŋˈɡoz ˈðɔɾm"
+ },
+ {
+  "text": "Les dones diuen: bon dia!",
+  "dialect": "Valencia",
+  "expect": "lezˈðɔ.nez ˈði.wen ˈbɔn ˈdi.a"
+ },
+ {
+  "text": "Amb dues bicicletes i tres gats grossos.",
+  "dialect": "Valencia",
+  "expect": "amˈdu.ez bi.siˈkle.tes iˈtɾez ˈɣats ˈɣɾɔ.sos"
+ },
+ {
+  "text": "L'àvia beu aigua del got.",
+  "dialect": "Valencia",
+  "expect": "ˈla.vi.a ˈbew ˈaj.ɣwa ðelˈɣɔt"
+ },
+ {
+  "text": "Sant Joan i la santa creu.",
+  "dialect": "Valencia",
+  "expect": "sant.d͡ʒuˈan i.laˈsan.ta ˈkɾew"
+ },
+ {
+  "text": "Dona Rosa ha arribat.",
+  "dialect": "Valencia",
+  "expect": "dɔ.naˈrɔ.za ˈa a.riˈbat"
+ },
+ {
+  "text": "Una hora després, la escola era buida.",
+  "dialect": "Valencia",
+  "expect": "ˈu.na ˈɔ.ɾa ðesˈpɾes la.esˈkɔ.la ˈe.ɾa ˈbuj.ða"
+ },
+ {
+  "text": "Vint-i-dos d'ells porta-li-ho.",
+  "dialect": "Valencia",
+  "expect": "ˌvin.tiˈðos ˈðeʎs ˈpɔɾ.ta.li.o"
+ },
+ {
+  "text": "Ahir vam anar a sopar amb els cosins.",
+  "dialect": "Valencia",
+  "expect": "aˈiɾ ˈvam aˈnaɾ a.soˈpaɾ a.mels.koˈzins"
+ },
+ {
+  "text": "casa",
+  "dialect": "Northwestern",
+  "expect": "ˈka.za"
+ },
+ {
+  "text": "deia",
+  "dialect": "Northwestern",
+  "expect": "ˈde.ja"
+ },
+ {
+  "text": "feia",
+  "dialect": "Northwestern",
+  "expect": "ˈfe.ja"
+ },
+ {
+  "text": "comença",
+  "dialect": "Northwestern",
+  "expect": "koˈmen.sa"
+ },
+ {
+  "text": "projectes",
+  "dialect": "Northwestern",
+  "expect": "pɾoˈʒɛk.tes"
+ },
+ {
+  "text": "properes",
+  "dialect": "Northwestern",
+  "expect": "pɾoˈpe.ɾes"
+ },
+ {
+  "text": "finalment",
+  "dialect": "Northwestern",
+  "expect": "fiˌnalˈmen"
+ },
+ {
+  "text": "roquetes",
+  "dialect": "Northwestern",
+  "expect": "roˈke.tes"
+ },
+ {
+  "text": "apuntes",
+  "dialect": "Northwestern",
+  "expect": "aˈpun.tes"
+ },
+ {
+  "text": "pessetes",
+  "dialect": "Northwestern",
+  "expect": "peˈse.tes"
+ },
+ {
+  "text": "problema",
+  "dialect": "Northwestern",
+  "expect": "pɾoˈβle.ma"
+ },
+ {
+  "text": "directa",
+  "dialect": "Northwestern",
+  "expect": "diˈɾɛk.ta"
+ },
+ {
+  "text": "ordre",
+  "dialect": "Northwestern",
+  "expect": "ˈor.dɾe"
+ },
+ {
+  "text": "poeta",
+  "dialect": "Northwestern",
+  "expect": "poˈe.ta"
+ },
+ {
+  "text": "estrelles",
+  "dialect": "Northwestern",
+  "expect": "esˈtɾe.ʎes"
+ },
+ {
+  "text": "preu",
+  "dialect": "Northwestern",
+  "expect": "ˈpɾɛw"
+ },
+ {
+  "text": "mes",
+  "dialect": "Northwestern",
+  "expect": "ˈmes"
+ },
+ {
+  "text": "més",
+  "dialect": "Northwestern",
+  "expect": "ˈmes"
+ },
+ {
+  "text": "ja",
+  "dialect": "Northwestern",
+  "expect": "ˈd͡ʒa"
+ },
+ {
+  "text": "amb",
+  "dialect": "Northwestern",
+  "expect": "am"
+ },
+ {
+  "text": "és",
+  "dialect": "Northwestern",
+  "expect": "es"
+ },
+ {
+  "text": "jo",
+  "dialect": "Northwestern",
+  "expect": "jo"
+ },
+ {
+  "text": "vos",
+  "dialect": "Northwestern",
+  "expect": "bos"
+ },
+ {
+  "text": "volies",
+  "dialect": "Northwestern",
+  "expect": "boˈli.es"
+ },
+ {
+  "text": "constructor",
+  "dialect": "Northwestern",
+  "expect": "kons.tɾukˈto"
+ },
+ {
+  "text": "__proto__",
+  "dialect": "Northwestern",
+  "expect": "ˈpɾo.to"
+ },
+ {
+  "text": "col·legi",
+  "dialect": "Northwestern",
+  "expect": "kolˈlɛ.ʒi"
+ },
+ {
+  "text": "setmana",
+  "dialect": "Northwestern",
+  "expect": "semˈma.na"
+ },
+ {
+  "text": "avui",
+  "dialect": "Northwestern",
+  "expect": "aˈβuj"
+ },
+ {
+  "text": "aigua",
+  "dialect": "Northwestern",
+  "expect": "ˈaj.ɣwa"
+ },
+ {
+  "text": "perquè",
+  "dialect": "Northwestern",
+  "expect": "perˈke"
+ },
+ {
+  "text": "fer",
+  "dialect": "Northwestern",
+  "expect": "ˈfe"
+ },
+ {
+  "text": "treballen",
+  "dialect": "Northwestern",
+  "expect": "tɾeˈβa.ʎen"
+ },
+ {
+  "text": "exemple",
+  "dialect": "Northwestern",
+  "expect": "eɡˈzem.ple"
+ },
+ {
+  "text": "transport",
+  "dialect": "Northwestern",
+  "expect": "tɾansˈpɔrt"
+ },
+ {
+  "text": "sèrie",
+  "dialect": "Northwestern",
+  "expect": "ˈse.ɾi.e"
+ },
+ {
+  "text": "La dona va de bòlit.",
+  "dialect": "Northwestern",
+  "expect": "laˈðɔ.na ˈβa ðeˈβɔ.lit"
+ },
+ {
+  "text": "El dia que els gats van baixar, un gos dorm.",
+  "dialect": "Northwestern",
+  "expect": "elˈdi.a ke.elzˈɣats ˈβam bajˈʃa uŋˈɡoz ˈðɔrm"
+ },
+ {
+  "text": "Les dones diuen: bon dia!",
+  "dialect": "Northwestern",
+  "expect": "lezˈðɔ.nez ˈði.wen ˈbɔn ˈdi.a"
+ },
+ {
+  "text": "Amb dues bicicletes i tres gats grossos.",
+  "dialect": "Northwestern",
+  "expect": "amˈdu.ez βi.siˈkle.tes iˈtɾez ˈɣats ˈɣɾɔ.sos"
+ },
+ {
+  "text": "L'àvia beu aigua del got.",
+  "dialect": "Northwestern",
+  "expect": "ˈla.βi.a ˈβew ˈaj.ɣwa ðelˈɣɔt"
+ },
+ {
+  "text": "Sant Joan i la santa creu.",
+  "dialect": "Northwestern",
+  "expect": "saɲ.ʒuˈan i.laˈsan.ta ˈkɾew"
+ },
+ {
+  "text": "Dona Rosa ha arribat.",
+  "dialect": "Northwestern",
+  "expect": "dɔ.naˈrɔ.za ˈa a.riˈβat"
+ },
+ {
+  "text": "Una hora després, la escola era buida.",
+  "dialect": "Northwestern",
+  "expect": "ˈu.na ˈɔ.ɾa ðesˈpɾes la.esˈkɔ.la ˈe.ɾa ˈβuj.ða"
+ },
+ {
+  "text": "Vint-i-dos d'ells porta-li-ho.",
+  "dialect": "Northwestern",
+  "expect": "ˌbin.tiˈðos ˈðeʎs ˈpɔr.ta.li.o"
+ },
+ {
+  "text": "Ahir vam anar a sopar amb els cosins.",
+  "dialect": "Northwestern",
+  "expect": "aˈi ˈβam aˈna a.soˈpa a.mels.koˈzins"
+ },
+ {
+  "text": "casa",
+  "dialect": "Balearic",
+  "expect": "ˈka.zə"
+ },
+ {
+  "text": "deia",
+  "dialect": "Balearic",
+  "expect": "ˈdə.jə"
+ },
+ {
+  "text": "feia",
+  "dialect": "Balearic",
+  "expect": "ˈfə.jə"
+ },
+ {
+  "text": "comença",
+  "dialect": "Balearic",
+  "expect": "koˈmɛn.sə"
+ },
+ {
+  "text": "projectes",
+  "dialect": "Balearic",
+  "expect": "pɾoˈʒɛk.təs"
+ },
+ {
+  "text": "properes",
+  "dialect": "Balearic",
+  "expect": "pɾoˈpe.ɾəs"
+ },
+ {
+  "text": "finalment",
+  "dialect": "Balearic",
+  "expect": "fiˌnalˈment"
+ },
+ {
+  "text": "roquetes",
+  "dialect": "Balearic",
+  "expect": "roˈkə.təs"
+ },
+ {
+  "text": "apuntes",
+  "dialect": "Balearic",
+  "expect": "əˈpun.təs"
+ },
+ {
+  "text": "pessetes",
+  "dialect": "Balearic",
+  "expect": "pəˈsə.təs"
+ },
+ {
+  "text": "problema",
+  "dialect": "Balearic",
+  "expect": "pɾoˈblɛ.mə"
+ },
+ {
+  "text": "directa",
+  "dialect": "Balearic",
+  "expect": "diˈɾɛk.tə"
+ },
+ {
+  "text": "ordre",
+  "dialect": "Balearic",
+  "expect": "ˈor.dɾə"
+ },
+ {
+  "text": "poeta",
+  "dialect": "Balearic",
+  "expect": "poˈe.tə"
+ },
+ {
+  "text": "estrelles",
+  "dialect": "Balearic",
+  "expect": "əsˈtɾə.ʎəs"
+ },
+ {
+  "text": "preu",
+  "dialect": "Balearic",
+  "expect": "ˈpɾɛw"
+ },
+ {
+  "text": "mes",
+  "dialect": "Balearic",
+  "expect": "ˈməs"
+ },
+ {
+  "text": "més",
+  "dialect": "Balearic",
+  "expect": "ˈmes"
+ },
+ {
+  "text": "ja",
+  "dialect": "Balearic",
+  "expect": "ˈʒa"
+ },
+ {
+  "text": "amb",
+  "dialect": "Balearic",
+  "expect": "əm"
+ },
+ {
+  "text": "és",
+  "dialect": "Balearic",
+  "expect": "əs"
+ },
+ {
+  "text": "jo",
+  "dialect": "Balearic",
+  "expect": "ʒɔ"
+ },
+ {
+  "text": "vos",
+  "dialect": "Balearic",
+  "expect": "vos"
+ },
+ {
+  "text": "volies",
+  "dialect": "Balearic",
+  "expect": "voˈli.əs"
+ },
+ {
+  "text": "constructor",
+  "dialect": "Balearic",
+  "expect": "kons.tɾukˈto"
+ },
+ {
+  "text": "__proto__",
+  "dialect": "Balearic",
+  "expect": "ˈpɾo.to"
+ },
+ {
+  "text": "col·legi",
+  "dialect": "Balearic",
+  "expect": "kolˈlɛ.ʒi"
+ },
+ {
+  "text": "setmana",
+  "dialect": "Balearic",
+  "expect": "səmˈma.nə"
+ },
+ {
+  "text": "avui",
+  "dialect": "Balearic",
+  "expect": "əˈvuj"
+ },
+ {
+  "text": "aigua",
+  "dialect": "Balearic",
+  "expect": "ˈaj.ɣwə"
+ },
+ {
+  "text": "perquè",
+  "dialect": "Balearic",
+  "expect": "pərˈkə"
+ },
+ {
+  "text": "fer",
+  "dialect": "Balearic",
+  "expect": "ˈfe"
+ },
+ {
+  "text": "treballen",
+  "dialect": "Balearic",
+  "expect": "tɾəˈba.ʎən"
+ },
+ {
+  "text": "exemple",
+  "dialect": "Balearic",
+  "expect": "əɡˈzem.plə"
+ },
+ {
+  "text": "transport",
+  "dialect": "Balearic",
+  "expect": "tɾənsˈpɔrt"
+ },
+ {
+  "text": "sèrie",
+  "dialect": "Balearic",
+  "expect": "ˈsɛ.ɾi.ə"
+ },
+ {
+  "text": "La dona va de bòlit.",
+  "dialect": "Balearic",
+  "expect": "ləˈðɔ.nə ˈva ðəˈbɔ.lit"
+ },
+ {
+  "text": "El dia que els gats van baixar, un gos dorm.",
+  "dialect": "Balearic",
+  "expect": "əlˈdi.ə kəlzˈɣats ˈvam bəˈʃa uŋˈɡoz ˈðɔrm"
+ },
+ {
+  "text": "Les dones diuen: bon dia!",
+  "dialect": "Balearic",
+  "expect": "ləzˈðɔ.nəz ˈði.wən ˈbɔn ˈdi.ə"
+ },
+ {
+  "text": "Amb dues bicicletes i tres gats grossos.",
+  "dialect": "Balearic",
+  "expect": "əmˈdu.əz bi.siˈklə.təz iˈtɾəz ˈɣats ˈɣɾɔ.sos"
+ },
+ {
+  "text": "L'àvia beu aigua del got.",
+  "dialect": "Balearic",
+  "expect": "ˈla.vi.ə ˈbəw ˈaj.ɣwə ðəlˈɣɔt"
+ },
+ {
+  "text": "Sant Joan i la santa creu.",
+  "dialect": "Balearic",
+  "expect": "sand.ʒuˈan i.ləˈsan.tə ˈkɾəw"
+ },
+ {
+  "text": "Dona Rosa ha arribat.",
+  "dialect": "Balearic",
+  "expect": "dɔ.nəˈrɔ.zə ˈa ə.riˈbat"
+ },
+ {
+  "text": "Una hora després, la escola era buida.",
+  "dialect": "Balearic",
+  "expect": "uˈnɔ.ɾə ðəsˈpɾes ləsˈkɔ.lə ˈe.ɾə ˈbuj.ðə"
+ },
+ {
+  "text": "Vint-i-dos d'ells porta-li-ho.",
+  "dialect": "Balearic",
+  "expect": "ˌvin.tiˈðos ˈðeʎs ˈpɔr.tə.li.u"
+ },
+ {
+  "text": "Ahir vam anar a sopar amb els cosins.",
+  "dialect": "Balearic",
+  "expect": "əˈi ˈvam əˈna ə.soˈpa ə.məls.kuˈzins"
+ },
+ {
+  "text": "La dona va de bòlit.",
+  "dialect": "Central",
+  "liaison": false,
+  "expect": "lə ˈdɔ.nə ˈba də ˈbɔ.lit"
+ },
+ {
+  "text": "El dia que els gats van baixar, un gos dorm.",
+  "dialect": "Central",
+  "liaison": false,
+  "expect": "əl ˈdi.ə kə əls ˈɡats ˈban bəˈʃa un ˈɡos ˈdɔrm"
+ },
+ {
+  "text": "Les dones diuen: bon dia!",
+  "dialect": "Central",
+  "liaison": false,
+  "expect": "ləs ˈdɔ.nəs ˈdi.wən ˈbɔn ˈdi.ə"
+ }
+]
