@@ -384,7 +384,30 @@ function derive(key, dialect) {
   return null;
 }
 
+// ---- acronyms not in the lexicon: short (≤3 letters) or vowel-less capitals are spelled (PSC, UE, MP, BBC);
+// longer pronounceable ones are read as words (NASA, OTAN). Off when the whole text is in capitals.
+const LETTER = { a: '=ˈa', b: 'be', c: 'ce', d: 'de', e: 'e', f: 'efa', g: 'ge', h: 'hac', i: '=ˈi', j: 'jota', k: 'ca', l: 'ela', m: 'ema',
+  n: 'ena', o: 'o', p: 'pe', q: 'cu', r: 'erra', s: 'essa', t: 'te', u: 'u', v: 've', w: 've doble', x: 'ics', y: 'i grega', z: 'zeta', ç: 'ce trencada' };
+const READ_AS_WORD = new Set(['cup']); // short acronyms said as a word
+let SPELL = true;
+function spellAcronym(word, dialect) {
+  if (!SPELL || !LEX || !/^[A-ZÇ]{2,}$/.test(word)) return null;
+  const key = word.toLowerCase();
+  if (FUNC[key] || LEX[key] || READ_AS_WORD.has(key) || (word.length > 3 && /[AEIOU]/.test(word))) return null;
+  const parts = [];
+  for (const ch of key) for (const name of LETTER[ch].split(' ')) {
+    if (name[0] === '=') { parts.push(name.slice(1)); continue; }
+    const alts = LEX[name] ? fromLex(LEX[name], dialect) : []; const st = alts.find(x => /ˈ/.test(x));
+    if (!st) return null; parts.push(st);
+  }
+  let ipa = parts.map((x, i) => i < parts.length - 1 ? x.replace('ˈ', 'ˌ') : x).join('');
+  const len = { b: ['Valencia', 'Balearic'].includes(dialect) ? 'b' : 'β', d: 'ð', ɡ: 'ɣ' };
+  ipa = ipa.replace(/([aeiouɛɔəɐ])([ˌˈ])([bdɡ])/g, (m, v, st, c) => v + st + len[c]);
+  return { word, source: 'rules', alts: [ipa], ipa, note: 'acronym' };
+}
+
 export function transcribeWord(word, dialect = 'Central') {
+  const sp = spellAcronym(word, dialect); if (sp) return sp;
   const key = word.toLowerCase();
   if (FUNC[key]) { const alts = fromLex(FUNC[key], dialect); if (alts.length) return { word, source: 'lexicon', alts, ipa: alts[0], note: 'function word' }; }
   if (LEX && LEX[key]) {
@@ -467,6 +490,11 @@ function expandNumbers(text, d) {
 
 export function transcribe(text, dialect = 'Central', opts = {}) {
   text = expandNumbers(text, dialect);
+  const caps = (text.match(/\p{L}{2,}/gu) || []);
+  SPELL = !(caps.length >= 3 && caps.filter(w => w === w.toUpperCase()).length / caps.length > 0.6);
+  try { return transcribeText(text, dialect, opts); } finally { SPELL = true; }
+}
+function transcribeText(text, dialect, opts) {
   const liaison = opts.liaison !== false;
   const toks = tokenize(text);
   const items = [];
@@ -534,7 +562,7 @@ function applyConnected(items, dialect) {
       a.cipa = syls.join('.') + '.'; b.cipa = onset + b.cipa; b.joinPrev = true; a.connected = b.connected = true;
       continue;
     }
-    if (lat && bv && fn && !(['la', 'una'].includes(a.word.toLowerCase()) && /^[iu]/.test(b.cipa)) && /[^ə]ə$/.test(c.replace(/[ˈˌ]/g, '')) && !a.hyphenBefore) {
+    if (lat && bv && fn && !(['la', 'una'].includes(a.word.toLowerCase()) && /^[ˈˌ]?[iu]/.test(b.cipa)) && /[^ə]ə$/.test(c.replace(/[ˈˌ]/g, '')) && !a.hyphenBefore) {
       c = c.replace(/\.?ə$/, ''); a.cipa = c; a.connected = true; elided = true;
       if (fn) a.cipa = a.cipa.replace(/[ˈˌ]/g, ''); c = a.cipa;
     }
