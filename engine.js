@@ -176,6 +176,14 @@ function stressIndex(word, syl) {
   return { i: syl.length - 1, certain: false };
 }
 
+// stressed -et/-eta (+ plurals) is open in Central and Balearic (pastoreta, concert-like: 92% of 422 lexicon words),
+// except the families of fet, net, quiet and -creta/-treta, discret (satisfet, besneta, secreta, contreta)
+const ET_EXC = /^(satis|des|contra|bene|beni|imper|per|male|mali)?fe(t|ts|ta|tes)$|^(bes|re)?ne(t|ts|ta|tes)$|quie(t|ts|ta|tes)$|[ct]re(ta|tes)$|discrets?$/;
+function openEt(w, si, n) {
+  if (n < 2 || ET_EXC.test(w)) return false;
+  return (si === n - 1 && /ets?$/.test(w)) || (si === n - 2 && /e(ta|tes)$/.test(w));
+}
+
 function render(word, dialect) {
   let units = expandGroups(phonemize(word));
   // final-position rules
@@ -246,7 +254,7 @@ function render(word, dialect) {
       if (x.k !== 'V') return x.p;
       let p = x.p;
       if (stressed) {
-        if (p === 'e') { if (!x.grave && !x.acute && si === syl.length - 1 && /encs?$/.test(word.toLowerCase()) && dialect !== 'Valencia') p = 'ɛ'; else if (!x.grave && !x.acute && si === syl.length - 1 && /eus?$/.test(word.toLowerCase()) && (dialect === 'Central' || dialect === 'Balearic')) p = 'ɛ'; else if (x.grave) p = 'ɛ'; else if (x.acute) p = 'e'; else { uncertain = true; p = 'e'; } }
+        if (p === 'e') { if (!x.grave && !x.acute && si === syl.length - 1 && /encs?$/.test(word.toLowerCase()) && dialect !== 'Valencia') p = 'ɛ'; else if (!x.grave && !x.acute && si === syl.length - 1 && /eus?$/.test(word.toLowerCase()) && (dialect === 'Central' || dialect === 'Balearic')) p = 'ɛ'; else if (!x.grave && !x.acute && (dialect === 'Central' || dialect === 'Balearic') && openEt(word.toLowerCase(), si, syl.length)) p = 'ɛ'; else if (x.grave) p = 'ɛ'; else if (x.acute) p = 'e'; else { uncertain = true; p = 'e'; } }
         if (dialect === 'Balearic' && p === 'ɛ') p = 'ə';
         else if (p === 'o') { if (!x.grave && !x.acute && si === syl.length - 1 && /ous?$/.test(word.toLowerCase()) && (dialect === 'Central' || dialect === 'Balearic')) p = 'ɔ'; else if (x.grave) p = 'ɔ'; else if (x.acute) p = 'o'; else { uncertain = true; p = 'o'; } }
         if (dialect === 'Northern' && (p === 'e')) p = 'e̞';
@@ -393,7 +401,72 @@ export function transcribeWord(word, dialect = 'Central') {
   return { word, source: lg ? 'lemma' : 'rules', alts: [r.ipa], ipa: r.ipa, uncertain: lg ? true : (r.uncertain || !r.stressCertain) };
 }
 
+// ---- numbers written with digits -> words (IEC norms; teens and 8 follow each variety) ----
+const UNITS = ['zero', 'un', 'dos', 'tres', 'quatre', 'cinc', 'sis', 'set', 'vuit', 'nou'];
+const TEENS = {
+  Central: ['deu', 'onze', 'dotze', 'tretze', 'catorze', 'quinze', 'setze', 'disset', 'divuit', 'dinou'],
+  Northwestern: ['deu', 'onze', 'dotze', 'tretze', 'catorze', 'quinze', 'setze', 'disset', 'divuit', 'dinou'],
+  Valencia: ['deu', 'onze', 'dotze', 'tretze', 'catorze', 'quinze', 'setze', 'dèsset', 'díhuit', 'dènou'],
+  Balearic: ['deu', 'onze', 'dotze', 'tretze', 'catorze', 'quinze', 'setze', 'desset', 'devuit', 'denou'],
+};
+const TENS_W = ['', '', 'vint', 'trenta', 'quaranta', 'cinquanta', 'seixanta', 'setanta', 'vuitanta', 'noranta'];
+function under1000(n, d) {
+  const val = d === 'Valencia', u = i => (val && i === 8 ? 'huit' : UNITS[i]);
+  const parts = [];
+  const h = Math.floor(n / 100), r = n % 100;
+  if (h) parts.push(h === 1 ? 'cent' : `${u(h)}-cents`);
+  if (r) {
+    if (r < 10) parts.push(u(r));
+    else if (r < 20) parts.push((TEENS[d] || TEENS.Central)[r - 10]);
+    else {
+      const t = Math.floor(r / 10), o = r % 10, tw = val && t === 8 ? 'huitanta' : TENS_W[t];
+      parts.push(o ? `${tw}${t === 2 ? '-i-' : '-'}${u(o)}` : tw);
+    }
+  }
+  return parts.join(' ');
+}
+export function numberToWords(n, d = 'Central') {
+  if (n === 0) return 'zero';
+  const out = [];
+  for (const [size, one, many] of [[1e9, 'mil milions', 'mil milions'], [1e6, 'un milió', 'milions'], [1e3, 'mil', 'mil']]) {
+    const k = Math.floor(n / size); n %= size;
+    if (!k) continue;
+    if (size === 1e9) out.push(k === 1 ? one : `${under1000(k, d)} ${many}`);
+    else out.push(k === 1 ? one : `${numberToWords(k, d)} ${many}`);
+  }
+  if (n) out.push(under1000(n, d));
+  return out.join(' ');
+}
+// ordinals: 1r 1a 1rs 1es, 2n 2a, 3r, 4t, 5è 5a 5ns 5es... (IEC abbreviations)
+const ORD = [null, ['primer', 'primera'], ['segon', 'segona'], ['tercer', 'tercera'], ['quart', 'quarta']];
+function ordinal(n, fem, pl, d) {
+  if (n >= 1 && n <= 4) { const w = ORD[n][fem ? 1 : 0]; return pl ? (fem ? w.slice(0, -1) + 'es' : w + 's') : w; }
+  const words = numberToWords(n, d).split(' '), last = words.pop();
+  const stem = last.replace(/cinc$/, 'cinqu').replace(/nou$/, 'nov').replace(/deu$/, 'des').replace(/cents$/, 'cent').replace(/milions$/, 'milion').replace(/[ae]$/, '');
+  return [...words, stem + (fem ? (pl ? 'enes' : 'ena') : (pl ? 'ens' : 'è'))].join(' ');
+}
+const UNIT_W = { '%': ['per cent', 'per cent'], '€': ['euro', 'euros'], km: ['quilòmetre', 'quilòmetres'], kg: ['quilogram', 'quilograms'], cm: ['centímetre', 'centímetres'], h: ['hora', 'hores'] };
+// 1.234.567 and 2,5 (Catalan separators); %, €, km, kg, cm and h only right after a number; then ordinals; then any digits left
+function expandNumbers(text, d) {
+  if (!/\d/.test(text)) return text;
+  text = text.replace(/(\p{L})-(?=\d)/gu, '$1 '); // COVID-19: the number is a word of its own, not a clitic
+  text = text.replace(/(?<![\p{L}\d])(\d+)(rs|ns|ts|es|r|n|t|è|a)(?![\p{L}\d])/gu, (m, num, suf) => {
+    const n = +num; if (!Number.isSafeInteger(n) || n === 0 || n >= 1e6) return m;
+    return ordinal(n, suf === 'a' || suf === 'es', suf.length === 2, d);
+  });
+  text = text.replace(/(?<![\p{L}\d.,])(\d{1,3}(?:\.\d{3})+|\d+)(?:,(\d+))?(?![\p{L}\d])(\s*(%|€|(?:km|kg|cm|h)(?![\p{L}\d])))?/gu, (m, int, dec, _s, unit) => {
+    const n = +int.replace(/\./g, ''); if (!Number.isSafeInteger(n) || n >= 1e12) return m;
+    let w = numberToWords(n, d);
+    if (dec !== undefined) w += ' coma ' + (dec.length > 1 && dec[0] === '0' ? [...dec].map(c => UNITS[+c]).join(' ') : numberToWords(+dec, d));
+    if (unit) w += ' ' + UNIT_W[unit][n === 1 && dec === undefined ? 0 : 1];
+    return w;
+  });
+  // digits glued to letters (MP3, COVID-19 is already done, x2): read the digits as a number
+  return text.replace(/\d+/g, m => ` ${Number.isSafeInteger(+m) && +m < 1e12 ? numberToWords(+m, d) : [...m].map(c => UNITS[+c]).join(' ')} `);
+}
+
 export function transcribe(text, dialect = 'Central', opts = {}) {
+  text = expandNumbers(text, dialect);
   const liaison = opts.liaison !== false;
   const toks = tokenize(text);
   const items = [];
@@ -453,9 +526,17 @@ function applyConnected(items, dialect) {
     let c = a.cipa, mod = false;
     let elided = false;
     // elision of the neutral vowel (una hora [unˈɔɾə], la escola [ləsˈkɔlə]): Central, Balearic, Northern
-    if (lat && bv && ELIDE.has(a.word.toLowerCase()) && !(['la', 'una'].includes(a.word.toLowerCase()) && /^[iu]/.test(b.cipa)) && /[^ə]ə$/.test(c.replace(/[ˈˌ]/g, '')) && !a.hyphenBefore) {
+    const fn = ELIDE.has(a.word.toLowerCase());
+    // ... and two neutral vowels across content words fuse (aquesta escola [əˈkɛs.təsˈkɔ.lə]): final unstressed ə + initial unstressed ə
+    // the onset of the lost syllable moves to the next word (una altra amiga [ˈal.tɾəˈmi.ɣə]); only before a stressed word
+    if (lat && !fn && !a.hyphenBefore && !b.hyphenBefore && /^ə/.test(b.cipa) && /ˈ/.test(b.cipa) && /[^ə]ə$/.test(c) && !/[ˈˌ][^.]*$/.test(c) && c.includes('.')) {
+      const syls = c.split('.'), onset = syls.pop().slice(0, -1);
+      a.cipa = syls.join('.') + '.'; b.cipa = onset + b.cipa; b.joinPrev = true; a.connected = b.connected = true;
+      continue;
+    }
+    if (lat && bv && fn && !(['la', 'una'].includes(a.word.toLowerCase()) && /^[iu]/.test(b.cipa)) && /[^ə]ə$/.test(c.replace(/[ˈˌ]/g, '')) && !a.hyphenBefore) {
       c = c.replace(/\.?ə$/, ''); a.cipa = c; a.connected = true; elided = true;
-      a.cipa = a.cipa.replace(/[ˈˌ]/g, ''); c = a.cipa;
+      if (fn) a.cipa = a.cipa.replace(/[ˈˌ]/g, ''); c = a.cipa;
     }
     // sinalefa: unstressed initial i/u/o of the next word becomes a glide after a vowel (serà inútil [səˈɾa jˈnutiɫ])
     if (!elided && bv && /[aeɛoɔ]$|ˈ[^.]*[iu]$/.test(c) && !/ə$/.test(c) && /^[iuo]/.test(b.cipa) && /^[iuo][^aeiouɛɔəɐ]*[ˈ.]?[^]*[aeiouɛɔəɐ]/.test(b.cipa)) {
@@ -526,7 +607,7 @@ function applyConnected(items, dialect) {
     const L = items[last];
     let ci = L.ipa.replace(/^[ˈˌ]/, '');
     if (/^[bdɡ]/.test(ci) && /[aeiouɛɔəɐ]$/.test(items[last - 1].cipa.replace(/\.$/, ''))) ci = ({ b: 'β', d: 'ð', ɡ: 'ɣ' })[ci[0]] + ci.slice(1);
-    L.cipa = 'ˈ' + ci;
+    L.cipa = /ˈ/.test(ci) ? ci : 'ˈ' + ci; // vint-i-unè keeps its own stress
     L.connected = true;
     for (let k = i; k < last; k++) items[k].connected = true;
   }

@@ -936,5 +936,265 @@
   "dialect": "Central",
   "liaison": false,
   "expect": "ləs ˈdɔ.nəs ˈdi.wən ˈbɔn ˈdi.ə"
+ },
+ {
+  "text": "pastoreta",
+  "dialect": "Central",
+  "expect": "pəs.tuˈɾɛ.tə"
+ },
+ {
+  "text": "paquet",
+  "dialect": "Central",
+  "expect": "pəˈkɛt"
+ },
+ {
+  "text": "bicicleta",
+  "dialect": "Central",
+  "expect": "bi.siˈklɛ.tə"
+ },
+ {
+  "text": "satisfet",
+  "dialect": "Central",
+  "expect": "sə.tisˈfet"
+ },
+ {
+  "text": "secreta",
+  "dialect": "Central",
+  "expect": "səˈkɾe.tə"
+ },
+ {
+  "text": "aquesta escola",
+  "dialect": "Central",
+  "expect": "əˈkɛs.təsˈkɔ.lə"
+ },
+ {
+  "text": "una altra amiga",
+  "dialect": "Central",
+  "expect": "uˈnal.tɾəˈmi.ɣə"
+ },
+ {
+  "text": "Barcelona és gran",
+  "dialect": "Central",
+  "expect": "bər.səˈlo.nə ez ˈɣɾan"
+ },
+ {
+  "text": "Tinc 3 gats i 25 km.",
+  "dialect": "Central",
+  "expect": "ˈtiŋ ˈtɾɛz ˈɣats iˌβin.tiˈsiŋ kiˈlɔ.mə.tɾəs"
+ },
+ {
+  "text": "El 1990 i el 2,5%.",
+  "dialect": "Central",
+  "expect": "əlˈmil ˈnɔw.senz nuˈɾan.tə i.əlˈdos ˈko.mə ˈsiŋ pərˈsen"
+ },
+ {
+  "text": "La 5a planta i el 21è aniversari.",
+  "dialect": "Central",
+  "expect": "lə.siŋˈkɛ.nə ˈplan.tə i.əlˌβin.ti.uˈnɛ ə.ni.βərˈsa.ɾi"
+ },
+ {
+  "text": "Les 18 h, 1 € i 2 kg.",
+  "dialect": "Central",
+  "expect": "ləz.ðiˈβujt ˈɔ.ɾəs uˈnɛw.ɾu iˈðos ki.luˈɣɾams"
+ },
+ {
+  "text": "COVID-19 i la covid.",
+  "dialect": "Central",
+  "expect": "koˈβid diˈnɔw i.lə.koˈβit"
+ },
+ {
+  "text": "pastoreta",
+  "dialect": "Valencia",
+  "expect": "pas.toˈɾe.ta"
+ },
+ {
+  "text": "paquet",
+  "dialect": "Valencia",
+  "expect": "paˈket"
+ },
+ {
+  "text": "bicicleta",
+  "dialect": "Valencia",
+  "expect": "bi.siˈkle.ta"
+ },
+ {
+  "text": "satisfet",
+  "dialect": "Valencia",
+  "expect": "sa.tisˈfet"
+ },
+ {
+  "text": "secreta",
+  "dialect": "Valencia",
+  "expect": "seˈkɾe.ta"
+ },
+ {
+  "text": "aquesta escola",
+  "dialect": "Valencia",
+  "expect": "aˈkes.ta esˈkɔ.la"
+ },
+ {
+  "text": "una altra amiga",
+  "dialect": "Valencia",
+  "expect": "ˈu.na ˈal.tɾa aˈmi.ɣa"
+ },
+ {
+  "text": "Barcelona és gran",
+  "dialect": "Valencia",
+  "expect": "baɾ.seˈlo.na ez ˈɣɾan"
+ },
+ {
+  "text": "Tinc 3 gats i 25 km.",
+  "dialect": "Valencia",
+  "expect": "ˈtiŋk ˈtɾez ˈɣats iˌvin.tiˈsiŋk kiˈlɔ.me.tɾes"
+ },
+ {
+  "text": "El 1990 i el 2,5%.",
+  "dialect": "Valencia",
+  "expect": "elˈmil ˈnɔw.senz noˈɾan.ta i.elˈdos ˈko.ma ˈsiŋk perˈsent"
+ },
+ {
+  "text": "La 5a planta i el 21è aniversari.",
+  "dialect": "Valencia",
+  "expect": "la.siŋˈke.na ˈplan.ta i.elˌvin.ti.uˈnɛ a.ni.veɾˈsa.ɾi"
+ },
+ {
+  "text": "Les 18 h, 1 € i 2 kg.",
+  "dialect": "Valencia",
+  "expect": "lezˈði.wit ˈɔ.ɾes uˈnew.ɾo iˈðos ki.loˈɣɾams"
+ },
+ {
+  "text": "COVID-19 i la covid.",
+  "dialect": "Valencia",
+  "expect": "koˈvid ˈdɛ.now i.la.koˈvit"
+ },
+ {
+  "text": "pastoreta",
+  "dialect": "Northwestern",
+  "expect": "pas.toˈɾe.ta"
+ },
+ {
+  "text": "paquet",
+  "dialect": "Northwestern",
+  "expect": "paˈket"
+ },
+ {
+  "text": "bicicleta",
+  "dialect": "Northwestern",
+  "expect": "bi.siˈkle.ta"
+ },
+ {
+  "text": "satisfet",
+  "dialect": "Northwestern",
+  "expect": "sa.tisˈfet"
+ },
+ {
+  "text": "secreta",
+  "dialect": "Northwestern",
+  "expect": "seˈkɾe.ta"
+ },
+ {
+  "text": "aquesta escola",
+  "dialect": "Northwestern",
+  "expect": "aˈkes.ta esˈkɔ.la"
+ },
+ {
+  "text": "una altra amiga",
+  "dialect": "Northwestern",
+  "expect": "ˈu.na ˈal.tɾa aˈmi.ɣa"
+ },
+ {
+  "text": "Barcelona és gran",
+  "dialect": "Northwestern",
+  "expect": "bar.seˈlo.na ez ˈɣɾan"
+ },
+ {
+  "text": "Tinc 3 gats i 25 km.",
+  "dialect": "Northwestern",
+  "expect": "ˈtiŋ ˈtɾez ˈɣats iˌβin.tiˈsiŋ kiˈlɔ.me.tɾes"
+ },
+ {
+  "text": "El 1990 i el 2,5%.",
+  "dialect": "Northwestern",
+  "expect": "elˈmil ˈnɔw.senz noˈɾan.ta i.elˈdos ˈko.ma ˈsiŋ perˈsen"
+ },
+ {
+  "text": "La 5a planta i el 21è aniversari.",
+  "dialect": "Northwestern",
+  "expect": "la.siŋˈke.na ˈplan.ta i.elˌβin.ti.uˈnɛ a.ni.βerˈsa.ɾi"
+ },
+ {
+  "text": "Les 18 h, 1 € i 2 kg.",
+  "dialect": "Northwestern",
+  "expect": "lez.ðiˈβujt ˈɔ.ɾes uˈnew.ɾo iˈðos ki.loˈɣɾams"
+ },
+ {
+  "text": "COVID-19 i la covid.",
+  "dialect": "Northwestern",
+  "expect": "koˈβid diˈnɔw i.la.koˈβit"
+ },
+ {
+  "text": "pastoreta",
+  "dialect": "Balearic",
+  "expect": "pəs.toˈɾə.tə"
+ },
+ {
+  "text": "paquet",
+  "dialect": "Balearic",
+  "expect": "pəˈkət"
+ },
+ {
+  "text": "bicicleta",
+  "dialect": "Balearic",
+  "expect": "bi.siˈklə.tə"
+ },
+ {
+  "text": "satisfet",
+  "dialect": "Balearic",
+  "expect": "sə.tisˈfet"
+ },
+ {
+  "text": "secreta",
+  "dialect": "Balearic",
+  "expect": "səˈkɾə.tə"
+ },
+ {
+  "text": "aquesta escola",
+  "dialect": "Balearic",
+  "expect": "əˈkəs.təsˈkɔ.lə"
+ },
+ {
+  "text": "una altra amiga",
+  "dialect": "Balearic",
+  "expect": "uˈnal.tɾəˈmi.ɣə"
+ },
+ {
+  "text": "Barcelona és gran",
+  "dialect": "Balearic",
+  "expect": "bər.səˈlo.nə əz ˈɣɾan"
+ },
+ {
+  "text": "Tinc 3 gats i 25 km.",
+  "dialect": "Balearic",
+  "expect": "ˈtiŋk ˈtɾəz ˈɣats iˌvin.tiˈsiŋk kiˈlɔ.mə.tɾəs"
+ },
+ {
+  "text": "El 1990 i el 2,5%.",
+  "dialect": "Balearic",
+  "expect": "əlˈmil ˈnɔw.senz noˈɾan.tə i.əlˈdos ˈko.mə ˈsiŋk pərˈsent"
+ },
+ {
+  "text": "La 5a planta i el 21è aniversari.",
+  "dialect": "Balearic",
+  "expect": "lə.siŋˈkə.nə ˈplan.tə i.əlˌvin.ti.uˈnə ə.ni.vərˈsa.ɾi"
+ },
+ {
+  "text": "Les 18 h, 1 € i 2 kg.",
+  "dialect": "Balearic",
+  "expect": "ləz.ðəˈvujt ˈɔ.ɾəs uˈnɛw.ɾo iˈðos ki.luˈɣɾams"
+ },
+ {
+  "text": "COVID-19 i la covid.",
+  "dialect": "Balearic",
+  "expect": "koˈvid dəˈnɔw i.lə.koˈvit"
  }
 ]
