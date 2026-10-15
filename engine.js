@@ -348,10 +348,10 @@ const CLITIC = { __proto__: null, l: 'l', d: 'd', m: 'm', t: 't', s: 's', n: 'n'
 // Unstressed function words (many are missing from the lexicon). Order: Central|Valencia|Northwestern|Balearic|Northern
 const FUNC = { __proto__: null,
   que: 'kə|ke|ke|kə|kə', el: 'əl|el|el|əl|əl', els: 'əls|els|els|əls|əls', la: 'lə|la|la|lə|lə', les: 'ləs|les|les|ləs|ləs',
-  de: 'də|de|de|də|də', 'amb': 'əm|em|em|əm|əm', 'en': 'ən|en|en|ən|ən', 'un': 'un|un|un|un|un', 'una': 'ˈu.nə|ˈu.na|ˈu.na|ˈu.nə|ˈu.nə',
+  de: 'də|de|de|də|də', 'amb': 'əm|am|am|əm|əm', 'en': 'ən|en|en|ən|ən', 'un': 'un|un|un|un|un', 'una': 'ˈu.nə|ˈu.na|ˈu.na|ˈu.nə|ˈu.nə',
   'per': 'pər|per|per|pər|pər', 'a': 'ə|a|a|ə|ə', 'i': 'i|i|i|i|i', 'o': 'u|o|o|o|u', 'se': 'sə|se|se|sə|sə', 'li': 'li|li|li|li|li', 'em': 'əm|em|em|əm|əm',
   al: 'əl|al|al|əl|əl', als: 'əls|als|als|əls|əls', del: 'dəl|del|del|dəl|dəl', dels: 'dəls|dels|dels|dəls|dəls', pel: 'pəl|pel|pel|pəl|pəl', pels: 'pəls|pels|pels|pəls|pəls', es: 'əs|es|es|əs|əs', sa: 'sə|sa|sa|sə|sə', ses: 'səs|ses|ses|səs|səs',
-  'et': 'ət|et|et|ət|ət', 'ens': 'əns|ens|ens|əns|əns', 'us': 'us|us|us|us|us', 'ho': 'u|o|o|u|u', 'ja': 'ˈʒa|ˈd͡ʒa|ˈja|ˈʒa|ˈʒa', 'hi': 'i|i|i|i|i', 'mes': 'ˈməs|ˈmes|ˈmes|ˈməs|ˈməs',
+  'et': 'ət|et|et|ət|ət', 'ens': 'əns|ens|ens|əns|əns', 'us': 'us|us|us|us|us', 'ho': 'u|o|o|u|u', 'ja': 'ˈʒa|ˈja|ˈd͡ʒa|ˈʒa|ˈʒa', 'hi': 'i|i|i|i|i', 'mes': 'ˈmes|ˈmes|ˈmes|ˈməs|ˈme̞s',
 };
 
 function derive(key, dialect) {
@@ -436,6 +436,7 @@ export function transcribe(text, dialect = 'Central', opts = {}) {
 
 // ---- connected speech (phrase level) ----
 const PROCLITIC = new Set(['sant', 'sants', 'santa', 'santes', 'don', 'dona', 'na', 'en', 'el', 'la', 'els', 'les', 'de', 'que', 'amb', 'per', 'a', 'un', 'i', 'o', 'se', 'li', 'em', 'et', 'ens', 'us', 'ho', 'hi', 'mon', 'ton', 'son', 'al', 'als', 'del', 'dels', 'pel', 'pels', 'es', 'sa', 'ses']);
+const TITLE = new Set(['sant', 'sants', 'santa', 'santes', 'don', 'dona', 'na']);
 const ELIDE = new Set(['la', 'una', 'de', 'que', 'se', 'sa', 'ma', 'ta']);
 const PALATAL_START = /^[ˈˌ]?(t͡ʃ|d͡ʒ|tʃ|dʒ|ʃ|ʒ|ɲ|ʎ)/;
 const VOWEL_START = /^[ˈˌ]?[aeiouɛɔəɐ]/;
@@ -485,11 +486,21 @@ function applyConnected(items, dialect) {
       if (m) { c = c.slice(0, -1) + m; mod = true; }
     }
     if (mod) { a.cipa = c; a.connected = true; }
+    // lenition across words (GIEC 4.4): initial b d g -> β ð ɣ after a vowel, glide, rhotic or fricative (la dona [lə ˈðɔ.nə]);
+    // not after a nasal or a stop, and d not after a lateral (el dia). Valencian and Balearic notation keeps b (no β in the lexicon).
+    const ini = /^([ˈˌ]?)([bdɡg])(?!͡)/.exec(b.cipa);
+    const fin = c.replace(/[.ˈˌ]+$/, '').slice(-1);
+    if (ini && c && (/[aeiouɛɔəɐjw̞rɾzsʒʃfvβðɣ]/.test(fin) || (/[lʎ]/.test(fin) && ini[2] !== 'd'))) {
+      const len = { b: ['Valencia', 'Balearic'].includes(dialect) ? 'b' : 'β', d: 'ð', ɡ: 'ɣ', g: 'ɣ' }[ini[2]];
+      if (len !== ini[2]) { b.cipa = ini[1] + len + b.cipa.slice(ini[0].length); b.connected = true; }
+    }
     // phonological words: proclitic + host, host + hyphenated clitic
-    const joined = elided || (PROCLITIC.has(a.word.toLowerCase()) && !a.hyphenBefore) || b.hyphenBefore;
+    // titles (sant, dona, na...) are unstressed only before a name: la dona va, la santa creu keep their stress
+    const procl = PROCLITIC.has(a.word.toLowerCase()) && !(TITLE.has(a.word.toLowerCase()) && !/^\p{Lu}/u.test(b.word));
+    const joined = elided || (procl && !a.hyphenBefore) || b.hyphenBefore;
     if (joined) {
       b.joinPrev = true;
-      if (PROCLITIC.has(a.word.toLowerCase()) && !b.hyphenBefore) a.cipa = a.cipa.replace(/[ˈˌ]/g, '');
+      if (procl && !b.hyphenBefore) a.cipa = a.cipa.replace(/[ˈˌ]/g, '');
       if (b.hyphenBefore) b.cipa = b.cipa.replace(/[ˈˌ]/g, '');
       // resyllabify: last consonant moves to the next vowel; add a syllable dot between joined words
       const st = /^[ˈˌ]/.test(b.cipa) ? b.cipa[0] : '';
