@@ -9,7 +9,9 @@ const V = 'aeiouəɛɔɐ';
 const CODA = new RegExp(`[rɾ](?=$|[.ˈˌ]?[^${V}jw.ˈˌ])`, 'g');
 
 export function toLexicon(ipa, variety) {
-  let s = ipa.normalize('NFC').replace(/[\/\[\]]/g, '').trim().replace(/ɫ/g, 'l');
+  // typos in hand-written IPA: ASCII g and c, retroflex ɳ, accented vowels
+  let s = ipa.normalize('NFC').replace(/[\/\[\]]/g, '').trim().replace(/ɫ/g, 'l')
+    .replace(/g/g, 'ɡ').replace(/c/g, 'k').replace(/ɳ/g, 'ŋ').replace(/[áà]/g, 'a').replace(/[éè]/g, 'e').replace(/[íì]/g, 'i').replace(/[óò]/g, 'o').replace(/[úù]/g, 'u');
   if (variety === 'valencia') return s.replace(CODA, 'ɾ').replace(/β/g, 'b');
   s = s.replace(CODA, 'r').replace(/r([.ˈˌ]?)ð/g, 'r$1d').replace(/r([.ˈˌ]?)ɣ/g, 'r$1ɡ').replace(/r([.ˈˌ]?)β/g, 'r$1b');
   if (variety === 'balear') return s.replace(/β/g, 'b');
