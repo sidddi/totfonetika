@@ -1196,5 +1196,125 @@
   "text": "COVID-19 i la covid.",
   "dialect": "Balearic",
   "expect": "koˈvid dəˈnɔw i.lə.koˈvit"
+ },
+ {
+  "text": "La UE i la CUP.",
+  "dialect": "Central",
+  "expect": "ləˌuˈɛ i.ləˈkup"
+ },
+ {
+  "text": "Mira TV3 i la BBC.",
+  "dialect": "Central",
+  "expect": "ˈmi.ɾə ˌteˈβe ˈtɾɛz i.ləˌβeˌβeˈse"
+ },
+ {
+  "text": "Fitxer MP3 a la UPC.",
+  "dialect": "Central",
+  "expect": "fiˈt͡ʃe ˌe.məˈpe ˈtɾɛz ə.ləˌuˌpeˈse"
+ },
+ {
+  "text": "La NASA i l'OTAN.",
+  "dialect": "Central",
+  "expect": "ləˈna.zə i.luˈtan"
+ },
+ {
+  "text": "LA CASA ÉS GRAN I BONICA",
+  "dialect": "Central",
+  "expect": "ləˈka.zə ez ˈɣɾan i.βuˈni.kə"
+ },
+ {
+  "text": "la illa i la una",
+  "dialect": "Central",
+  "expect": "ləˈi.ʎə i.ləˈu.nə"
+ },
+ {
+  "text": "La UE i la CUP.",
+  "dialect": "Valencia",
+  "expect": "laˌuˈe i.laˈkup"
+ },
+ {
+  "text": "Mira TV3 i la BBC.",
+  "dialect": "Valencia",
+  "expect": "ˈmi.ɾa ˌteˈve ˈtɾes i.laˌbeˌbeˈse"
+ },
+ {
+  "text": "Fitxer MP3 a la UPC.",
+  "dialect": "Valencia",
+  "expect": "fiˈt͡ʃeɾ ˌe.maˈpe ˈtɾes a.laˌuˌpeˈse"
+ },
+ {
+  "text": "La NASA i l'OTAN.",
+  "dialect": "Valencia",
+  "expect": "laˈna.za i.loˈtan"
+ },
+ {
+  "text": "LA CASA ÉS GRAN I BONICA",
+  "dialect": "Valencia",
+  "expect": "laˈka.za ez ˈɣɾan i.boˈni.ka"
+ },
+ {
+  "text": "la illa i la una",
+  "dialect": "Valencia",
+  "expect": "laˈi.ʎa i.laˈu.na"
+ },
+ {
+  "text": "La UE i la CUP.",
+  "dialect": "Northwestern",
+  "expect": "laˌuˈe i.laˈkup"
+ },
+ {
+  "text": "Mira TV3 i la BBC.",
+  "dialect": "Northwestern",
+  "expect": "ˈmi.ɾa ˌteˈβe ˈtɾes i.laˌβeˌβeˈse"
+ },
+ {
+  "text": "Fitxer MP3 a la UPC.",
+  "dialect": "Northwestern",
+  "expect": "fiˈt͡ʃe ˌe.maˈpe ˈtɾes a.laˌuˌpeˈse"
+ },
+ {
+  "text": "La NASA i l'OTAN.",
+  "dialect": "Northwestern",
+  "expect": "laˈna.za i.loˈtan"
+ },
+ {
+  "text": "LA CASA ÉS GRAN I BONICA",
+  "dialect": "Northwestern",
+  "expect": "laˈka.za ez ˈɣɾan i.βoˈni.ka"
+ },
+ {
+  "text": "la illa i la una",
+  "dialect": "Northwestern",
+  "expect": "laˈi.ʎa i.laˈu.na"
+ },
+ {
+  "text": "La UE i la CUP.",
+  "dialect": "Balearic",
+  "expect": "ləˌuˈɛ i.ləˈkup"
+ },
+ {
+  "text": "Mira TV3 i la BBC.",
+  "dialect": "Balearic",
+  "expect": "ˈmi.ɾə ˌteˈve ˈtɾəz i.ləˌbeˌbeˈse"
+ },
+ {
+  "text": "Fitxer MP3 a la UPC.",
+  "dialect": "Balearic",
+  "expect": "fiˈt͡ʃe ˌe.məˈpe ˈtɾəz ə.ləˌuˌpeˈse"
+ },
+ {
+  "text": "La NASA i l'OTAN.",
+  "dialect": "Balearic",
+  "expect": "ləˈna.zə i.loˈtan"
+ },
+ {
+  "text": "LA CASA ÉS GRAN I BONICA",
+  "dialect": "Balearic",
+  "expect": "ləˈka.zə əz ˈɣɾan i.buˈni.kə"
+ },
+ {
+  "text": "la illa i la una",
+  "dialect": "Balearic",
+  "expect": "ləˈi.ʎə i.ləˈu.nə"
  }
 ]
