@@ -6,6 +6,11 @@ Per varietat: Balear 151, Central 81, Nord-occidental 57, Valencià 42. Ordenats
 
 Per decidir: marqueu la columna correcta (L = lexicó, V = Viccionari) i passeu-me la llista; s'aplica amb `tools/cawikt/vowelfix.mjs`.
 
+**Estat (octubre 2026):** revisats els 39 primers amb el propietari. Aplicats 12: B (Viccionari) a assemblea central, concepte NO/val,
+termes central, excepte NO, coronel NO/val, aparell central, recerques NO/val; C (ə mallorquina) a atleta i esquema en balear.
+La resta (A) es queden com eren. Els marcats «?» i els 292 següents **no es canvien**: amb dues fonts en desacord i la tercera que
+no confirma el Viccionari, es manté el lexicó (criteri prudent, decidit pel propietari).
+
 | # | Paraula | Varietat | Lexicó (ara) | Viccionari | eSpeak | Rang |
 |---|---|---|---|---|---|---|
 | 1 | saber | Balear | səˈbə | səˈbɛ | səβˈə | 323 |
