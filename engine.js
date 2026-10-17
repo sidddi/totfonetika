@@ -16,7 +16,7 @@ const ACC = { 'à': 'a', 'è': 'e', 'é': 'e', 'í': 'i', 'ò': 'o', 'ó': 'o', 
 export function tokenize(text) {
   // words incl. l·l, apostrophes and hyphens kept as separators
   const out = [];
-  const re = /([\p{L}·]+)|([’'‑-])|(\s+)|([^\p{L}\s’'‑-]+)/gu;
+  const re = /([\p{L}\p{M}·]+)|([’'‑-])|(\s+)|([^\p{L}\p{M}\s’'‑-]+)/gu;
   let m;
   while ((m = re.exec(text))) {
     if (m[1]) out.push({ t: 'w', s: m[1] });
@@ -228,6 +228,8 @@ function render(word, dialect) {
       // b before a consonant stays b (voiced) or devoices to p (subjecte, subterfugi, subsòl); it is not a spirant
       if (['p', 't', 'k', 'f', 's', 'ʃ', 't͡ʃ', 'tʃ', 't͡s', 'ts'].includes(units[i + 1].p)) x.p = 'p';
     } else if (x.p === 'b' && (prevV || (p && ['l','ʃ','ʒ','f','v'].includes(p.p)))) x.p = 'β';
+    // d in the coda after a vowel, before a consonant, is not an approximant (advers [ədˈbɛrs]); Balearic assimilates it to b before v [əbˈvɛrs]
+    else if (x.p === 'd' && prevV && units[i + 1] && units[i + 1].k === 'C' && !['ɾ', 'r', 'l', 'ʎ'].includes(units[i + 1].p)) { if (dialect === 'Balearic' && units[i + 1].p === 'v') x.p = 'b'; }
     else if (x.p === 'd' && (prevV || (p && (dialect === 'Valencia' ? ['ɾ','s','z','ʃ','ʒ','f','v'] : ['ɾ','ʃ','ʒ','f','v']).includes(p.p)))) x.p = 'ð';
     else if (x.p === 'ɡ' && (prevV || (p && ['ɾ','ʃ','ʒ','f','v'].includes(p.p)))) x.p = 'ɣ';
   });
@@ -350,6 +352,23 @@ function fromLex(entry, dialect) {
   return out;
 }
 
+// me/te are pronouns before an elided clitic (me'n, te l'), after a hyphen (porta-me-la) or before a weak pronoun
+// (me la dona, te ho dic); after a determiner they are nouns or letters (el te verd, una tassa de te)
+const WEAK_NEXT = new Set(['la', 'les', 'lo', 'los', 'ho', 'hi', 'ne']);
+const DET = new Set(['el', 'un', 'del', 'al', 'pel', 'de', 'aquest', 'aquell', 'quin', 'cap', 'bon', 'mal', 'més', 'molt', 'poc', 'meu', 'teu', 'seu', 'nostre', 'vostre', 'gran', 'bo']);
+function weakPronoun(toks, i, hyph, items) {
+  const k = keyOf(toks[i].s); if (k !== 'me' && k !== 'te') return false;
+  if (hyph) return true;
+  const n1 = toks[i + 1], n2 = toks[i + 2];
+  if (n1 && n1.t === 'sep' && (n1.s === "'" || n1.s === '’') && n2 && n2.t === 'w' && ENCLITIC[keyOf(n2.s)]) return true;
+  const prev = [...items].reverse().find(x => x.source !== 'punct' || x.word);
+  if (prev && prev.source !== 'punct' && DET.has(keyOf(prev.word))) return false;
+  let j = i + 1; while (toks[j] && toks[j].t === 'sp') j++;
+  const nw = toks[j]; if (!nw || nw.t !== 'w' || j === i + 1) return false;
+  const nk = keyOf(nw.s), after = toks[j + 1];
+  if (WEAK_NEXT.has(nk)) return true;
+  return ['l', 'n', 'm', 's'].includes(nk) && after && after.t === 'sep' && (after.s === "'" || after.s === '’');
+}
 const ENCLITIC = { __proto__: null, l: 'l', ls: 'ls', n: 'n', m: 'm', t: 't', s: 's', ns: 'ns', hi: 'j', ho: 'w' };
 const CLITIC = { __proto__: null, l: 'l', d: 'd', m: 'm', t: 't', s: 's', n: 'n', 'qu': 'k' };
 
@@ -406,9 +425,13 @@ function spellAcronym(word, dialect) {
   return { word, source: 'rules', alts: [ipa], ipa, note: 'acronym' };
 }
 
+// canonical NFC (raïm typed as i + combining diaeresis is the same word); marks left after NFC have no Catalan letter
+const nfc = w => w.normalize('NFC');
+const keyOf = w => nfc(w).toLowerCase().replace(/\p{M}/gu, '');
 export function transcribeWord(word, dialect = 'Central') {
+  word = nfc(word);
   const sp = spellAcronym(word, dialect); if (sp) return sp;
-  const key = word.toLowerCase();
+  const key = keyOf(word);
   if (FUNC[key]) { const alts = fromLex(FUNC[key], dialect); if (alts.length) return { word, source: 'lexicon', alts, ipa: alts[0], note: 'function word' }; }
   if (LEX && LEX[key]) {
     const alts = fromLex(LEX[key], dialect);
@@ -489,7 +512,7 @@ function expandNumbers(text, d) {
 }
 
 export function transcribe(text, dialect = 'Central', opts = {}) {
-  text = expandNumbers(text, dialect);
+  text = expandNumbers(nfc(String(text)), dialect);
   const caps = (text.match(/\p{L}{2,}/gu) || []);
   SPELL = !(caps.length >= 3 && caps.filter(w => w === w.toUpperCase()).length / caps.length > 0.6);
   try { return transcribeText(text, dialect, opts); } finally { SPELL = true; }
@@ -517,6 +540,10 @@ function transcribeText(text, dialect, opts) {
         const e = ENCLITIC[t.s.toLowerCase()], prev = items[items.length - 1];
         prev.word += "'" + t.s; prev.ipa += e; prev.alts = prev.alts.map(a => a + e); prev.note = 'clitic';
         apos = false; continue;
+      } else if (weakPronoun(toks, i, hyph, items)) {
+        // me/te as weak pronouns are unstressed: Central/Balearic mə tə, Western me te (me'n vaig, porta-me-la, te la dona)
+        const f = ({ me: ['mə', 'me'], te: ['tə', 'te'] })[keyOf(t.s)][['Valencia', 'Northwestern'].includes(dialect) ? 1 : 0];
+        it = { word: t.s, source: 'lexicon', alts: [f], ipa: f, note: 'function word', weak: true };
       } else it = transcribeWord(t.s, dialect);
       apos = false;
       if (hyph) it.hyphenBefore = true;
@@ -585,8 +612,9 @@ function applyConnected(items, dialect) {
     if (bv && b.hyphenBefore && /r$/i.test(a.word) && !/[ɾr]$/.test(c)) { c += 'ɾ'; mod = true; }
     // final ʃ / t͡ʃ voice before a vowel or a voiced consonant (cruix el dit [kɾuʒ əl], vaig de bòlit [bad͡ʒ də])
     if ((bv || (bc && VOICED.has(bc))) && /ʃ$/.test(c) && !/ʃ[ʒ]/.test(c)) { c = /t͡ʃ$/.test(c) ? c.replace(/t͡ʃ$/, 'd͡ʒ') : c.slice(0, -1) + 'ʒ'; mod = true; }
-    // s -> z before a vowel (central-type) or a voiced consonant (all)
-    if (/s$/.test(c) && !/ts$/.test(c) && ((lat && bv) || (bc && VOICED.has(bc)))) { c = c.slice(0, -1) + 'z'; mod = true; }
+    // final s -> z and ts -> dz before a vowel or a voiced consonant, all four varieties (gats amics [ˈɡad͡z əˈmiks],
+    // les amigues [le.zaˈmi.ɣes]); UB transcription guide, GBU 2.3, Optimot 7978/2. No apitxat variety is offered.
+    if (/s$/.test(c) && (bv || (bc && VOICED.has(bc)))) { c = /t͡?s$/.test(c) ? c.replace(/t͡?s$/, 'd͡z') : c.slice(0, -1) + 'z'; mod = true; }
     // final p t k voice before a voiced consonant
     else if (/[ptk]$/.test(c) && bc && VOICED.has(bc) && !/[ʃ]$/.test(c)) { c = c.slice(0, -1) + { p: 'b', t: 'd', k: 'ɡ' }[c.slice(-1)]; mod = true; }
     // final n assimilates to the next consonant
@@ -605,7 +633,7 @@ function applyConnected(items, dialect) {
     }
     // phonological words: proclitic + host, host + hyphenated clitic
     // titles (sant, dona, na...) are unstressed only before a name: la dona va, la santa creu keep their stress
-    const procl = PROCLITIC.has(a.word.toLowerCase()) && !(TITLE.has(a.word.toLowerCase()) && !/^\p{Lu}/u.test(b.word));
+    const procl = (PROCLITIC.has(a.word.toLowerCase()) || a.weak) && !(TITLE.has(a.word.toLowerCase()) && !/^\p{Lu}/u.test(b.word));
     const joined = elided || (procl && !a.hyphenBefore) || b.hyphenBefore;
     if (joined) {
       b.joinPrev = true;

@@ -41,6 +41,8 @@ export function mount(root, { lexicon, lemmas = null, lang = 'ca' } = {}) {
     const o = { syll: st.syll, stress: st.stress, brackets: st.brackets };
     const q = DIALECTS.find(d => d.id === st.dialect).quality;
     const qLabel = q === 'good' ? L.qualityGood : q === 'medium' ? L.qualityMedium : L.qualityLow;
+    // the page language follows the UI; Catalan input, examples and words keep lang="ca", IPA keeps ca-fonipa
+    if (root.ownerDocument) root.ownerDocument.documentElement.lang = st.lang;
     root.innerHTML = `
 <div class="tf">
   <header class="tf-head">
@@ -48,8 +50,8 @@ export function mount(root, { lexicon, lemmas = null, lang = 'ca' } = {}) {
     <div class="tf-lang" role="group" aria-label="${({ ca: 'Idioma', es: 'Idioma', en: 'Language' })[st.lang]}">${['ca', 'es', 'en'].map(l => `<button class="tf-chip ${l === st.lang ? 'on' : ''}" data-lang="${l}">${l.toUpperCase()}</button>`).join('')}</div>
   </header>
   <section class="tf-card">
-    <textarea id="tf-in" rows="4" placeholder="${esc(L.placeholder)}" aria-label="${esc(L.placeholder)}">${esc(st.text)}</textarea>
-    <div class="tf-examples"><span>${esc(L.examples)}:</span>${EXAMPLES.map((e, i) => `<button class="tf-chip" data-ex="${i}">${esc(e)}</button>`).join('')}</div>
+    <textarea id="tf-in" lang="ca" rows="4" placeholder="${esc(L.placeholder)}" aria-label="${esc(L.placeholder)}">${esc(st.text)}</textarea>
+    <div class="tf-examples"><span>${esc(L.examples)}:</span>${EXAMPLES.map((e, i) => `<button class="tf-chip" lang="ca" data-ex="${i}">${esc(e)}</button>`).join('')}</div>
     <div class="tf-row"><span class="tf-label">${esc(L.dialect)}</span>
       <div class="tf-seg" role="radiogroup">${DIALECTS.map(d => `<button role="radio" aria-checked="${d.id === st.dialect}" class="tf-seg-b ${d.id === st.dialect ? 'on' : ''}" data-d="${d.id}">${esc(d.label[st.lang])}</button>`).join('')}</div>
     </div>
@@ -67,7 +69,7 @@ export function mount(root, { lexicon, lemmas = null, lang = 'ca' } = {}) {
     <div class="tf-out"><div class="tf-big" lang="ca-fonipa">${esc(wrap(lineOf(items, o), o))}</div>
       <div class="tf-actions"><button class="tf-btn" data-a="copy">${esc(st.copied ? L.copied : st.copyFailed ? L.copyFail : L.copy)}</button><button class="tf-btn ghost" data-a="txt">${esc(L.txt)}</button><button class="tf-btn ghost" data-a="csv">${esc(L.csv)}</button></div></div>
     <h3>${esc(L.words)}</h3>
-    <ul class="tf-words">${words.map(x => `<li><span class="w">${esc(x.word)}</span><span class="i" lang="ca-fonipa">${esc(wrap(fmt(x.ipa, o), o))}</span><span class="b b-${x.source}${x.uncertain ? ' u' : ''}">${esc(srcLabel(x))}${x.liaison ? ' · ' + esc(L.liaisonBadge) : ''}${x.uncertain ? ' · ' + esc(L.unsure) : ''}</span>${x.alts.length > 1 ? `<span class="alts">${esc(L.others)}: ${x.alts.slice(1).map(a => esc(wrap(fmt(a, o), o))).join(' , ')}</span>` : ''}</li>`).join('')}</ul>
+    <ul class="tf-words">${words.map(x => `<li><span class="w" lang="ca">${esc(x.word)}</span><span class="i" lang="ca-fonipa">${esc(wrap(fmt(x.ipa, o), o))}</span><span class="b b-${x.source}${x.uncertain ? ' u' : ''}">${esc(srcLabel(x))}${x.liaison ? ' · ' + esc(L.liaisonBadge) : ''}${x.uncertain ? ' · ' + esc(L.unsure) : ''}</span>${x.alts.length > 1 ? `<span class="alts">${esc(L.others)}: ${x.alts.slice(1).map(a => esc(wrap(fmt(a, o), o))).join(' , ')}</span>` : ''}</li>`).join('')}</ul>
     ` : `<p class="tf-empty">${esc(L.empty)}</p>`}
     <p class="tf-note">${esc(L.qualityNote)}</p><p class="tf-note">${esc(L.noteSandhi)}</p>
   </section>
