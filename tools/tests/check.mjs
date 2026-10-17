@@ -83,6 +83,14 @@ for (const c of cases) {
   if (c.expect !== undefined && fold(got) !== fold(c.expect)) why.push(`esperat ${c.expect}`);
   if (c.match && !new RegExp(c.match, 'u').test(fold(got))) why.push(`ha de coincidir amb /${c.match}/`);
   if (c.notMatch && new RegExp(c.notMatch, 'u').test(fold(got))) why.push(`no ha de coincidir amb /${c.notMatch}/`);
+  if (c.items) {
+    const its = E.transcribe(input, c.dialect, { liaison: c.liaison !== false }).filter(x => x.source !== 'punct' && !x.hide);
+    for (const [w, src, unc] of c.items) {
+      const x = its.find(y => y.word === w);
+      if (!x) why.push(`falta el mot ${w}`);
+      else { if (src && x.source !== src) why.push(`${w}: font ${x.source}, esperada ${src}`); if (unc !== null && unc !== undefined && !!x.uncertain !== unc) why.push(`${w}: insegur=${!!x.uncertain}, esperat ${unc}`); }
+    }
+  }
   if (c.nfd) {
     const sig = t => JSON.stringify(E.transcribe(t, c.dialect).map(x => [x.word, x.ipa, x.cipa, x.source, !!x.hide]));
     const a = sig(c.text.normalize('NFC')), b = sig(c.text.normalize('NFD'));

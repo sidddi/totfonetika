@@ -113,6 +113,64 @@ for (const vp of [{ width: 1280, height: 900, name: 'escriptori' }, { width: 375
     await ctx.close();
   }
 }
+// --- revisió 17/10/2026: punts 6-9 ---
+{
+  const ctx = await browser.newContext({ viewport: { width: 1280, height: 900 } }); const p = await ctx.newPage();
+  const failedReq = []; p.on('response', r => { if (r.status() >= 400) failedReq.push(`${r.status()} ${r.url()}`); });
+  // 9. loading indicator while lexicon.json downloads (delayed on purpose)
+  let release; const gate = new Promise(r => (release = r));
+  await p.route('**/lexicon.json', async route => { await gate; route.continue(); });
+  await p.goto(URL);
+  const loading = await p.waitForSelector('[data-loading]', { timeout: 3000 }).then(e => e.evaluate(x => ({ text: x.textContent, role: x.getAttribute('role') }))).catch(() => null);
+  report(!!loading && /arrega/.test(loading.text) && loading.role === 'status', '9. indicador de càrrega mentre baixa lexicon.json', JSON.stringify(loading));
+  release(); await p.waitForSelector('textarea');
+  report(!(await p.$('[data-loading]')), '9. l\'indicador desapareix en acabar');
+  await p.unroute('**/lexicon.json');
+  // 8. favicon, noindex, no failed requests
+  const head = await p.evaluate(() => ({ icon: document.querySelector('link[rel~="icon"]')?.getAttribute('href'), robots: document.querySelector('meta[name="robots"]')?.content }));
+  const iconOk = head.icon ? (await p.request.get(new globalThis.URL(head.icon, URL).href)).status() === 200 : false;
+  report(iconOk && head.robots === 'noindex', '8. favicon servit i noindex', JSON.stringify(head));
+  // 6. the textarea is not re-created while typing; caret and accented letters survive
+  await p.fill('textarea', 'la casa'); await p.waitForTimeout(100);
+  await p.evaluate(() => { window.__ta = document.querySelector('textarea'); });
+  await p.focus('textarea'); await p.evaluate(() => { const t = document.querySelector('textarea'); t.setSelectionRange(3, 3); });
+  await p.keyboard.type('àç '); await p.waitForTimeout(150);
+  const st6 = await p.evaluate(() => { const t = document.querySelector('textarea'); return { same: t === window.__ta, value: t.value, caret: t.selectionStart, focus: document.activeElement === t }; });
+  report(st6.same && st6.value === 'la àç casa' && st6.caret === 6 && st6.focus, '6. textarea persistent: mateix element, cursor i accents', JSON.stringify(st6));
+  const big6 = await p.innerText('.tf-big'); report(/ˈka/.test(big6), '6. el resultat s\'actualitza en escriure', big6);
+  // composition (dead keys / IME): input events during composition must not replace the textarea
+  const cdp = await ctx.newCDPSession(p);
+  await cdp.send('Input.imeSetComposition', { text: '´', selectionStart: 1, selectionEnd: 1 });
+  await cdp.send('Input.insertText', { text: 'é' }); await p.waitForTimeout(150);
+  const st6b = await p.evaluate(() => ({ same: document.querySelector('textarea') === window.__ta, value: document.querySelector('textarea').value }));
+  report(st6b.same && st6b.value.includes('é') && !st6b.value.includes('´'), '6. composició (accent mort) sense recrear la textarea', JSON.stringify(st6b));
+  for (const sel of ['[data-d="Valencia"]', '[data-lang="es"]', '[data-o="syll"]', '[data-ex="1"]', '[data-lang="ca"]']) {
+    await p.click(sel); await p.waitForTimeout(80);
+  }
+  report(await p.evaluate(() => document.querySelector('textarea') === window.__ta), '6. la textarea es manté en canviar varietat, idioma, opcions i exemples');
+  // 7. accessibility
+  const a11y = await p.evaluate(() => {
+    const rg = document.querySelector('[role="radiogroup"]'); const lb = rg && rg.getAttribute('aria-labelledby');
+    return { main: !!document.querySelector('main'), rgName: lb ? document.getElementById(lb)?.textContent.trim() : rg?.getAttribute('aria-label'),
+      tabbable: [...document.querySelectorAll('[role="radio"]')].map(b => b.tabIndex), pressed: [...document.querySelectorAll('[data-lang]')].map(b => b.getAttribute('aria-pressed')),
+      live: [...document.querySelectorAll('[aria-live]')].map(e => e.className || e.tagName) };
+  });
+  report(a11y.main, '7. hi ha <main>');
+  report(!!a11y.rgName && /Varietat|Variedad|Variety/.test(a11y.rgName), '7. el radiogroup té nom', a11y.rgName);
+  report(a11y.tabbable.filter(t => t === 0).length === 1, '7. tabulació itinerant al radiogroup (un sol radio amb tabindex 0)', a11y.tabbable.join());
+  report(a11y.pressed.filter(v => v === 'true').length === 1 && a11y.pressed.every(v => v === 'true' || v === 'false'), '7. aria-pressed als botons d\'idioma', a11y.pressed.join());
+  report(!a11y.live.some(c => /tf-card|SECTION/.test(c)), '7. sense aria-live a tota la secció de resultats', a11y.live.join());
+  await p.focus('[role="radio"][aria-checked="true"]');
+  const seq = [];
+  for (const k of ['ArrowRight', 'ArrowRight', 'ArrowLeft', 'End', 'Home', 'ArrowLeft']) {
+    await p.keyboard.press(k); await p.waitForTimeout(60);
+    seq.push(await p.evaluate(() => [document.querySelector('[role="radio"][aria-checked="true"]').dataset.d, document.activeElement.dataset.d].join('/')));
+  }
+  report(seq.join(' ') === 'Northwestern/Northwestern Balearic/Balearic Northwestern/Northwestern Balearic/Balearic Central/Central Balearic/Balearic', '7. fletxes, Inici i Fi al radiogroup (amb focus)', seq.join(' '));
+  report(await p.evaluate(() => document.querySelector('textarea') === window.__ta), '7. la textarea es manté en navegar amb fletxes');
+  report(!failedReq.length, '8. cap petició amb error (favicon inclòs)', failedReq.join(' | '));
+  await ctx.close();
+}
 await browser.close(); server.close();
 console.log(failed() ? `\n${failed()} proves han fallat` : '\nTot correcte');
 process.exit(failed() ? 1 : 0);

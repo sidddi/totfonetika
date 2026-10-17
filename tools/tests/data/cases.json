@@ -827,5 +827,619 @@
   "text": "adverses",
   "dialect": "Valencia",
   "match": "^adˈvɛ[rɾ]ses$"
+ },
+ {
+  "issue": "R1",
+  "rule": "revisió 17/10 punt 1: -or amb r sonora en central (no derivat de -dor/-tor); muda a color, calor, dolor, -dor/-tor, millor/pitjor/major",
+  "source": "lexicó (Wiktionary) + Viccionari amb marca manual rr + eSpeak-NG AINA: les tres conserven la r",
+  "text": "humor",
+  "dialect": "Central",
+  "match": "o[rɾ]$"
+ },
+ {
+  "issue": "R1",
+  "rule": "revisió 17/10 punt 1: -or amb r sonora en central (no derivat de -dor/-tor); muda a color, calor, dolor, -dor/-tor, millor/pitjor/major",
+  "source": "lexicó (Wiktionary) + Viccionari amb marca manual rr + eSpeak-NG AINA: les tres conserven la r",
+  "text": "valor",
+  "dialect": "Central",
+  "match": "o[rɾ]$"
+ },
+ {
+  "issue": "R1",
+  "rule": "revisió 17/10 punt 1: -or amb r sonora en central (no derivat de -dor/-tor); muda a color, calor, dolor, -dor/-tor, millor/pitjor/major",
+  "source": "lexicó (Wiktionary) + Viccionari amb marca manual rr + eSpeak-NG AINA: les tres conserven la r",
+  "text": "motor",
+  "dialect": "Central",
+  "match": "o[rɾ]$"
+ },
+ {
+  "issue": "R1",
+  "rule": "revisió 17/10 punt 1: -or amb r sonora en central (no derivat de -dor/-tor); muda a color, calor, dolor, -dor/-tor, millor/pitjor/major",
+  "source": "lexicó (Wiktionary) + Viccionari amb marca manual rr + eSpeak-NG AINA: les tres conserven la r",
+  "text": "sabor",
+  "dialect": "Central",
+  "match": "o[rɾ]$"
+ },
+ {
+  "issue": "R1",
+  "rule": "revisió 17/10 punt 1: -or amb r sonora en central (no derivat de -dor/-tor); muda a color, calor, dolor, -dor/-tor, millor/pitjor/major",
+  "source": "lexicó (Wiktionary) + Viccionari amb marca manual rr + eSpeak-NG AINA: les tres conserven la r",
+  "text": "favor",
+  "dialect": "Central",
+  "match": "o[rɾ]$"
+ },
+ {
+  "issue": "R1",
+  "rule": "revisió 17/10 punt 1: -or amb r sonora en central (no derivat de -dor/-tor); muda a color, calor, dolor, -dor/-tor, millor/pitjor/major",
+  "source": "lexicó (Wiktionary) + Viccionari amb marca manual rr + eSpeak-NG AINA: les tres conserven la r",
+  "text": "terror",
+  "dialect": "Central",
+  "match": "o[rɾ]$"
+ },
+ {
+  "issue": "R1",
+  "rule": "revisió 17/10 punt 1: -or amb r sonora en central (no derivat de -dor/-tor); muda a color, calor, dolor, -dor/-tor, millor/pitjor/major",
+  "source": "lexicó (Wiktionary) + Viccionari amb marca manual rr + eSpeak-NG AINA: les tres conserven la r",
+  "text": "rumor",
+  "dialect": "Central",
+  "match": "o[rɾ]$"
+ },
+ {
+  "issue": "R1",
+  "rule": "revisió 17/10 punt 1: -or amb r sonora en central (no derivat de -dor/-tor); muda a color, calor, dolor, -dor/-tor, millor/pitjor/major",
+  "source": "lexicó (Wiktionary) + Viccionari amb marca manual rr + eSpeak-NG AINA: les tres conserven la r",
+  "text": "vigor",
+  "dialect": "Central",
+  "match": "o[rɾ]$"
+ },
+ {
+  "issue": "R1",
+  "rule": "revisió 17/10 punt 1: -or amb r sonora en central (no derivat de -dor/-tor); muda a color, calor, dolor, -dor/-tor, millor/pitjor/major",
+  "source": "lexicó (Wiktionary) + Viccionari amb marca manual rr + eSpeak-NG AINA: les tres conserven la r",
+  "text": "honor",
+  "dialect": "Central",
+  "match": "o[rɾ]$"
+ },
+ {
+  "issue": "R1",
+  "rule": "revisió 17/10 punt 1: -or amb r sonora en central (no derivat de -dor/-tor); muda a color, calor, dolor, -dor/-tor, millor/pitjor/major",
+  "source": "lexicó (Wiktionary) + Viccionari amb marca manual rr + eSpeak-NG AINA: les tres conserven la r",
+  "text": "licor",
+  "dialect": "Central",
+  "match": "o[rɾ]$"
+ },
+ {
+  "issue": "R1",
+  "rule": "revisió 17/10 punt 1: -or amb r sonora en central (no derivat de -dor/-tor); muda a color, calor, dolor, -dor/-tor, millor/pitjor/major",
+  "source": "lexicó (Wiktionary) + Viccionari amb marca manual rr + eSpeak-NG AINA: les tres conserven la r",
+  "text": "temor",
+  "dialect": "Central",
+  "match": "o[rɾ]$"
+ },
+ {
+  "issue": "R1",
+  "rule": "revisió 17/10 punt 1: -or amb r sonora en central (no derivat de -dor/-tor); muda a color, calor, dolor, -dor/-tor, millor/pitjor/major",
+  "source": "lexicó (Wiktionary) + Viccionari amb marca manual rr + eSpeak-NG AINA: les tres conserven la r",
+  "text": "menor",
+  "dialect": "Central",
+  "match": "o[rɾ]$"
+ },
+ {
+  "issue": "R1",
+  "rule": "revisió 17/10 punt 1: -or amb r sonora en central (no derivat de -dor/-tor); muda a color, calor, dolor, -dor/-tor, millor/pitjor/major",
+  "source": "lexicó (Wiktionary) + Viccionari amb marca manual rr + eSpeak-NG AINA: les tres conserven la r",
+  "text": "tumor",
+  "dialect": "Central",
+  "match": "o[rɾ]$"
+ },
+ {
+  "issue": "R1",
+  "rule": "revisió 17/10 punt 1: -or amb r sonora en central (no derivat de -dor/-tor); muda a color, calor, dolor, -dor/-tor, millor/pitjor/major",
+  "source": "lexicó (Wiktionary) + Viccionari amb marca manual rr + eSpeak-NG AINA: les tres conserven la r",
+  "text": "labor",
+  "dialect": "Central",
+  "match": "o[rɾ]$"
+ },
+ {
+  "issue": "R1",
+  "rule": "revisió 17/10 punt 1: -or amb r sonora en central (no derivat de -dor/-tor); muda a color, calor, dolor, -dor/-tor, millor/pitjor/major",
+  "source": "lexicó (Wiktionary) + Viccionari amb marca manual rr + eSpeak-NG AINA: les tres conserven la r",
+  "text": "amor",
+  "dialect": "Central",
+  "match": "o[rɾ]$"
+ },
+ {
+  "issue": "R1",
+  "rule": "revisió 17/10 punt 1: -or amb r sonora en central (no derivat de -dor/-tor); muda a color, calor, dolor, -dor/-tor, millor/pitjor/major",
+  "source": "lexicó (Wiktionary) + Viccionari amb marca manual rr + eSpeak-NG AINA: les tres conserven la r",
+  "text": "error",
+  "dialect": "Central",
+  "match": "o[rɾ]$"
+ },
+ {
+  "issue": "R1",
+  "rule": "revisió 17/10 punt 1: -or amb r sonora en central (no derivat de -dor/-tor); muda a color, calor, dolor, -dor/-tor, millor/pitjor/major",
+  "source": "lexicó (Wiktionary) + Viccionari amb marca manual rr + eSpeak-NG AINA: les tres conserven la r",
+  "text": "anterior",
+  "dialect": "Central",
+  "match": "o[rɾ]$"
+ },
+ {
+  "issue": "R1",
+  "rule": "revisió 17/10 punt 1: -or amb r sonora en central (no derivat de -dor/-tor); muda a color, calor, dolor, -dor/-tor, millor/pitjor/major",
+  "source": "lexicó; eSpeak-NG AINA (color, calor, dolor, treballador)",
+  "text": "color",
+  "dialect": "Central",
+  "match": "o$"
+ },
+ {
+  "issue": "R1",
+  "rule": "revisió 17/10 punt 1: -or amb r sonora en central (no derivat de -dor/-tor); muda a color, calor, dolor, -dor/-tor, millor/pitjor/major",
+  "source": "lexicó; eSpeak-NG AINA (color, calor, dolor, treballador)",
+  "text": "calor",
+  "dialect": "Central",
+  "match": "o$"
+ },
+ {
+  "issue": "R1",
+  "rule": "revisió 17/10 punt 1: -or amb r sonora en central (no derivat de -dor/-tor); muda a color, calor, dolor, -dor/-tor, millor/pitjor/major",
+  "source": "lexicó; eSpeak-NG AINA (color, calor, dolor, treballador)",
+  "text": "dolor",
+  "dialect": "Central",
+  "match": "o$"
+ },
+ {
+  "issue": "R1",
+  "rule": "revisió 17/10 punt 1: -or amb r sonora en central (no derivat de -dor/-tor); muda a color, calor, dolor, -dor/-tor, millor/pitjor/major",
+  "source": "lexicó; eSpeak-NG AINA (color, calor, dolor, treballador)",
+  "text": "treballador",
+  "dialect": "Central",
+  "match": "o$"
+ },
+ {
+  "issue": "R1",
+  "rule": "revisió 17/10 punt 1: -or amb r sonora en central (no derivat de -dor/-tor); muda a color, calor, dolor, -dor/-tor, millor/pitjor/major",
+  "source": "lexicó; eSpeak-NG AINA (color, calor, dolor, treballador)",
+  "text": "pintor",
+  "dialect": "Central",
+  "match": "o$"
+ },
+ {
+  "issue": "R1",
+  "rule": "revisió 17/10 punt 1: -or amb r sonora en central (no derivat de -dor/-tor); muda a color, calor, dolor, -dor/-tor, millor/pitjor/major",
+  "source": "lexicó; eSpeak-NG AINA (color, calor, dolor, treballador)",
+  "text": "senyor",
+  "dialect": "Central",
+  "match": "o$"
+ },
+ {
+  "issue": "R1",
+  "rule": "revisió 17/10 punt 1: -or amb r sonora en central (no derivat de -dor/-tor); muda a color, calor, dolor, -dor/-tor, millor/pitjor/major",
+  "source": "lexicó; eSpeak-NG AINA (color, calor, dolor, treballador)",
+  "text": "millor",
+  "dialect": "Central",
+  "match": "o$"
+ },
+ {
+  "issue": "R1",
+  "rule": "revisió 17/10 punt 1: -or amb r sonora en central (no derivat de -dor/-tor); muda a color, calor, dolor, -dor/-tor, millor/pitjor/major",
+  "source": "lexicó; eSpeak-NG AINA (color, calor, dolor, treballador)",
+  "text": "pitjor",
+  "dialect": "Central",
+  "match": "o$"
+ },
+ {
+  "issue": "R1",
+  "rule": "revisió 17/10 punt 1: -or amb r sonora en central (no derivat de -dor/-tor); muda a color, calor, dolor, -dor/-tor, millor/pitjor/major",
+  "source": "lexicó; eSpeak-NG AINA (color, calor, dolor, treballador)",
+  "text": "major",
+  "dialect": "Central",
+  "match": "o$"
+ },
+ {
+  "issue": "R1",
+  "rule": "Valencià conserva la r final",
+  "source": "lexicó (Wiktionary) + Viccionari amb marca manual rr + eSpeak-NG AINA: les tres conserven la r",
+  "text": "humor",
+  "dialect": "Valencia",
+  "match": "oɾ$"
+ },
+ {
+  "issue": "R1",
+  "rule": "Balear: r muda a menor/humor (lexicó, Viccionari)",
+  "source": "lexicó (Wiktionary) + Viccionari amb marca manual rr + eSpeak-NG AINA: les tres conserven la r",
+  "text": "menor",
+  "dialect": "Balearic",
+  "match": "o$"
+ },
+ {
+  "issue": "R2",
+  "rule": "revisió 17/10 punt 2: lletres d'altres alfabets -> «no reconegut», sense AFI ni accent solt",
+  "source": "—",
+  "text": "ñ",
+  "dialect": "Central",
+  "expect": "",
+  "items": [
+   [
+    "ñ",
+    "unknown",
+    null
+   ]
+  ]
+ },
+ {
+  "issue": "R2",
+  "rule": "revisió 17/10 punt 2: lletres d'altres alfabets -> «no reconegut», sense AFI ni accent solt",
+  "source": "—",
+  "text": "ñ",
+  "dialect": "Valencia",
+  "expect": "",
+  "items": [
+   [
+    "ñ",
+    "unknown",
+    null
+   ]
+  ]
+ },
+ {
+  "issue": "R2",
+  "rule": "revisió 17/10 punt 2: lletres d'altres alfabets -> «no reconegut», sense AFI ni accent solt",
+  "source": "—",
+  "text": "ß",
+  "dialect": "Central",
+  "expect": "",
+  "items": [
+   [
+    "ß",
+    "unknown",
+    null
+   ]
+  ]
+ },
+ {
+  "issue": "R2",
+  "rule": "revisió 17/10 punt 2: lletres d'altres alfabets -> «no reconegut», sense AFI ni accent solt",
+  "source": "—",
+  "text": "ß",
+  "dialect": "Valencia",
+  "expect": "",
+  "items": [
+   [
+    "ß",
+    "unknown",
+    null
+   ]
+  ]
+ },
+ {
+  "issue": "R2",
+  "rule": "revisió 17/10 punt 2: lletres d'altres alfabets -> «no reconegut», sense AFI ni accent solt",
+  "source": "—",
+  "text": "º",
+  "dialect": "Central",
+  "expect": "",
+  "items": [
+   [
+    "º",
+    "unknown",
+    null
+   ]
+  ]
+ },
+ {
+  "issue": "R2",
+  "rule": "revisió 17/10 punt 2: lletres d'altres alfabets -> «no reconegut», sense AFI ni accent solt",
+  "source": "—",
+  "text": "º",
+  "dialect": "Valencia",
+  "expect": "",
+  "items": [
+   [
+    "º",
+    "unknown",
+    null
+   ]
+  ]
+ },
+ {
+  "issue": "R2",
+  "rule": "revisió 17/10 punt 2: lletres d'altres alfabets -> «no reconegut», sense AFI ni accent solt",
+  "source": "—",
+  "text": "東京",
+  "dialect": "Central",
+  "expect": "",
+  "items": [
+   [
+    "東京",
+    "unknown",
+    null
+   ]
+  ]
+ },
+ {
+  "issue": "R2",
+  "rule": "revisió 17/10 punt 2: lletres d'altres alfabets -> «no reconegut», sense AFI ni accent solt",
+  "source": "—",
+  "text": "東京",
+  "dialect": "Valencia",
+  "expect": "",
+  "items": [
+   [
+    "東京",
+    "unknown",
+    null
+   ]
+  ]
+ },
+ {
+  "issue": "R2",
+  "rule": "revisió 17/10 punt 2: lletres d'altres alfabets -> «no reconegut», sense AFI ni accent solt",
+  "source": "—",
+  "text": "مرحبا",
+  "dialect": "Central",
+  "expect": "",
+  "items": [
+   [
+    "مرحبا",
+    "unknown",
+    null
+   ]
+  ]
+ },
+ {
+  "issue": "R2",
+  "rule": "revisió 17/10 punt 2: lletres d'altres alfabets -> «no reconegut», sense AFI ni accent solt",
+  "source": "—",
+  "text": "مرحبا",
+  "dialect": "Valencia",
+  "expect": "",
+  "items": [
+   [
+    "مرحبا",
+    "unknown",
+    null
+   ]
+  ]
+ },
+ {
+  "issue": "R2",
+  "rule": "revisió 17/10 punt 2: lletres d'altres alfabets -> «no reconegut», sense AFI ni accent solt",
+  "source": "—",
+  "text": "Привет",
+  "dialect": "Central",
+  "expect": "",
+  "items": [
+   [
+    "Привет",
+    "unknown",
+    null
+   ]
+  ]
+ },
+ {
+  "issue": "R2",
+  "rule": "revisió 17/10 punt 2: lletres d'altres alfabets -> «no reconegut», sense AFI ni accent solt",
+  "source": "—",
+  "text": "Привет",
+  "dialect": "Valencia",
+  "expect": "",
+  "items": [
+   [
+    "Привет",
+    "unknown",
+    null
+   ]
+  ]
+ },
+ {
+  "issue": "R2",
+  "rule": "revisió 17/10 punt 2: lletres d'altres alfabets -> «no reconegut», sense AFI ni accent solt",
+  "source": "—",
+  "text": "ελληνικά",
+  "dialect": "Central",
+  "expect": "",
+  "items": [
+   [
+    "ελληνικά",
+    "unknown",
+    null
+   ]
+  ]
+ },
+ {
+  "issue": "R2",
+  "rule": "revisió 17/10 punt 2: lletres d'altres alfabets -> «no reconegut», sense AFI ni accent solt",
+  "source": "—",
+  "text": "ελληνικά",
+  "dialect": "Valencia",
+  "expect": "",
+  "items": [
+   [
+    "ελληνικά",
+    "unknown",
+    null
+   ]
+  ]
+ },
+ {
+  "issue": "R2",
+  "rule": "revisió 17/10 punt 2: lletres d'altres alfabets -> «no reconegut», sense AFI ni accent solt; els emojis s'ometen",
+  "source": "—",
+  "text": "casa 😀 gran",
+  "dialect": "Central",
+  "expect": "ˈka.zə ˈɡɾan",
+  "note": "el símbol no reconegut fa de pausa: sense lenició a través seu"
+ },
+ {
+  "issue": "R2",
+  "rule": "revisió 17/10 punt 2: lletres d'altres alfabets -> «no reconegut», sense AFI ni accent solt; text mixt",
+  "source": "—",
+  "text": "casa 東京 gran",
+  "dialect": "Central",
+  "expect": "ˈka.zə ˈɡɾan",
+  "items": [
+   [
+    "casa",
+    "lexicon",
+    null
+   ],
+   [
+    "東京",
+    "unknown",
+    null
+   ],
+   [
+    "gran",
+    "lexicon",
+    null
+   ]
+  ],
+  "note": "el símbol no reconegut fa de pausa: sense lenició a través seu"
+ },
+ {
+  "issue": "R2",
+  "rule": "lletres llatines estrangeres: ñ com a ny, ß com a ss, lectura dubtosa",
+  "source": "—",
+  "text": "España",
+  "dialect": "Central",
+  "match": "əsˈpa\\.?ɲə",
+  "items": [
+   [
+    "España",
+    "rules",
+    true
+   ]
+  ]
+ },
+ {
+  "issue": "R2",
+  "rule": "lletres llatines estrangeres: ß com a ss",
+  "source": "—",
+  "text": "Straße",
+  "dialect": "Central",
+  "match": "ˈstɾa\\.?sə",
+  "items": [
+   [
+    "Straße",
+    "rules",
+    true
+   ]
+  ]
+ },
+ {
+  "issue": "R3",
+  "rule": "revisió 17/10 punt 3: mot sense forma catalana -> «insegur»; y entre consonants és vocal i",
+  "source": "—",
+  "text": "xyzzyq",
+  "dialect": "Central",
+  "items": [
+   [
+    "xyzzyq",
+    "rules",
+    true
+   ]
+  ],
+  "notMatch": "j"
+ },
+ {
+  "issue": "R3",
+  "rule": "revisió 17/10 punt 3: mot sense forma catalana -> «insegur»; y entre consonants és vocal i",
+  "source": "—",
+  "text": "qwrtp",
+  "dialect": "Central",
+  "items": [
+   [
+    "qwrtp",
+    "rules",
+    true
+   ]
+  ]
+ },
+ {
+  "issue": "R3",
+  "rule": "control: mot normal de regles no queda marcat només per ser de regles",
+  "source": "—",
+  "text": "casa",
+  "dialect": "Central",
+  "items": [
+   [
+    "casa",
+    "lexicon",
+    false
+   ]
+  ]
+ },
+ {
+  "issue": "R4",
+  "rule": "revisió 17/10 punt 4: zeros inicials es llegeixen un a un; signe menys",
+  "source": "—",
+  "text": "007",
+  "dialect": "Central",
+  "expect": "ˈzɛ.ɾu ˈzɛ.ɾu ˈsɛt"
+ },
+ {
+  "issue": "R4",
+  "rule": "revisió 17/10 punt 4: zeros inicials es llegeixen un a un; signe menys",
+  "source": "—",
+  "text": "agent 007",
+  "dialect": "Central",
+  "match": "ˈzɛɾuˈzɛɾuˈsɛt$"
+ },
+ {
+  "issue": "R4",
+  "rule": "revisió 17/10 punt 4: zeros inicials es llegeixen un a un; signe menys",
+  "source": "—",
+  "text": "-5",
+  "dialect": "Central",
+  "expect": "ˈmɛ.ɲəs ˈsiŋ"
+ },
+ {
+  "issue": "R4",
+  "rule": "revisió 17/10 punt 4: zeros inicials es llegeixen un a un; signe menys (signe menys U+2212)",
+  "source": "—",
+  "text": "−3",
+  "dialect": "Central",
+  "expect": "ˈmɛ.ɲəs ˈtɾɛs"
+ },
+ {
+  "issue": "R4",
+  "rule": "revisió 17/10 punt 4: zeros inicials es llegeixen un a un; signe menys",
+  "source": "—",
+  "text": "fa -2,5 graus",
+  "dialect": "Central",
+  "match": "ˈmɛɲəzˈðos"
+ },
+ {
+  "issue": "R4",
+  "rule": "control: guionet entre xifres no és un signe",
+  "source": "—",
+  "text": "del 10-20",
+  "dialect": "Central",
+  "notMatch": "mɛɲ"
+ },
+ {
+  "issue": "R4",
+  "rule": "control: COVID-19 no és negatiu",
+  "source": "—",
+  "text": "COVID-19",
+  "dialect": "Central",
+  "notMatch": "mɛɲ"
+ },
+ {
+  "issue": "R4",
+  "rule": "control: 0 sol i 0,5",
+  "source": "—",
+  "text": "0 i 0,5",
+  "dialect": "Central",
+  "expect": "ˈzɛ.ɾu iˈzɛ.ɾu ˈko.mə ˈsiŋ"
+ },
+ {
+  "issue": "R5",
+  "rule": "revisió 17/10 punt 5: tennis sense geminada en central",
+  "source": "GDLC/DIEC tennis [ˈtɛnis]; Viccionari només marca la vocal (è), la nn és de l'ortografia",
+  "text": "tennis",
+  "dialect": "Central",
+  "expect": "ˈtɛ.nis"
  }
 ]
