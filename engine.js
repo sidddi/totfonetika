@@ -287,7 +287,7 @@ function render(word, dialect) {
 let LEX = null;
 // lookup tables without a prototype, so words like "constructor" or "__proto__" are not found as inherited properties
 const bare = o => (o && Object.setPrototypeOf(o, null), o);
-export function setLexicon(l) { LEX = bare(l); }
+export function setLexicon(l) { LEX = bare(l); BIGRAMS = null; }
 let LEMMAS = null;
 export function setLemmas(m) { LEMMAS = bare(m) || null; }
 
@@ -431,7 +431,21 @@ const keyOf = w => nfc(w).toLowerCase().replace(/\p{M}/gu, '');
 export function transcribeWord(word, dialect = 'Central') {
   word = nfc(word);
   const sp = spellAcronym(word, dialect); if (sp) return sp;
-  const key = keyOf(word);
+  let key = keyOf(word);
+  // letters outside the Catalan alphabet: other scripts and symbols are not read ("no reconegut"); foreign Latin
+  // letters are read through their closest Catalan spelling (ñ -> ny, ß -> ss, á -> a) and marked unsure
+  let foreign = false;
+  if (!CAT_WORD.test(key) && !(LEX && LEX[key])) {
+    if (/\d/.test(key)) { const its = transcribe(word, dialect).filter(x => x.ipa); const ipa = its.map(x => x.ipa).join(' '); return { word, source: 'rules', alts: [ipa], ipa }; }
+    const m = latinize(key);
+    // nothing to read: other scripts, symbols (º), or a lone foreign letter with no vowel (ñ, ß)
+    if (!m) return { word, source: 'unknown', alts: [], ipa: '', uncertain: true, note: 'unknown' };
+    if (m !== key) { // foreign letters were replaced; only separators/digits (se'n, t.co) are read as before
+      if (!/[aeiouàèéíïòóúü]|(^|[^n])y/.test(m)) return { word, source: 'unknown', alts: [], ipa: '', uncertain: true, note: 'unknown' };
+      key = m; foreign = true;
+    }
+  }
+  if (foreign) { const r = transcribeWord(key, dialect); return { ...r, word, uncertain: true, note: 'foreign' }; }
   if (FUNC[key]) { const alts = fromLex(FUNC[key], dialect); if (alts.length) return { word, source: 'lexicon', alts, ipa: alts[0], note: 'function word' }; }
   if (LEX && LEX[key]) {
     const alts = fromLex(LEX[key], dialect);
@@ -439,12 +453,37 @@ export function transcribeWord(word, dialect = 'Central') {
   }
   const dv = derive(key, dialect);
   if (dv) return { word, source: 'derived', alts: [dv], ipa: dv, uncertain: true };
-  const r = render(key, dialect);
+  // y between consonants or at a word edge next to a consonant is the vowel i (xyz, nylon); ny is the Catalan digraph
+  const r = render(key.replace(/(^|[^aeiouàèéíïòóúün])y(?![aeiouàèéíïòóúü])/g, '$1i'), dialect);
   const lg = verbEmEu(r.ipa, key, dialect) || lemmaGuided(r.ipa, key, dialect);
   if (lg) r.ipa = lg;
   // final -nt/-lt/-nd/-ld (and plurals) lose the t/d in Central, Northwestern and Northern (IEC GIEC 4.3.2)
   if (['Central', 'Northwestern', 'Northern'].includes(dialect)) r.ipa = r.ipa.replace(/([nɫl])[td](s?)$/, '$1$2').replace(/ŋk(s?)$/, 'ŋ$1');
-  return { word, source: lg ? 'lemma' : 'rules', alts: [r.ipa], ipa: r.ipa, uncertain: lg ? true : (r.uncertain || !r.stressCertain) };
+  return { word, source: lg ? 'lemma' : 'rules', alts: [r.ipa], ipa: r.ipa, uncertain: lg ? true : (r.uncertain || !r.stressCertain || !catalanShape(key)) };
+}
+
+const CAT_WORD = /^[a-zàèéíïòóúüç·]+$/;
+const LATIN = { á: 'à', â: 'a', ä: 'a', ã: 'a', å: 'a', ê: 'e', ë: 'e', î: 'i', ì: 'i', ô: 'o', õ: 'o', ö: 'o', û: 'u', ù: 'u', ñ: 'ny', ß: 'ss', // á keeps the stress (sánchez)
+  æ: 'ae', œ: 'oe', ø: 'o', ð: 'd', þ: 'th', ł: 'l', đ: 'd', ı: 'i' };
+function latinize(key) {
+  let out = '';
+  for (const ch of key) {
+    if (CAT_WORD.test(ch) || /['’.\-\d]/.test(ch)) { out += ch; continue; } // separators and digits are handled as before
+    if (LATIN[ch]) { out += LATIN[ch]; continue; }
+    const base = ch.normalize('NFD').replace(/\p{M}/gu, '');
+    if (/^[a-z]$/.test(base)) { out += base; continue; }
+    return null;
+  }
+  return out;
+}
+// a word whose letter pairs (with word edges) never occur in the lexicon does not look Catalan: its reading is a guess
+let BIGRAMS = null;
+function catalanShape(key) {
+  if (!LEX) return true;
+  if (!BIGRAMS) { BIGRAMS = new Set(); for (const k in LEX) if (CAT_WORD.test(k)) { const w = `^${k}$`; for (let i = 0; i < w.length - 1; i++) BIGRAMS.add(w.slice(i, i + 2)); } }
+  if (!/[aeiouàèéíïòóúüy]/.test(key)) return false;
+  const w = `^${key}$`; for (let i = 0; i < w.length - 1; i++) if (!BIGRAMS.has(w.slice(i, i + 2))) return false;
+  return true;
 }
 
 // ---- numbers written with digits -> words (IEC norms; teens and 8 follow each variety) ----
@@ -496,13 +535,15 @@ const UNIT_W = { '%': ['per cent', 'per cent'], '€': ['euro', 'euros'], km: ['
 function expandNumbers(text, d) {
   if (!/\d/.test(text)) return text;
   text = text.replace(/(\p{L})-(?=\d)/gu, '$1 '); // COVID-19: the number is a word of its own, not a clitic
+  text = text.replace(/(^|[\s(\[])[-−](?=\d)/gu, '$1menys '); // -5, −3: minus sign (not 10-20)
   text = text.replace(/(?<![\p{L}\d])(\d+)(rs|ns|ts|es|r|n|t|è|a)(?![\p{L}\d])/gu, (m, num, suf) => {
     const n = +num; if (!Number.isSafeInteger(n) || n === 0 || n >= 1e6) return m;
     return ordinal(n, suf === 'a' || suf === 'es', suf.length === 2, d);
   });
   text = text.replace(/(?<![\p{L}\d.,])(\d{1,3}(?:\.\d{3})+|\d+)(?:,(\d+))?(?![\p{L}\d])(\s*(%|€|(?:km|kg|cm|h)(?![\p{L}\d])))?/gu, (m, int, dec, _s, unit) => {
     const n = +int.replace(/\./g, ''); if (!Number.isSafeInteger(n) || n >= 1e12) return m;
-    let w = numberToWords(n, d);
+    // leading zeros (007, 0123) are read digit by digit, as codes are
+    let w = /^0\d/.test(int) ? [...int].map(c => UNITS[+c]).join(' ') : numberToWords(n, d);
     if (dec !== undefined) w += ' coma ' + (dec.length > 1 && dec[0] === '0' ? [...dec].map(c => UNITS[+c]).join(' ') : numberToWords(+dec, d));
     if (unit) w += ' ' + UNIT_W[unit][n === 1 && dec === undefined ? 0 : 1];
     return w;
@@ -575,7 +616,7 @@ function applyConnected(items, dialect) {
   for (const x of items) x.cipa = x.ipa;
   for (let i = 0; i < items.length - 1; i++) {
     const a = items[i], b = items[i + 1];
-    if (a.source === 'punct' || b.source === 'punct') continue;
+    if (a.source === 'punct' || b.source === 'punct' || a.source === 'unknown' || b.source === 'unknown') continue;
     const bv = VOWEL_START.test(b.cipa);
     const bc = /^[ˈˌ]?[dtʒ]͡/.test(b.cipa) || /^[ˈˌ]?t[ʃs]/.test(b.cipa) ? undefined : (CONS_START.exec(b.cipa) || [])[1];
     let c = a.cipa, mod = false;
@@ -677,7 +718,7 @@ function applyConnected(items, dialect) {
 function applyLiaison(items) {
   for (let i = 0; i < items.length - 1; i++) {
     const a = items[i], b = items[i + 1];
-    if (!a || !b || a.source === 'punct' || b.source === 'punct' || a.note === 'clitic') continue;
+    if (!a || !b || a.source === 'punct' || b.source === 'punct' || a.source === 'unknown' || b.source === 'unknown' || a.note === 'clitic') continue;
     if (!/(n|l)t$/i.test(a.word) || !/^h?[aeiouàèéíòóúïü]/i.test(b.word) || /^h?[iu][aeiou]/i.test(b.word)) continue;
     const fix = x => (/[nɫl]$/.test(x) ? x + 't' : x);
     const alts = a.alts.map(fix);

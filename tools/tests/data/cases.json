@@ -1307,10 +1307,11 @@
   "items": [
    [
     "España",
-    "rules",
+    null,
     true
    ]
-  ]
+  ],
+  "note": "llegida com Espanya (al lexicó), marcada insegura"
  },
  {
   "issue": "R2",
@@ -1392,7 +1393,8 @@
   "source": "—",
   "text": "-5",
   "dialect": "Central",
-  "expect": "ˈmɛ.ɲəs ˈsiŋ"
+  "expect": "ˈmɛɲs ˈsiŋ",
+  "note": "menys és monosíl·lab (lexicó)"
  },
  {
   "issue": "R4",
@@ -1400,7 +1402,8 @@
   "source": "—",
   "text": "−3",
   "dialect": "Central",
-  "expect": "ˈmɛ.ɲəs ˈtɾɛs"
+  "expect": "ˈmɛɲs ˈtɾɛs",
+  "note": "menys és monosíl·lab (lexicó)"
  },
  {
   "issue": "R4",
@@ -1408,7 +1411,8 @@
   "source": "—",
   "text": "fa -2,5 graus",
   "dialect": "Central",
-  "match": "ˈmɛɲəzˈðos"
+  "match": "ˈmɛɲzˈðos",
+  "note": "menys monosíl·lab; s sonora i lenició davant dos"
  },
  {
   "issue": "R4",

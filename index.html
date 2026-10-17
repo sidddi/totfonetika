@@ -5,18 +5,32 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="robots" content="noindex">
 <title>TotFonetika - transcripció fonètica del català</title>
-<meta name="description" content="Transcripció fonètica del català (AFI) paraula a paraula o text sencer, amb varietat central, valencià, nord-occidental, balear i rossellonès.">
+<meta name="description" content="Transcripció fonètica del català (AFI) paraula a paraula o text sencer, amb varietat central, valencià, nord-occidental i balear.">
+<link rel="icon" href="favicon.svg" type="image/svg+xml">
 <link rel="stylesheet" href="style.css">
 </head>
 <body style="margin:0;background:#fff8e7">
-<div id="app"></div>
+<div id="app"><p class="tf-loading" data-loading role="status">Carregant el diccionari…</p></div>
 <script type="module">
 import { mount } from './app.js';
-const [lexicon, lemmas] = await Promise.all([
-  fetch('lexicon.json').then(r => r.json()),
-  fetch('lemmes.json').then(r => r.json()).catch(() => null),
-]);
-mount(document.getElementById('app'), { lexicon, lemmas, lang: 'ca' });
+const app = document.getElementById('app'), status = app.querySelector('[data-loading]');
+// lexicon.json is ~4.7 MB: show how much has arrived (bytes read, after any transfer compression)
+async function json(url, onBytes) {
+  const r = await fetch(url); if (!r.ok) throw new Error(`${url}: ${r.status}`);
+  if (!r.body || !onBytes) return r.json();
+  const reader = r.body.getReader(), parts = []; let n = 0;
+  for (;;) { const { done, value } = await reader.read(); if (done) break; parts.push(value); n += value.length; onBytes(n); }
+  return JSON.parse(new TextDecoder().decode(await new Blob(parts).arrayBuffer()));
+}
+try {
+  const [lexicon, lemmas] = await Promise.all([
+    json('lexicon.json', n => { status.textContent = `Carregant el diccionari… ${(n / 1048576).toFixed(1).replace('.', ',')} MB`; }),
+    json('lemmes.json').catch(() => null),
+  ]);
+  mount(app, { lexicon, lemmas, lang: 'ca' });
+} catch (e) {
+  status.textContent = 'No s’ha pogut carregar el diccionari. Torneu-ho a provar recarregant la pàgina.';
+}
 </script>
 </body>
 </html>

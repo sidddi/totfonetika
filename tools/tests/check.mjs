@@ -22,6 +22,8 @@ for (const d of D) {
   for (const w of words) {
     let r; try { r = E.transcribeWord(w, d); } catch (e) { bad.crash.push(`${w} ${d}: ${e.message}`); continue; }
     n++; if (!w.trim()) continue;
+    // empty only for what cannot be read: other scripts and symbols, marked as unknown
+    if (r && r.source === 'unknown' && (/[^\p{Script=Latin}\p{M}'’.\-\d·]|[ºª]/u.test(w) || !/[aeiouy]/i.test(w.normalize('NFD').replace(/\p{M}/gu, '')))) continue;
     if (!r || typeof r.ipa !== 'string' || !r.ipa) { bad.empty.push(`${w} ${d}`); continue; }
     if (/undefined|null|NaN|[\/\[\]|]/.test(r.ipa)) bad.junk.push(`${w} ${d} ${r.ipa}`);
     if (/^[a-zà-ÿ·'-]+$/i.test(w) && !IPA_OK.test(r.ipa)) bad.chars.push(`${w} ${d} ${JSON.stringify(r.ipa)}`);

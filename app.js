@@ -24,36 +24,51 @@ export function mount(root, { lexicon, lemmas = null, lang = 'ca' } = {}) {
   }
   function lineOf(items, o) {
     let out = '';
-    items.filter(x => !x.hide).forEach((x, i) => {
+    items.filter(x => !x.hide && x.source !== 'unknown').forEach((x, i) => {
       const piece = x.source === 'punct' ? x.word : (fmt(x.cipa || x.ipa, o) || x.word);
       out += (i && !(x.joinPrev && x.source !== 'punct') ? ' ' : '') + piece;
     });
-    return out.replace(/\s+([,.;:!?…])/g, '$1');
+    return out.replace(/\s+([,.;:!?…])/g, '$1').trim();
   }
   function srcLabel(x) {
     const L = t();
+    if (x.source === 'unknown') return L.srcUnknown;
     if (x.note === 'function word') return L.srcFunc;
     return x.source === 'lexicon' ? L.srcLex : x.source === 'derived' ? L.srcDerived : x.source === 'lemma' ? L.srcLemma : L.srcRules;
   }
-  function render() {
+
+  // The page is built once; the textarea is never re-created (caret, IME and dead keys survive). Each part is
+  // re-rendered on its own: the input only refreshes the results.
+  root.innerHTML = `
+<div class="tf">
+  <header class="tf-head" data-part="head"></header>
+  <main>
+    <section class="tf-card">
+      <textarea id="tf-in" lang="ca" rows="4"></textarea>
+      <div data-part="controls"></div>
+    </section>
+    <section class="tf-card" data-part="results"></section>
+    <section class="tf-card" data-part="legend"></section>
+  </main>
+  <footer class="tf-foot" data-part="foot"></footer>
+</div>`;
+  const part = n => root.querySelector(`[data-part="${n}"]`);
+  const ta = root.querySelector('#tf-in');
+
+  function renderHead() {
     const L = t();
-    const { items, words } = results();
-    const o = { syll: st.syll, stress: st.stress, brackets: st.brackets };
+    part('head').innerHTML = `
+    <div class="tf-brand">${BIRD}<div><h1>TotFonetika</h1><p>${esc(L.tagline)}</p></div></div>
+    <div class="tf-lang" role="group" aria-label="${({ ca: 'Idioma', es: 'Idioma', en: 'Language' })[st.lang]}">${['ca', 'es', 'en'].map(l => `<button class="tf-chip ${l === st.lang ? 'on' : ''}" data-lang="${l}" aria-pressed="${l === st.lang}">${l.toUpperCase()}</button>`).join('')}</div>`;
+  }
+  function renderControls() {
+    const L = t();
     const q = DIALECTS.find(d => d.id === st.dialect).quality;
     const qLabel = q === 'good' ? L.qualityGood : q === 'medium' ? L.qualityMedium : L.qualityLow;
-    // the page language follows the UI; Catalan input, examples and words keep lang="ca", IPA keeps ca-fonipa
-    if (root.ownerDocument) root.ownerDocument.documentElement.lang = st.lang;
-    root.innerHTML = `
-<div class="tf">
-  <header class="tf-head">
-    <div class="tf-brand">${BIRD}<div><h1>TotFonetika</h1><p>${esc(L.tagline)}</p></div></div>
-    <div class="tf-lang" role="group" aria-label="${({ ca: 'Idioma', es: 'Idioma', en: 'Language' })[st.lang]}">${['ca', 'es', 'en'].map(l => `<button class="tf-chip ${l === st.lang ? 'on' : ''}" data-lang="${l}">${l.toUpperCase()}</button>`).join('')}</div>
-  </header>
-  <section class="tf-card">
-    <textarea id="tf-in" lang="ca" rows="4" placeholder="${esc(L.placeholder)}" aria-label="${esc(L.placeholder)}">${esc(st.text)}</textarea>
+    part('controls').innerHTML = `
     <div class="tf-examples"><span>${esc(L.examples)}:</span>${EXAMPLES.map((e, i) => `<button class="tf-chip" lang="ca" data-ex="${i}">${esc(e)}</button>`).join('')}</div>
-    <div class="tf-row"><span class="tf-label">${esc(L.dialect)}</span>
-      <div class="tf-seg" role="radiogroup">${DIALECTS.map(d => `<button role="radio" aria-checked="${d.id === st.dialect}" class="tf-seg-b ${d.id === st.dialect ? 'on' : ''}" data-d="${d.id}">${esc(d.label[st.lang])}</button>`).join('')}</div>
+    <div class="tf-row"><span class="tf-label" id="tf-dialect-label">${esc(L.dialect)}</span>
+      <div class="tf-seg" role="radiogroup" aria-labelledby="tf-dialect-label">${DIALECTS.map(d => `<button role="radio" aria-checked="${d.id === st.dialect}" tabindex="${d.id === st.dialect ? 0 : -1}" class="tf-seg-b ${d.id === st.dialect ? 'on' : ''}" data-d="${d.id}">${esc(d.label[st.lang])}</button>`).join('')}</div>
     </div>
     <p class="tf-q tf-q-${q}"><b>${esc(qLabel)}.</b></p>
     <div class="tf-opts">
@@ -61,35 +76,62 @@ export function mount(root, { lexicon, lemmas = null, lang = 'ca' } = {}) {
       <label><input type="checkbox" data-o="stress" ${st.stress ? 'checked' : ''}> ${esc(L.stress)}</label>
       <label><input type="checkbox" data-o="brackets" ${st.brackets ? 'checked' : ''}> ${esc(L.brackets)}</label>
       <label><input type="checkbox" data-o="liaison" ${st.liaison ? 'checked' : ''}> ${esc(L.liaison)}</label>
-    </div>
-  </section>
-  <section class="tf-card" aria-live="polite">
+    </div>`;
+  }
+  function renderResults() {
+    const L = t();
+    const { items, words } = results();
+    const o = { syll: st.syll, stress: st.stress, brackets: st.brackets };
+    part('results').innerHTML = `
     <h2>${esc(L.result)}</h2>
     ${words.length ? `
     <div class="tf-out"><div class="tf-big" lang="ca-fonipa">${esc(wrap(lineOf(items, o), o))}</div>
       <div class="tf-actions"><button class="tf-btn" data-a="copy">${esc(st.copied ? L.copied : st.copyFailed ? L.copyFail : L.copy)}</button><button class="tf-btn ghost" data-a="txt">${esc(L.txt)}</button><button class="tf-btn ghost" data-a="csv">${esc(L.csv)}</button></div></div>
     <h3>${esc(L.words)}</h3>
-    <ul class="tf-words">${words.map(x => `<li><span class="w" lang="ca">${esc(x.word)}</span><span class="i" lang="ca-fonipa">${esc(wrap(fmt(x.ipa, o), o))}</span><span class="b b-${x.source}${x.uncertain ? ' u' : ''}">${esc(srcLabel(x))}${x.liaison ? ' · ' + esc(L.liaisonBadge) : ''}${x.uncertain ? ' · ' + esc(L.unsure) : ''}</span>${x.alts.length > 1 ? `<span class="alts">${esc(L.others)}: ${x.alts.slice(1).map(a => esc(wrap(fmt(a, o), o))).join(' , ')}</span>` : ''}</li>`).join('')}</ul>
+    <ul class="tf-words">${words.map(x => `<li><span class="w" lang="ca">${esc(x.word)}</span><span class="i" lang="ca-fonipa">${esc(wrap(fmt(x.ipa, o), o))}</span><span class="b b-${x.source}${x.uncertain ? ' u' : ''}">${esc(srcLabel(x))}${x.liaison ? ' · ' + esc(L.liaisonBadge) : ''}${x.uncertain && x.source !== 'unknown' ? ' · ' + esc(L.unsure) : ''}</span>${x.alts.length > 1 ? `<span class="alts">${esc(L.others)}: ${x.alts.slice(1).map(a => esc(wrap(fmt(a, o), o))).join(' , ')}</span>` : ''}</li>`).join('')}</ul>
     ` : `<p class="tf-empty">${esc(L.empty)}</p>`}
-    <p class="tf-note">${esc(L.qualityNote)}</p><p class="tf-note">${esc(L.noteSandhi)}</p>
-  </section>
-  <section class="tf-card"><h2>${esc(L.legend)}</h2><p class="tf-note">${esc(L.legendSub)}</p>
-    <div class="tf-legend">${LEGEND.map(([s, e]) => `<div><b lang="ca-fonipa">${esc(s)}</b><span>${esc(e)}</span></div>`).join('')}</div></section>
-  <footer class="tf-foot"><p>${esc(L.privacy)}</p><p><b>${esc(L.about)}.</b> ${esc(L.aboutText)}</p></footer>
-</div>`;
-    const ta = root.querySelector('#tf-in');
-    ta.addEventListener('input', () => { st.text = ta.value; st.copied = false; renderKeepFocus(); });
-    root.querySelectorAll('[data-lang]').forEach(b => b.onclick = () => { st.lang = b.dataset.lang; render(); });
-    root.querySelectorAll('[data-d]').forEach(b => b.onclick = () => { st.dialect = b.dataset.d; render(); });
-    root.querySelectorAll('[data-ex]').forEach(b => b.onclick = () => { st.text = EXAMPLES[+b.dataset.ex]; render(); });
-    root.querySelectorAll('[data-o]').forEach(c => c.onchange = () => { st[c.dataset.o] = c.checked; render(); });
-    root.querySelectorAll('[data-a]').forEach(b => b.onclick = () => action(b.dataset.a));
+    <p class="tf-note">${esc(L.qualityNote)}</p><p class="tf-note">${esc(L.noteSandhi)}</p>`;
   }
-  function renderKeepFocus() {
-    const ta = root.querySelector('#tf-in'); const pos = ta.selectionStart;
-    render();
-    const n = root.querySelector('#tf-in'); n.focus(); n.setSelectionRange(pos, pos);
+  function renderStatic() {
+    const L = t();
+    part('legend').innerHTML = `<h2>${esc(L.legend)}</h2><p class="tf-note">${esc(L.legendSub)}</p>
+    <div class="tf-legend">${LEGEND.map(([s, e]) => `<div><b lang="ca-fonipa">${esc(s)}</b><span>${esc(e)}</span></div>`).join('')}</div>`;
+    part('foot').innerHTML = `<p>${esc(L.privacy)}</p><p><b>${esc(L.about)}.</b> ${esc(L.aboutText)}</p>`;
+    ta.placeholder = L.placeholder; ta.setAttribute('aria-label', L.placeholder);
+    // the page language follows the UI; Catalan input, examples and words keep lang="ca", IPA keeps ca-fonipa
+    if (root.ownerDocument) root.ownerDocument.documentElement.lang = st.lang;
   }
+  // re-render keeping keyboard focus on the same control (buttons and checkboxes are re-created)
+  function keepFocus(fn) {
+    const a = root.ownerDocument && root.ownerDocument.activeElement;
+    const key = a && a !== ta && ['d', 'lang', 'o', 'ex', 'a'].map(k => a.dataset && a.dataset[k] !== undefined ? `[data-${k}="${a.dataset[k]}"]` : '').find(Boolean);
+    fn();
+    if (key) { const n = root.querySelector(key); if (n) n.focus(); }
+  }
+  function render() { keepFocus(() => { renderHead(); renderControls(); renderResults(); renderStatic(); }); }
+  function setDialect(id, focus) {
+    st.dialect = id; keepFocus(() => { renderControls(); renderResults(); });
+    if (focus) root.querySelector(`[data-d="${id}"]`).focus();
+  }
+  function setText(v) { st.text = v; st.copied = false; if (ta.value !== v) ta.value = v; renderResults(); }
+
+  ta.addEventListener('input', () => setText(ta.value));
+  root.addEventListener('click', e => {
+    const b = e.target.closest('button'); if (!b || !root.contains(b)) return;
+    if (b.dataset.lang) { st.lang = b.dataset.lang; render(); }
+    else if (b.dataset.d) setDialect(b.dataset.d);
+    else if (b.dataset.ex !== undefined) setText(EXAMPLES[+b.dataset.ex]);
+    else if (b.dataset.a) action(b.dataset.a);
+  });
+  root.addEventListener('change', e => { const c = e.target; if (c.dataset && c.dataset.o) { st[c.dataset.o] = c.checked; keepFocus(renderResults); } });
+  // radiogroup keyboard: arrows move and select (wrapping), Home/End go to the ends (WAI-ARIA radio group pattern)
+  root.addEventListener('keydown', e => {
+    const b = e.target.closest && e.target.closest('[role="radio"]'); if (!b) return;
+    const ids = DIALECTS.map(d => d.id), i = ids.indexOf(b.dataset.d);
+    const j = { ArrowRight: i + 1, ArrowDown: i + 1, ArrowLeft: i - 1, ArrowUp: i - 1, Home: 0, End: ids.length - 1 }[e.key];
+    if (j === undefined) return;
+    e.preventDefault(); setDialect(ids[(j + ids.length) % ids.length], true);
+  });
   async function action(a) {
     const { items, words } = results();
     const o = { syll: st.syll, stress: st.stress, brackets: st.brackets };
@@ -103,8 +145,8 @@ export function mount(root, { lexicon, lemmas = null, lang = 'ca' } = {}) {
           document.body.appendChild(ta2); ta2.select(); ok = document.execCommand('copy'); ta2.remove();
         } catch { }
       }
-      if (!ok) { st.copyFailed = true; render(); setTimeout(() => { st.copyFailed = false; render(); }, 2500); return; }
-      st.copied = true; render(); setTimeout(() => { st.copied = false; render(); }, 1500); return; }
+      if (!ok) { st.copyFailed = true; keepFocus(renderResults); setTimeout(() => { st.copyFailed = false; keepFocus(renderResults); }, 2500); return; }
+      st.copied = true; keepFocus(renderResults); setTimeout(() => { st.copied = false; keepFocus(renderResults); }, 1500); return; }
     const csv = 'word,ipa,dialect,source\n' + words.map(x => [x.word, wrap(fmt(x.ipa, o), o), st.dialect, x.source].map(v => '"' + String(v).replace(/"/g, '""') + '"').join(',')).join('\n');
     const body = a === 'txt' ? line + '\n' : csv + '\n';
     const blob = new Blob([body], { type: 'text/plain;charset=utf-8' });

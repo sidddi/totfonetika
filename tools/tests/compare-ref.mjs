@@ -16,7 +16,9 @@ const nd = s => s.replace(/[ˈˌ.͡]/g, '');
 const score = (ipa, ref) => !ref ? null : ref.includes(ipa) ? 2 : ref.map(nd).includes(nd(ipa)) ? 1 : 0;
 
 console.log(`Comparació amb ${ref}\n`);
-const tally = { same: 0, better: 0, worse: 0, equal: 0, unknown: 0 }; const worse = [], better = [], unknown = [];
+const tally = { same: 0, better: 0, worse: 0, allowed: 0, equal: 0, unknown: 0 }; const worse = [], better = [], unknown = [], allowed = [];
+// justified exceptions (data/allowed-worse.tsv): shown separately, never silently dropped
+const ALLOWED = new Map(fs.readFileSync(new URL('./data/allowed-worse.tsv', import.meta.url), 'utf8').split('\n').filter(l => l && !l.startsWith('#')).map(l => { const [w, d, why] = l.split('\t'); return [`${w}\t${d}`, why]; }));
 for (const d of Object.keys(VARIETY_KEY)) for (const w of TOP) {
   let a, b; try { a = OLD.transcribeWord(w, d); } catch { a = null; }
   b = NEW.transcribeWord(w, d);
@@ -25,9 +27,10 @@ for (const d of Object.keys(VARIETY_KEY)) for (const w of TOP) {
   const sa = a ? score(a.ipa, ref) : -1, sb = score(b.ipa, ref);
   const line = `${w} ${d}: ${a ? a.ipa : '(error)'} → ${b.ipa}${ref ? ` (Viccionari ${ref[0]})` : ''}${has(oldLex, w) ? ' [lexicó]' : ''}`;
   if (sb === null) { tally.unknown++; unknown.push(line); } else if (sb > sa) { tally.better++; better.push(line); }
-  else if (sb < sa) { tally.worse++; worse.push(line); } else tally.equal++;
+  else if (sb < sa) { if (ALLOWED.has(`${w}\t${d}`)) { tally.allowed++; allowed.push(`${line} — ${ALLOWED.get(`${w}\t${d}`)}`); } else { tally.worse++; worse.push(line); } } else tally.equal++;
 }
-console.log(`iguals ${tally.same} | canviades: millor ${tally.better}, pitjor ${tally.worse}, igual de bé/malament ${tally.equal}, sense referència ${tally.unknown}`);
+console.log(`iguals ${tally.same} | canviades: millor ${tally.better}, pitjor ${tally.worse}, pitjor justificat ${tally.allowed}, igual de bé/malament ${tally.equal}, sense referència ${tally.unknown}`);
+if (allowed.length) console.log(`\npitjor justificat (data/allowed-worse.tsv):\n  ${allowed.join('\n  ')}`);
 for (const [t, l] of [['millor', better], ['pitjor', worse], ['sense referència', unknown]]) if (l.length) console.log(`\n${t} (mostra):\n  ${l.slice(0, show).join('\n  ')}`);
 console.log();
 report(!worse.length || args.includes('--allow-worse'), 'cap paraula empitjora segons el Viccionari', worse.length ? `${worse.length} empitjoren` : '');
