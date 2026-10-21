@@ -14,7 +14,14 @@ function wrap(s, o) { return !s ? '' : (o.brackets ? '[' + s + ']' : s); }
 
 export function mount(root, { lexicon, lemmas = null, lang = 'ca' } = {}) {
   setLexicon(lexicon); setLemmas(lemmas);
-  const st = { lang, dialect: 'Central', text: '', syll: true, stress: true, brackets: true, liaison: true, copied: false };
+  const st = { lang, dialect: 'Central', text: '', syll: true, stress: true, brackets: true, liaison: true, copied: false, hasVoice: false, speaking: false };
+  let caVoice = null; // a LOCAL Catalan voice only: network voices would send the text off the device (see privacy note)
+  function pickVoice() {
+    if (!('speechSynthesis' in window)) return;
+    caVoice = window.speechSynthesis.getVoices().find(v => v.localService && /^ca([-_]|$)/i.test(v.lang)) || null;
+    const has = !!caVoice;
+    if (has !== st.hasVoice) { st.hasVoice = has; keepFocus(renderResults); }
+  }
   const t = () => T[st.lang];
 
   function results() {
@@ -86,7 +93,7 @@ export function mount(root, { lexicon, lemmas = null, lang = 'ca' } = {}) {
     <h2>${esc(L.result)}</h2>
     ${words.length ? `
     <div class="tf-out"><div class="tf-big" lang="ca-fonipa">${esc(wrap(lineOf(items, o), o))}</div>
-      <div class="tf-actions"><button class="tf-btn" data-a="copy">${esc(st.copied ? L.copied : st.copyFailed ? L.copyFail : L.copy)}</button><button class="tf-btn ghost" data-a="txt">${esc(L.txt)}</button><button class="tf-btn ghost" data-a="csv">${esc(L.csv)}</button></div></div>
+      <div class="tf-actions"><button class="tf-btn" data-a="copy">${esc(st.copied ? L.copied : st.copyFailed ? L.copyFail : L.copy)}</button>${st.hasVoice ? `<button class="tf-btn" data-a="play" aria-pressed="${st.speaking}">${esc(st.speaking ? L.stop : L.play)}</button>` : ''}<button class="tf-btn ghost" data-a="txt">${esc(L.txt)}</button><button class="tf-btn ghost" data-a="csv">${esc(L.csv)}</button></div>${st.hasVoice ? `<p class="tf-note">${esc(L.audioNote)}</p>` : ''}</div>
     <h3>${esc(L.words)}</h3>
     <ul class="tf-words">${words.map(x => `<li><span class="w" lang="ca">${esc(x.word)}</span><span class="i" lang="ca-fonipa">${esc(wrap(fmt(x.ipa, o), o))}</span><span class="b b-${x.source}${x.uncertain ? ' u' : ''}">${esc(srcLabel(x))}${x.liaison ? ' · ' + esc(L.liaisonBadge) : ''}${x.uncertain && x.source !== 'unknown' ? ' · ' + esc(L.unsure) : ''}</span>${x.alts.length > 1 ? `<span class="alts">${esc(L.others)}: ${x.alts.slice(1).map(a => esc(wrap(fmt(a, o), o))).join(' , ')}</span>` : ''}</li>`).join('')}</ul>
     ` : `<p class="tf-empty">${esc(L.empty)}</p>`}
@@ -147,10 +154,19 @@ export function mount(root, { lexicon, lemmas = null, lang = 'ca' } = {}) {
       }
       if (!ok) { st.copyFailed = true; keepFocus(renderResults); setTimeout(() => { st.copyFailed = false; keepFocus(renderResults); }, 2500); return; }
       st.copied = true; keepFocus(renderResults); setTimeout(() => { st.copied = false; keepFocus(renderResults); }, 1500); return; }
+    if (a === 'play') {
+      if (!caVoice) return;
+      if (st.speaking) { window.speechSynthesis.cancel(); st.speaking = false; keepFocus(renderResults); return; }
+      const u = new SpeechSynthesisUtterance(st.text);
+      u.voice = caVoice; u.lang = caVoice.lang; u.rate = 0.95;
+      u.onend = u.onerror = () => { st.speaking = false; keepFocus(renderResults); };
+      st.speaking = true; window.speechSynthesis.speak(u); keepFocus(renderResults); return; }
     const csv = 'word,ipa,dialect,source\n' + words.map(x => [x.word, wrap(fmt(x.ipa, o), o), st.dialect, x.source].map(v => '"' + String(v).replace(/"/g, '""') + '"').join(',')).join('\n');
     const body = a === 'txt' ? line + '\n' : csv + '\n';
     const blob = new Blob([body], { type: 'text/plain;charset=utf-8' });
     const link = document.createElement('a'); link.href = URL.createObjectURL(blob); link.download = a === 'txt' ? 'totfonetika.txt' : 'totfonetika.csv'; link.click(); URL.revokeObjectURL(link.href);
   }
   render();
+  pickVoice();
+  if ('speechSynthesis' in window) window.speechSynthesis.onvoiceschanged = pickVoice;
 }
