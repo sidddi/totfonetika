@@ -5,7 +5,10 @@ export const DIALECTS = [
   { id: 'Valencia', label: { ca: 'Valencià', es: 'Valenciano', en: 'Valencian' }, quality: 'good' },
   { id: 'Northwestern', label: { ca: 'Nord-occidental', es: 'Noroccidental', en: 'North-Western' }, quality: 'medium' },
   { id: 'Balearic', label: { ca: 'Balear', es: 'Balear', en: 'Balearic' }, quality: 'medium' },
-  // Northern (Rossellonès) removed from the menu: no reliable source data (Oct 2026). Lexicon rows keep a 5th column.
+  // Northern (Rossellonès): back in the menu (Oct 2026) with CPNL / xtec / UAB-thesis rules applied over the lexicon's 5th column.
+  { id: 'Northern', label: { ca: 'Rossellonès', es: 'Rosellonés', en: 'Northern Catalan' }, quality: 'medium' },
+  // Algherese: derived from the Central column with documented transforms (see algherese()); experimental.
+  { id: 'Algherese', label: { ca: 'Alguerès', es: 'Alguerés', en: 'Algherese' }, quality: 'low' },
 ];
 const IDX = Object.fromEntries(DIALECTS.map((d, i) => [d.id, i]));
 
@@ -217,6 +220,9 @@ function render(word, dialect) {
   units.forEach(x => { if (x.k === 'C' && x.p === 'v' && (dialect === 'Central' || dialect === 'Northwestern' || dialect === 'Northern')) x.p = 'b'; if (x.k === 'C' && x.p === 'β' && (dialect === 'Valencia' || dialect === 'Balearic')) { /* v in spelling vs b: ambiguous, keep */ } });
   // s -> z before a voiced consonant inside the word
   units.forEach((x, i) => { const q = units[i + 1]; if (x.k === 'C' && x.p === 's' && q && q.k === 'C' && ['b', 'd', 'ɡ', 'm', 'n', 'l', 'ʎ', 'ɾ', 'r', 'v', 'ʒ'].includes(q.p)) x.p = 'z'; });
+  // f -> v before a voiced consonant inside the word, but only in the coda (GEIEC 2.3.5: obstruents in syllable-final
+  // position): dafne [ˈdav.nə]. fl/fr are onset clusters (muta cum liquida) and stay voiceless: guifré, Netflix, alfredo.
+  units.forEach((x, i) => { const q = units[i + 1]; if (x.k === 'C' && x.p === 'f' && q && q.k === 'C' && ['b', 'd', 'ɡ', 'm', 'n', 'v', 'ʒ'].includes(q.p)) x.p = 'v'; });
   // allophones: b d g approximants after a vowel/liquid (not after nasals; d not after l)
   units.forEach((x, i) => {
     const p = units[i - 1];
@@ -428,7 +434,19 @@ function spellAcronym(word, dialect) {
 // canonical NFC (raïm typed as i + combining diaeresis is the same word); marks left after NFC have no Catalan letter
 const nfc = w => w.normalize('NFC');
 const keyOf = w => nfc(w).toLowerCase().replace(/\p{M}/gu, '');
+// Dialect-specific post-transforms (see below) wrap the core lookup.
 export function transcribeWord(word, dialect = 'Central') {
+  if (dialect === 'Algherese') {
+    const key = keyOf(nfc(String(word)));
+    if (ALG_KEPT[key]) return { word, source: 'lexicon', alts: [ALG_KEPT[key]], ipa: ALG_KEPT[key], uncertain: true };
+    const r = coreTranscribeWord(word, 'Central');
+    return { ...r, ipa: r.ipa ? algherese(r.ipa, key) : r.ipa, alts: r.alts.map(a => algherese(a, key)) };
+  }
+  const r = coreTranscribeWord(word, dialect);
+  if (dialect === 'Northern' && r.ipa) return { ...r, ipa: northernFix(r.ipa, keyOf(nfc(String(word)))), alts: r.alts.map(a => northernFix(a, keyOf(nfc(String(word))))) };
+  return r;
+}
+function coreTranscribeWord(word, dialect = 'Central') {
   word = nfc(word);
   const sp = spellAcronym(word, dialect); if (sp) return sp;
   let key = keyOf(word);
@@ -445,7 +463,7 @@ export function transcribeWord(word, dialect = 'Central') {
       key = m; foreign = true;
     }
   }
-  if (foreign) { const r = transcribeWord(key, dialect); return { ...r, word, uncertain: true, note: 'foreign' }; }
+  if (foreign) { const r = coreTranscribeWord(key, dialect); return { ...r, word, uncertain: true, note: 'foreign' }; }
   if (FUNC[key]) { const alts = fromLex(FUNC[key], dialect); if (alts.length) return { word, source: 'lexicon', alts, ipa: alts[0], note: 'function word' }; }
   if (LEX && LEX[key]) {
     const alts = fromLex(LEX[key], dialect);
@@ -461,6 +479,93 @@ export function transcribeWord(word, dialect = 'Central') {
   if (['Central', 'Northwestern', 'Northern'].includes(dialect)) r.ipa = r.ipa.replace(/([nɫl])[td](s?)$/, '$1$2').replace(/ŋk(s?)$/, 'ŋ$1');
   return { word, source: lg ? 'lemma' : 'rules', alts: [r.ipa], ipa: r.ipa, uncertain: lg ? true : (r.uncertain || !r.stressCertain || !catalanShape(key)) };
 }
+
+
+// ---------- Rossellonès (Northern) post-transform ----------
+// CPNL "Les varietats del català" and xtec.cat/~aribas4 dialectology: no proparoxytones (musica, matematica),
+// final -ia loses its vowel (gabi, famili, besti) and final -r is kept, even reinforced (ort, purt). The lexicon
+// column is Central-based, so these rules are applied here on top of it.
+function northernFix(ipa, word) {
+  if (!ipa) return ipa;
+  // -ia (unstressed) drops the final neutral vowel: gàbia -> [ˈɡa.βi], família -> [fəˈmi.li]
+  if (/(?<!í)ia$/u.test(word)) ipa = ipa.replace(/i\.ə$/, 'i').replace(/iə$/, 'i');
+  // proparoxytones shift the stress to the penult (música -> [muˈzi.kə]); the old stressed vowel reduces as usual
+  const syl = ipa.split('.');
+  const si = syl.findIndex(x => x.includes('ˈ'));
+  if (si >= 0 && si === syl.length - 3 && syl.length >= 3) {
+    const old = syl[si];
+    syl[si] = old.replace('ˈ', '').replace(/[aɛe]/, 'ə').replace(/[oɔ]/, 'u');
+    if (!/ˈ/.test(syl[si + 1])) syl[si + 1] = 'ˈ' + syl[si + 1];
+    ipa = syl.join('.').replace(/\.ˈ/g, 'ˈ');
+  }
+  // final -r is kept in Northern (ort, purt): restore it when the Central-based column dropped it
+  if (/r$/i.test(word) && !/[ɾr]$/.test(ipa)) ipa += 'r';
+  return ipa;
+}
+
+// ---------- Alguerès (Algherese) post-transform over the Central form ----------
+// Sources: Gran Enciclopèdia Catalana ("alguerès") and ca.wikipedia "Alguerès#Fonètica i fonologia" (Scala/Armangué).
+// Covered: unstressed e,a -> [a] and o -> [u]; /v/ kept; b/d/g stay occlusive; ʒ -> d͡ʒ; s -> t͡s after a consonant
+// inside the word (Barcelona, persona); coda r -> l (port [pɔlt], forn [fol]); rn -> l (carn [kal]); intervocalic
+// l,d -> ɾ and obstruent+l onsets -> obstruent+ɾ (rotacisme: escola [ascòra], vida [víra], pluja [prúdʒa]; tl kept);
+// dr -> rr (padrí [parrí]); coda ʎ,ɲ -> l,n (cavall, any); final -lt/-nt/-nc keep t/k; final -ng keeps [ŋɡ].
+// NOT covered (documented in the UI): metatheses (pobre > pròba), ai mantingut (maití), 1st-person zero ending
+// (cant), elision after "de", the kept r of stressed -er words (carrer [karré]), variable phenomena.
+function algherese(ipa, word) {
+  if (!ipa) return ipa;
+  let s = ipa;
+  if (word === 'de') s = s.replace(/ə/g, 'e'); // la preposició "de" mai no és [da]
+  // 1. affricate g/j (com el valencià no apitxat)
+  s = s.replace(/ʒ/g, 'd͡ʒ');
+  // 2. occlusive b d g (no lenition); letter v stays [v] (heuristic: any v in the spelling flips β to v)
+  s = s.replace(/ð/g, 'd').replace(/ɣ/g, 'ɡ');
+  if (/^v/.test(word)) s = s.replace(/^([ˈˌ]?)b/, '$1v');
+  s = /v/.test(word) ? s.replace(/β/g, 'v') : s.replace(/β/g, 'b');
+  // 3. coda r -> l (skipping syllable dots and stress marks): barca [bálka], port [pɔlt], parlar [palˈla]; rn -> l (forn [fol], carn [kal])
+  s = s.replace(/rn(?=[.ˈˌ]*($|[^aeiouɛɔəɐjw̞]))/gu, 'l');
+  s = s.replace(/r(?=[.ˈˌ]*[^aeiouɛɔəɐjw̞ˈˌ.])/gu, 'l');
+  // 4. s -> t͡s after a consonant, not word-final (persona [paltsona], Barcelona [baltsalona]; plaça keeps [s], els [als])
+  s = s.replace(/([^aeiouɛɔəɐjw̞ˈˌ.͡])([.ˈˌ]*)s(?=.)/gu, '$1$2t͡s');
+  // 5. rotacisme: intervocalic l,d -> ɾ; obstruent+l onset -> obstruent+ɾ (tl kept: ametla)
+  s = s.replace(/l(?=\.?[aeiouɛɔəɐ])/gu, (m, off, str) => {
+    const prev = str.slice(0, off).replace(/[.ˈˌ]/g, '');
+    return /[aeiouɛɔəɐpbkɡf]$/.test(prev) ? 'ɾ' : m;
+  });
+  s = s.replace(/d(?=\.?[aeiouɛɔəɐ])/gu, (m, off, str) => {
+    const prev = str.slice(0, off).replace(/[.ˈˌ]/g, '');
+    return /[aeiouɛɔəɐ]$/.test(prev) ? 'ɾ' : m;
+  });
+  // 6. dr -> rr (padrí [parrí], pedra [pérra], dret [rret])
+  s = s.replace(/dɾ/g, 'r');
+  // 7. coda ʎ,ɲ -> l,n (cavall [kavál], any [an]); palatal kept between vowels (cavaller)
+  s = s.replace(/ʎ(?=$|[.ˈˌ]*[^aeiouɛɔəɐjw̞])/gu, 'l').replace(/ɲ(?=$|[.ˈˌ]*[^aeiouɛɔəɐjw̞])/gu, 'n');
+  // 8. final -lt/-nt keep the t (diamant, alt); final -nc keeps [k] (blanc [bɾaŋk]); final -ng keeps [ŋɡ] (sang)
+  if (/[nl]t$/.test(word) && !/t$/.test(s)) s += 't';
+  if (/nc$/.test(word) && /ŋ$/.test(s)) s += 'k';
+  if (/ng$/.test(word) && /ŋ$/.test(s)) s += 'ɡ';
+  // 9. tl group restored when the Central base geminated it (ametla, motlo; not bitllet)
+  if (/tl(?!l)/.test(word)) s = s.replace(/l\.l/g, 't.l');
+  // 10. unstressed ə -> a (nabot, para); the Central base already reduces o -> u. A syllable is stressed from its ˈ/ˌ up to the next dot.
+  {
+    let out = '', st = false;
+    for (const ch of s) {
+      if (ch === '.') { st = false; out += ch; continue; }
+      if (ch === 'ˈ' || ch === 'ˌ') { st = true; out += ch; continue; }
+      out += (ch === 'ə' && !st) ? 'a' : ch;
+    }
+    s = out;
+  }
+  // dark l is not a thing in Algherese
+  s = s.replace(/ɫ/g, 'l');
+  return s;
+}
+
+// Cult and semi-cult words that keep unstressed [e] in Algherese (ca.wikipedia list); keyed by lowercase word.
+const ALG_KEPT = { __proto__: null,
+  'delació': 'de.la.siˈo', 'delit': 'deˈlit', 'denou': 'deˈnow', 'elegant': 'e.leˈɡan', 'elecció': 'e.lek.siˈo',
+  'emfàtic': 'emˈfa.tik', 'enorme': 'eˈnor.me', 'extensió': 'es.ten.siˈo', 'genial': 'ʒe.niˈal', 'legal': 'leˈɡal',
+  'mesilla': 'meˈzi.ʎə', 'negatiu': 'ne.ɡəˈtiw', 'percussor': 'per.kuˈso', 'registro': 'reˈʒis.tre', 'servil': 'serˈbil',
+  'terminal': 'ter.miˈnal', 'veritat': 've.ɾiˈtat' };
 
 const CAT_WORD = /^[a-zàèéíïòóúüç·]+$/;
 const LATIN = { á: 'à', â: 'a', ä: 'a', ã: 'a', å: 'a', ê: 'e', ë: 'e', î: 'i', ì: 'i', ô: 'o', õ: 'o', ö: 'o', û: 'u', ù: 'u', ñ: 'ny', ß: 'ss', // á keeps the stress (sánchez)
@@ -653,6 +758,11 @@ function applyConnected(items, dialect) {
     if (bv && b.hyphenBefore && /r$/i.test(a.word) && !/[ɾr]$/.test(c)) { c += 'ɾ'; mod = true; }
     // final ʃ / t͡ʃ voice before a vowel or a voiced consonant (cruix el dit [kɾuʒ əl], vaig de bòlit [bad͡ʒ də])
     if ((bv || (bc && VOICED.has(bc))) && /ʃ$/.test(c) && !/ʃ[ʒ]/.test(c)) { c = /t͡ʃ$/.test(c) ? c.replace(/t͡ʃ$/, 'd͡ʒ') : c.slice(0, -1) + 'ʒ'; mod = true; }
+    // final f -> v before a voiced consonant, all varieties (GEIEC 2.3.5: categorical obstruent assimilation)
+    if (/f$/.test(c) && bc && VOICED.has(bc)) { c = c.slice(0, -1) + 'v'; mod = true; }
+    // final f -> v before a vowel only when the f sits in an unstressed syllable (GEIEC 2.3.5: relaxed speech,
+    // infrequent with adjacent stresses): bolígraf antic [buˈli.ɣɾəv ˈan.tik] but baf agre [ˈbaf ˈa.ɣɾə], NIF útil [ˈnif ˈu.til]
+    else if (/f$/.test(c) && bv && !/[ˈˌ][^.]*f$/.test(c)) { c = c.slice(0, -1) + 'v'; mod = true; }
     // final s -> z and ts -> dz before a vowel or a voiced consonant, all four varieties (gats amics [ˈɡad͡z əˈmiks],
     // les amigues [le.zaˈmi.ɣes]); UB transcription guide, GBU 2.3, Optimot 7978/2. No apitxat variety is offered.
     if (/s$/.test(c) && (bv || (bc && VOICED.has(bc)))) { c = /t͡?s$/.test(c) ? c.replace(/t͡?s$/, 'd͡z') : c.slice(0, -1) + 'z'; mod = true; }
@@ -666,7 +776,12 @@ function applyConnected(items, dialect) {
     if (mod) { a.cipa = c; a.connected = true; }
     // lenition across words (GIEC 4.4): initial b d g -> β ð ɣ after a vowel, glide, rhotic or fricative (la dona [lə ˈðɔ.nə]);
     // not after a nasal or a stop, and d not after a lateral (el dia). Valencian and Balearic notation keeps b (no β in the lexicon).
-    const ini = /^([ˈˌ]?)([bdɡg])(?!͡)/.exec(b.cipa);
+    if (dialect === 'Algherese') {
+      const ld = /^([ˈˌ]?)([ld])(?!͡)/.exec(b.cipa);
+      const finA = c.replace(/[.ˈˌ]+$/, '').slice(-1);
+      if (ld && /[aeiouɛɔəɐ]/.test(finA)) { b.cipa = ld[1] + 'ɾ' + b.cipa.slice(ld[0].length); b.connected = true; }
+    }
+    const ini = dialect === 'Algherese' ? null : /^([ˈˌ]?)([bdɡg])(?!͡)/.exec(b.cipa);
     const fin = c.replace(/[.ˈˌ]+$/, '').slice(-1);
     if (ini && c && (/[aeiouɛɔəɐjw̞rɾzsʒʃfvβðɣ]/.test(fin) || (/[lʎ]/.test(fin) && ini[2] !== 'd'))) {
       const len = { b: ['Valencia', 'Balearic'].includes(dialect) ? 'b' : 'β', d: 'ð', ɡ: 'ɣ', g: 'ɣ' }[ini[2]];

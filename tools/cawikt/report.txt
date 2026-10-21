@@ -1,0 +1,46 @@
+## Totals
+Entrades catalanes amb pronúncia (títols): 244420 | en minúscules, sense duplicats: 243545 (auto 151719, hints 81562, manual 10264)
+No són al lexicó: 216120 (auto 136189, hints 70883, manual 9048)
+  d'aquestes al top 100k: 20827 (auto 11516, hints 7917, manual 1394)
+  d'aquestes al top 5k: 913
+Entrades per varietat: {"central":239694,"valencia":238193,"nordoccidental":241073,"balear":238248,"rossellones":167}
+
+## Rossellonès
+Amb rossellonès: 167 | no al lexicó: 125 | al lexicó sense rossellonès: 0 | al top 100k: 64
+
+## Concordança (alguna alternativa normalitzada en comú)
+central: 26565/27264 = 97.4% | auto 15417/15520 = 99.3% | hints 10056/10564 = 95.2% | manual 1092/1180 = 92.5%
+valencia: 26249/27387 = 95.8% | auto 15128/15530 = 97.4% | hints 10099/10661 = 94.7% | manual 1022/1196 = 85.5%
+nordoccidental: 23069/27278 = 84.6% | auto 13162/15519 = 84.8% | hints 8962/10578 = 84.7% | manual 945/1181 = 80.0%
+balear: 23491/27078 = 86.8% | auto 13978/15503 = 90.2% | hints 8712/10395 = 83.8% | manual 801/1180 = 67.9%
+rossellones: 13/42 = 31.0% | auto n/a | hints 3/17 = 17.6% | manual 10/25 = 40.0%
+
+20 desacords de mostra, paraules freqüents primer (paraula | varietat | tipus | Viccionari | lexicó):
+pel | central | manual | /ˈpɛɫ/ | pəl
+per | valencia | manual | /peɾ/ | per
+entre | balear | hints | /ˈən.tɾə/, /ˈɛn.tɾə/ | ˈen.tɾə
+sol | rossellones | manual | /ˈsuɫ/ | ˈso̞l
+me | central | manual | /mə/ | ˈmɛ
+part | valencia | auto | /ˈpart/ | ˈpaɾt
+o | nordoccidental | hints | /ˈɔ/ | ˈo, ˈo
+perquè | balear | hints | /pəɾˈkə/, /pərˈkɛ/ | pərˈkə
+font | rossellones | manual | /ˈfun/ | ˈfo̞n
+e | central | hints | /ˈɛ/ | ˈe
+mort | valencia | hints | /ˈmɔrt/ | ˈmɔɾt
+sobre | nordoccidental | hints | /ˈso.bɾe/, /ˈsɔ.bɾe/ | ˈso.βɾe
+barcelona | balear | hints | /bəɾ.səˈɫo.nə/ | bər.səˈlo.nə
+amor | rossellones | hints | /əˈmuɾ/ | əˈmur
+ordre | central | hints | /ˈor.dɾə/ | ˈɔr.dɾə
+suport | valencia | auto | /suˈpɔrt/ | suˈpɔɾt
+govern | balear | hints | /ɡoˈvɛɾn/, /ɡuˈvɛrn/ | ɡoˈvɛrn
+ésser | rossellones | manual | /ˈɛ.sə/ | ˈe̞.sə, ˈe̞.sər
+futbol | central | hints | /fubˈbɔɫ/ | fudˈbɔl
+nord | valencia | hints | /ˈnɔrt/ | ˈnɔɾt
+
+## Guany al top 5000 (paraules no resoltes pel lexicó que el Viccionari té en aquella varietat)
+Central: ara {"lexicon":3737,"derived":386,"lemma":177,"rules":700} → a diccionari: 895 (regles 416, lema 126, derivat 353; auto 365, hints 424, manual 106)
+  exemples regles→diccionari: tenim, hauria, fan, vos, agrada, havien, imatges, tracta, diuen, club, respecte, finalment, queda, volen, única, actualment, deixa, comença, podia, polítiques, presenta, projectes, deia, pròpia, recursos, arriba, referència, revista, segueix, productes, obstant, recorda, demana, habitants, hagués, interessant, veïns, proposta, efecte, concert
+Valencia: ara {"lexicon":3737,"derived":385,"lemma":177,"rules":701} → a diccionari: 901 (regles 423, lema 127, derivat 351; auto 364, hints 426, manual 111)
+Northwestern: ara {"lexicon":3737,"derived":385,"lemma":177,"rules":701} → a diccionari: 899 (regles 422, lema 126, derivat 351; auto 364, hints 425, manual 110)
+Balearic: ara {"lexicon":3738,"derived":385,"lemma":177,"rules":700} → a diccionari: 892 (regles 415, lema 126, derivat 351; auto 364, hints 423, manual 105)
+Northern: ara {"lexicon":3737,"derived":386,"lemma":128,"rules":749} → a diccionari: 1 (regles 0, lema 0, derivat 1; auto 0, hints 0, manual 1)
