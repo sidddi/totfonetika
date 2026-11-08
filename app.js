@@ -11,6 +11,8 @@ function fmt(ipa, o) {
   return s;
 }
 function wrap(s, o) { return !s ? '' : (o.brackets ? '[' + s + ']' : s); }
+// .tf-big wraps each token in a .tw span: browsers treat the IPA stress marks ˈ and ˌ as soft wrap
+// opportunities, so without the spans a long transcription breaks words in half right at the stress mark.
 
 export function mount(root, { lexicon, lemmas = null, lang = 'ca' } = {}) {
   setLexicon(lexicon); setLemmas(lemmas);
@@ -92,7 +94,7 @@ export function mount(root, { lexicon, lemmas = null, lang = 'ca' } = {}) {
     part('results').innerHTML = `
     <h2>${esc(L.result)}</h2>
     ${words.length ? `
-    <div class="tf-out"><div class="tf-big" lang="ca-fonipa">${esc(wrap(lineOf(items, o), o))}</div>
+    <div class="tf-out"><div class="tf-big" lang="ca-fonipa">${esc(wrap(lineOf(items, o), o)).split(' ').map(w => `<span class="tw">${w}</span>`).join(' ')}</div>
       <div class="tf-actions"><button class="tf-btn" data-a="copy">${esc(st.copied ? L.copied : st.copyFailed ? L.copyFail : L.copy)}</button>${st.hasVoice ? `<button class="tf-btn" data-a="play" aria-pressed="${st.speaking}">${esc(st.speaking ? L.stop : L.play)}</button>` : ''}<button class="tf-btn ghost" data-a="txt">${esc(L.txt)}</button><button class="tf-btn ghost" data-a="csv">${esc(L.csv)}</button></div>${st.hasVoice ? `<p class="tf-note">${esc(L.audioNote)}</p>` : ''}</div>
     <h3>${esc(L.words)}</h3>
     <ul class="tf-words">${words.map(x => `<li><span class="w" lang="ca">${esc(x.word)}</span><span class="i" lang="ca-fonipa">${esc(wrap(fmt(x.ipa, o), o))}</span><span class="b b-${x.source}${x.uncertain ? ' u' : ''}">${esc(srcLabel(x))}${x.liaison ? ' · ' + esc(L.liaisonBadge) : ''}${x.uncertain && x.source !== 'unknown' ? ' · ' + esc(L.unsure) : ''}</span>${x.alts.length > 1 ? `<span class="alts">${esc(L.others)}: ${x.alts.slice(1).map(a => esc(wrap(fmt(a, o), o))).join(' , ')}</span>` : ''}</li>`).join('')}</ul>
@@ -102,11 +104,21 @@ export function mount(root, { lexicon, lemmas = null, lang = 'ca' } = {}) {
   function renderStatic() {
     const L = t();
     part('legend').innerHTML = `<h2>${esc(L.legend)}</h2><p class="tf-note">${esc(L.legendSub)}</p>
-    <div class="tf-legend">${LEGEND.map(([s, e]) => `<div><b lang="ca-fonipa">${esc(s)}</b><span>${esc(e)}</span></div>`).join('')}</div>`;
-    part('foot').innerHTML = `<p>${esc(L.privacy)}</p><p><b>${esc(L.about)}.</b> ${esc(L.aboutText)}</p>`;
+    <div class="tf-legend">${[...LEGEND, ...L.marks].map(([s, e]) => `<div><b lang="ca-fonipa">${esc(s)}</b><span>${esc(e)}</span></div>`).join('')}</div>`;
+    // aboutHtml and credits are our own trusted markup (they carry the source/repo links), not user input
+    part('foot').innerHTML = `<p>${esc(L.privacy)}</p><p><b>${esc(L.about)}.</b> ${L.aboutHtml}</p><p class="tf-credits">${L.credits}</p>`;
     ta.placeholder = L.placeholder; ta.setAttribute('aria-label', L.placeholder);
-    // the page language follows the UI; Catalan input, examples and words keep lang="ca", IPA keeps ca-fonipa
-    if (root.ownerDocument) root.ownerDocument.documentElement.lang = st.lang;
+    // tab title, description and share title follow the UI language; the page language follows the UI;
+    // Catalan input, examples and words keep lang="ca", IPA keeps ca-fonipa
+    const d = root.ownerDocument;
+    if (d) {
+      d.documentElement.lang = st.lang;
+      d.title = L.docTitle;
+      const m = n => d.querySelector(`meta[name="${n}"]`) || d.querySelector(`meta[property="${n}"]`);
+      const set = (n, v) => { const el = m(n); if (el) el.setAttribute('content', v); };
+      set('description', L.docDesc); set('og:title', L.docTitle); set('og:description', L.docDesc);
+      set('og:locale', ({ ca: 'ca_ES', es: 'es_ES', en: 'en_US' })[st.lang]);
+    }
   }
   // re-render keeping keyboard focus on the same control (buttons and checkboxes are re-created)
   function keepFocus(fn) {
